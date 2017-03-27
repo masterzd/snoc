@@ -1,0 +1,54 @@
+body{
+	background-image: url('../../img/wallblack.jpeg');
+	background-attachment: fixed;
+    background-position: bottom;
+}
+
+.space{
+	background-color: #FFB900;
+	padding-bottom: 1%;
+}
+
+h1{
+	font-size: 31px;
+    text-align: center;
+    padding: 4%;
+}
+
+.custom-div-link{
+	margin-left: 1%;
+	font-size: 0.7em;
+	padding: 2%;
+}
+
+.navbar-custom{
+	margin: 2%;
+	padding: 1.2%;
+    border-radius: 10px;
+}
+
+.custom-div-link label{
+	text-align: center;
+}
+
+.btn-area{
+	position: relative;
+    left: 78%;
+    top: -60px;
+    width: 25%;
+    height: 10px;
+}
+
+.input-custom{
+	background-color: rgba(192,168,209,0.5);
+}
+
+.bkg{
+	background-color: #b7c3b7;
+}
+
+.action-area {
+    margin-left: 30%;
+    padding: 1%;
+}
+

@@ -1,0 +1,176 @@
+
+.custom-nav{
+    display: inline-block;
+}
+
+.fundo-escuro{
+    background-color: rgba(29, 0, 46, 0.68);
+}
+
+.custom-nav-offcanvas{
+    display: inline;
+}
+.menu-top{
+    background-color: #FFB900;
+    box-shadow: 1px 1px 1px 0.5px black;
+}
+.custom-img{
+    width: 12%;
+    margin-left: 1%;
+    margin-right: 5%;
+    padding: 1.5%;
+}
+.custom-opc{
+    position: relative;
+    top: 15px;
+    left: 4.5%;
+}
+.custom-opc a{
+    color: black;
+}
+.custom-opc a:hover{
+    color: black;
+}
+.user-img{
+    width: 4.5%;
+    border-radius: 45px;
+    margin-left: 16%;
+}
+
+.info-user{
+    position: relative;
+    left: 3%;
+    top: 10px;
+}
+.info-user p{
+    margin:0;
+}
+
+.left{
+    left: -200%;
+}
+.hide{
+    display: none;
+}
+.menu-fixed{
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    margin-top: 0%;
+}
+
+/* Menu em modo portatil */
+.offcanvas{
+    background: #efe9ba;
+    width: 65%;
+    height: 800px;
+    float: left;
+    position: absolute;
+    z-index: 99;
+    transition: all 1s ease;
+    margin-left: -10%;
+    box-shadow: 1px 1px 1px 0.5px black;
+
+}
+
+.offcanvas-img-user{
+    width: 46%;
+    border-radius: 75px;
+    margin-left: 33%;
+    margin-top: 9%;
+    box-shadow: 1px 1px 20px 1px black;
+}
+.offcanvas-info-user{
+    padding: 5%;
+    margin-left: 10%;
+    position: relative;
+    left: 30%;
+    top: 30px;
+    font-size: 1.2em;
+}
+
+.offcanvas-menu{
+    position: relative;
+    font-size: 1.4em;
+    top: 43px;
+    left: 8%;
+}
+
+
+
+
+/* Media query */		
+
+@media (max-width: 500px){
+
+    .custom-opc{
+        display: none;
+    }
+    .user-img{
+        display: none;
+    }
+    .info-user{
+        display: none;
+    }
+
+    .custom-img{
+        width: 60%;
+        margin:1%;
+        margin-left: 22%;
+    }
+
+    li.custom-ancor {
+        width: 88%;
+    }
+
+}
+
+@media (min-width: 501px) and (max-width: 1100px){
+
+    .custom-img{
+        width: 40%;
+        margin:1%;
+        margin-left: 30%;
+    }
+
+    .sidebar-nav{
+        margin: 2%;
+    }
+
+    .custom-opc{
+        margin-bottom: 2%;
+    }
+
+    .user-img{
+        position: relative;
+        top: -15px;
+        left: -3%;
+    }
+
+    .info-user{
+        position: relative;
+        top: -5px;
+        left: -1.5%;
+    }
+
+    .esconde{
+        display: none;
+    }
+}
+
+/* Menu do usuário */
+
+.suspend-menu{
+    width: 20%;
+}
+
+.user-menu{
+    background-color: red;
+    color: white;
+    font-size: 0.7em;
+    padding: 2%;
+}
+
+.info-menu{
+    background-color: #f8f4f4;
+}

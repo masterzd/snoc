@@ -1,0 +1,273 @@
+body{
+	background-image: url('../../img/wallblack.jpeg');
+	background-attachment: fixed;
+    background-position: bottom;
+}
+.custom-container{
+	width: 80%;
+	margin-top: 1%;
+	position: relative;
+    top: 70px;
+}
+
+/* Header da Ocorrência */
+.cabecalho{
+	background-color: #FFB900;
+	width: 100%;
+}
+
+.title{
+	position: relative;
+    left: 35%;
+    top: 1px;
+    font-size: 1.8em;
+}
+
+.custom-logo-re{
+	width: 13%;
+    margin-left: 38%;
+}
+
+
+@media (max-width: 500px) {
+	.cabecalho{
+		margin: 1% 2% 0% 0%;
+	    position: relative;
+	    font-size: 0.7em;
+	}
+	
+	.title{
+		 position: relative;
+		left: 23%;
+    	top: 2px;
+	    font-size: 1.8em;
+	    padding: 2.5%;
+	}
+
+	.hidden-table{
+		display: none;
+	}
+}
+
+
+/* Conteudo do Chamado (Tabela de Informação da Loja) */
+
+.conteudo{
+	background-color: #fcfbe0;
+	width: 100%;
+	border-left: solid 3px #FFB900;
+	border-right: solid 3px #FFB900;
+}
+
+.table-custom{
+	padding: 1%;
+}
+
+.tb-color{
+	background-color: #FFB900;
+}
+
+th{
+	text-align: center;
+}
+
+td{
+	text-align: center;
+}
+caption{
+	text-align: center;
+    font-size: 1.7em;
+    padding: 2%;
+}
+
+
+
+/* Conectividade - Links */
+h3{
+	text-align: center
+}
+
+.links{
+	border: solid 2px #d9534f;
+	margin: 2% 3%;
+	padding: 0.5%;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.1em;
+	 position: relative;
+    left: 8%;
+}
+
+.ips{
+	margin: 4% 25%;
+	text-transform: uppercase;
+}
+
+.ips p{
+	font-weight: bold;
+    position: relative;
+    left: 16%;
+}
+
+.action-buttons{
+	margin: 5% -1%;
+	padding: 0.5%;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.1em;
+	 position: relative;
+    left: 8%;
+}
+
+.links:hover{
+	border: solid 2px white;
+	box-shadow: 1px 1px 8px 1px black;
+	cursor: pointer;
+}
+
+.online{
+	background-color: #21bf3b;
+	color: white;
+	border: solid 2px white;
+	box-shadow: 1px 1px 1px 1px black;
+}
+
+.offline{
+    background-color: #f84349;
+	color: white;
+	border: solid 2px white;
+	box-shadow: 1px 1px 1px 1px black;
+}
+
+.packetLoss{
+	background-color: #dfe07b;
+	color: black;
+	border: solid 2px white;
+	box-shadow: 1px 1px 1px 1px black;
+}
+
+/* Imagem loading */
+.custom-loading{
+	width: 14%;
+    margin-left: 78%;
+    position: absolute;
+}
+
+@media (max-width: 500px){
+	.links{
+		width: 34%;
+	    font-size: 0.9em;
+	    top: 15px;
+	    padding: 1%;
+	    margin: 0%;
+    	margin-left: -0.9%;
+		left: 0%;
+	}
+
+	.links:nth-child(3){
+		margin-right: 0;
+	}
+
+	.action-buttons{
+		left: 34%;
+    	top: 28px;
+	}
+
+	.btn-more-info{
+		position: relative;
+	     left: 110%;
+    	top: -34px
+	}
+
+
+}
+
+
+/* Dados da Ocorrência  */
+
+.col-generic{
+	position: relative;
+	left: 20%;
+	margin: 2% 3%;
+}
+
+.save-buttom{
+	margin: 5% 40%; 
+	display: inline-block;
+}
+
+.col-person{
+	margin-bottom: 2%;
+	border-bottom: solid 3px #FFB900;
+}
+
+.btn-add{
+	position: relative;
+    left: 105%;
+    top: -30px;
+    font-size: 0.7em;
+}
+
+.btn-remove{
+	height: 27px;
+    width: 13%;
+    position: relative;
+    top: -91px;
+    left: 120%;
+    padding: 0;
+    font-size: 0.7em;    
+}
+
+@media (max-width: 500px){
+	.col-generic{
+		left: 0%;
+	}
+
+	.btn-remove{
+		position: relative;
+        left: 127%;
+        height: 28px;
+    	width: 18%;
+
+	}
+
+	.save-button{
+	   margin: 6% 33%;
+	   padding: 1%;	
+	}	
+}
+
+
+	@media (min-width: 501px) and (max-width: 1100px){
+		.custom-container{
+			top: 164px;
+		}
+
+		.title{
+			left: 17%;
+    		top: -3px;
+    		font-size: 1.6em;
+		}
+
+		.custom-logo-re {
+    		width: 24%;
+    		margin-left: -11%;
+		}
+
+		.links{
+			margin: 2% 3%;
+		}
+
+		.col-generic{
+			left: 6%;
+		}
+
+		.btn-remove{
+			width: 8%;
+			left: 115%;
+		}
+
+		.action-buttons{
+			margin: 5% 17%;
+		}
+	}

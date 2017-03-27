@@ -1,0 +1,224 @@
+body{
+	background-image: url('../../img/wallblack.jpeg');
+}
+
+/* Stylo da área do menu que faz a abertura de ocorrência */
+.box-1{
+	background-color: #FFB900;
+	margin-top: 7%;
+	height: auto;
+	padding: 1%;
+	border-radius: 5px;
+	margin-left: 14%;
+	box-shadow: 1px 1px 5px 1px white;
+	width: 70.50%;
+}
+.btn-menu-custom-2{
+	margin-left: 42%;
+}
+.form-group{
+	margin-left: 0.5%;
+}
+
+.form-group label{
+	width: 100%;
+}
+.btn-submit-custom{
+	margin-left: 40%;
+}
+
+.ab_ch{
+	display: none;
+}
+.hide-ab_ch{
+	display: none;
+}
+
+
+.ab_ch p {
+    font-weight: bold;
+    padding: 1.5%;
+    margin-left: 38%;
+}
+
+@media (max-width: 500px){
+	.box-1{
+		margin: 2% 17%;
+		padding: 2.5%;
+		width: 66.5%;
+	}
+
+	.btn-menu-custom-2{
+	   margin-left: 22%;
+	}
+
+	.ab_ch{
+		margin-left: 5%;
+	}
+
+	.btn-submit-custom{
+		margin-left: 16%;
+	}
+
+	.ab_ch p {
+	    font-weight: bold;
+	    padding: 4.5%;
+	    margin-left: 12%;
+	}
+}
+
+@media (min-width: 501px) and (max-width: 1100px){
+	.btn-menu-custom-2{
+	   margin-left: 38%;
+	}
+
+	.ab_ch p {
+	    font-weight: bold;
+	    padding: 2%;
+	    margin-left: 28%;
+	}	
+
+}
+/* Stylo da Box onde fica o Gerador de Senha */
+
+.box-2{
+	background-color: #FFB900;
+	margin: 1% auto;
+	box-shadow: 1px 1px 5px 1px white;
+	border-radius: 5px;
+	margin-left: 14%;
+}
+
+.box-2 p{
+	font-weight: bold;
+	text-align: center;
+	padding: 2%;
+}
+
+
+.controlpass{
+	position: relative;
+    left: -10%;
+}
+
+.btn-pass{
+	margin-left: 200%;
+}
+
+@media(max-width: 500px){
+	.box-2{
+		margin-left: 17%;
+	    padding: 1.5%;
+	    font-weight: bold;
+	}
+
+	.btn-pass{
+		margin-left: 46%;
+	}
+
+	.resultado{
+		margin-left: 11%;
+	}
+}
+
+@media (min-width: 501px) and (max-width: 1100px){
+	.box-2{
+		width: 70.50%;
+	}
+}
+
+/* Stylo da Box Área de Pesquisa */
+
+.box-3{
+	background-color: #FFB900;
+	margin: 1% auto;
+	box-shadow: 1px 1px 5px 1px white;
+	border-radius: 5px;
+	margin-left: 2%;
+}
+
+.box-3 p{
+	font-weight: bold;
+	text-align: center;
+	padding: 2%;
+}
+
+.btn-buscar-custom{
+	margin-left: 40%;
+}
+
+
+@media(max-width: 500px){
+	.box-3{
+		margin-left: 17%;
+	}
+	.btn-buscar-custom{
+		margin-left: 33%;
+	}
+
+	.box-3 p{
+		text-align: center;
+	    padding: 3.6%;
+	    font-weight: bold;
+	}
+}
+
+@media (min-width: 501px) and (max-width: 1100px){
+	.box-3{
+		margin-left: 14%;
+		width: 70.50%;
+	}
+
+	.btn-buscar-custom{
+		margin-left: 43%;
+	}
+}
+
+/* Stylo da Box Eventos */
+
+.box-4{
+	background-color: #FFB900;
+	margin: 1% auto;
+	box-shadow: 1px 1px 5px 1px white;
+	border-radius: 5px;
+	margin-left: 2%;
+}
+
+.box-4 p{
+	text-align: center;
+	padding: 2%;
+	font-weight: bold;
+}
+
+.btn-ver-oc-ab{
+	margin: 3% 4%;
+	margi
+}
+
+
+/* Tela Pequena */
+@media(max-width: 500px){
+	.box-4{
+		margin-left: 17%;
+	}
+	.btn-ver-oc-ab{
+		margin-left: 10%;
+	}
+
+	.box-4 p{
+		padding: 2.6%;
+    	font-weight: bold;
+	}
+}
+
+@media (min-width: 501px) and (max-width: 1100px){
+	.box-4{
+		margin-left: 14%;
+		width: 70.50%;
+	}
+
+	.btn-ver-oc-ab{
+		margin-left: 32%;
+	}
+}
+

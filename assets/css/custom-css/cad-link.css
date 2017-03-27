@@ -1,0 +1,30 @@
+body{
+	background-image: url('../../img/wallblack.jpeg');
+	background-attachment: fixed;
+    background-position: bottom;
+}
+
+.contorno{
+	background-color: #FFB900;
+	height: 400px;
+	width: 90%;
+	margin-left: 5%;
+	margin-top: 4%;
+	box-shadow: 0px 0px 8px 2px white;
+}
+
+.title{
+	 padding: 2%;
+    text-align: center;
+}
+
+.btn-save-loja{
+	position: absolute;
+    bottom: -32%;
+    left: 37%;
+}
+
+.btn-area-resp{
+	margin-left: 36%;
+    margin-top: 13%;
+}

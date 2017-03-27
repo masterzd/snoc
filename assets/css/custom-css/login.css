@@ -1,0 +1,47 @@
+	body{
+			/*background-color: #484848;*/
+			background-image: url('../../img/wallblack.jpeg');
+		}
+		.login{
+			background-color: #FFB900;
+			color: black;
+			padding: 10px;
+			height: auto;
+			border-radius: 10px;
+			margin: 20% 20%;
+			box-shadow: 1px 1px 5px 1px white;
+			display: none;
+		}
+		.form-group{
+			margin-left: 7%;
+			padding: 3px;
+		}
+		.img-responsive{
+			width: 30%;
+			padding: 3%;
+			margin-left: 33%;
+		}
+		.btn-custom{
+			margin-left: 45%;
+			margin-top: 3%;
+
+		}
+		.form-control{
+			box-shadow: 1px 1px 1px 1px black;
+		}
+		
+		@media(max-width: 700px){
+			.img-responsive{
+				width: 80%;
+				margin-left: 12%;
+				padding: 5%;
+			}
+			.form-group{
+				margin-left: 5%;
+				width: 90%;
+			}
+			.btn-custom{
+				margin-left: 34%;
+			}
+		}
+
