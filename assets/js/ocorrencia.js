@@ -87,7 +87,7 @@ $(function () {
 
             if (b == 0) {
                 $('.j_action').append("<label class='j_remove'>Necessidade:</label> <select class='select j_remove j_ch_opt j_disabled_opt form-control' name='direcionar' required><option value=''>Selecione...</option> <option class='j_disable_o' value='2'>Abertura de Chamado Operadora</option><option class='j_disable_t' value='3'>Técnico Regional</option>\n\
-			              <option class='j_disable_s' value='4'>SEMEP</option><option value='5'>Restabelecimento de Energia</option></select>");
+			              <option class='j_disable_s' value='4'>SEMEP</option><option value='5'>Restabelecimento de Energia</option><option value='7'>Pagamento de Fatura (Inadiplência)</option></select>");
 
                 $('.j_fer').prop('required', false);
                 ctl_prot_op = document.getElementsByClassName('j_prot_op').length;

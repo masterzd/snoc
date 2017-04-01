@@ -19,8 +19,9 @@
         if($InfoCallViewCh['SMS'] == false):
             echo "<script>alertaSms()</script>";
         endif;
-        require APPPATH . 'third_party/Ultilitarios.php';
-        $this->load->view('commom/menu.php')
+        require APPPATH . 'third_party/Ultilitario.php';
+        $Util = new Ultilitario();
+        $this->load->view('commom/menu.php');   
         ?>
 
         <div class="container-fluid custom-container">
@@ -202,7 +203,7 @@
                         <div class="col2 col-md-3 col-xs-9 col-generic">
                             <div class="form-group">
                                 <label for="Al">Momento do Alarme:</label>
-                                <p><?= DataBR($InfoCallViewCh['DadosCh']['o_hr_dw']) ?></p>
+                                <p><?= $Util->DataBR($InfoCallViewCh['DadosCh']['o_hr_dw'])?></p>
                             </div>
 
                             <div class="form-group j_ac">

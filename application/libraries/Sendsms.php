@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Sendsms extends CI_Controller {
     /* Atributo que armazena os recursos do codeigniter */
-
     private $CI;
     /* Atributo responsável por armazenar um vetor com os telefones */
     private $Contatos;
@@ -108,7 +107,6 @@ class Sendsms extends CI_Controller {
     /* Enviar SMS */
 
     private function send($Mensagem) {
-
         $Mensagem = str_replace(' ', '%20', $Mensagem);
         foreach ($this->Contatos as $Num):
 
@@ -124,7 +122,7 @@ class Sendsms extends CI_Controller {
                 'sms_loja' => $this->InfoLoja['Loja']['lj_num'],
                 'sms_ch' => $this->InfoCh['o_cod']
             ];
-
+                        
             $this->logSMS($Arr);
 
             if ($resultado != '000'):

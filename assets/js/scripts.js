@@ -1,14 +1,10 @@
 $(function () {
     /* Funções JS PARA A TELA DE LOGIN*/
-    var urlBase = 'http://localhost/CI_SISNOC/index.php/ShortHand_Gerenciamento/';
-    var urlBaseChamados = 'http://localhost/CI_SISNOC/index.php/ShortHand_Chamado/';
+    var urlBase = 'http://sisnoc.maquinadevendas.corp/CI_SISNOC/index.php/ShortHand_Gerenciamento/';
+    var urlBaseChamados = 'http://sisnoc.maquinadevendas.corp/CI_SISNOC/index.php/ShortHand_Chamado/';
     $(document).ready(function () {
         $('.login').fadeIn(500);
     });
-
-
-    
-
 
     /*********************************** Funções da TELA DE MENU _ CONTEÙDO ***********************************************************************/
 
@@ -57,7 +53,7 @@ $(function () {
     /* Menu de Gerar senhas */
 
     $(".j_btn-pass").click(function () {
-        $.post(urlBase + 'CI_SISNOC/assets/ponte/jsPassGenerator.php', function (retorno) {
+        $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/assets/ponte/jsPassGenerator.php', function (retorno) {
             console.log(retorno);
             $('.j_resultado').val(retorno);
         });
@@ -77,6 +73,7 @@ $(function () {
             }
         });
     });
+    
     /* Verificando o status da loja */
     $('.jStatusLoja').change(function () {
         var numlj = $('.jnum-lj').val();
@@ -92,38 +89,10 @@ $(function () {
                 }
             });
         }
-        
-        /* Abrindo Ocorrência */
-//        $('.j_newOcorr').submit(function (){
-//             var decisao =  confirm("Confirma abertura de ocorrência para a loja " + $('.jnum-lj').val() + "?"); 
-//             if(decisao){
-//                 var decisao2 = confirm("Deseja enviar um SMS para os responsáveis da loja?");
-//                 if(decisao2){
-//                     var sms = true;
-//                 }else{
-//                     var sms = false;
-//                 }
-//                 
-//                 var chamado = {
-//                     'o_loja' : $('.jnum-lj').val(),
-//                     'o_link' : $('.j_link').val(),
-//                     'o_status' : $('.jStatusLoja').val(),
-//                     'o_hr_dw' : $('.jdateDown').val(),
-//                     'sms' : sms
-//                 }
-//             }
-//           
-//           return false;
-//        });
-
-
+             
     });
-
-
+    
     /***********************************************************************************************************************************************/
-
-    /*****************************************************Scripts da Tela de Ocorrencias*********************************************************/
-
     
 
     /***************************************************Scripts relacionados a tela de gerenciamento ******************************************/

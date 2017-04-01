@@ -1,0 +1,43 @@
+body{
+    /*background-color: #484848;*/
+    background-image: url('../../img/wallblack.jpeg');
+}
+
+.menssage-error{
+    background-color: #FFB900;
+    margin-top: 10%;
+    margin-left: 26%;
+    padding: 2%;
+    box-shadow: 1px 1px 1px 1px white;
+}
+
+.img-error{
+    width: 30%;
+    margin: 3%;
+    margin-left: 36%;
+    margin-top: -1%;
+}
+
+.title-error{
+    margin-left: 23%;
+    font-weight: bold;
+}
+
+.return-message{
+    width: 56%;
+    background-color: burlywood;
+    padding: 0.3%;
+    margin-left: 21%;
+    margin-top: 2%;
+}
+
+.return-message p{
+    margin-left: 6%;
+    padding: 1%;
+    margin-top: 2%;
+}
+
+.btn-erro{
+    margin-left: 45%;
+    margin-top: 2%;
+}

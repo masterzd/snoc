@@ -24,7 +24,13 @@ class Start extends CI_Controller {
     /* Funções */
 
     public function menu() {
-        $this->load->view('menuprincipal');
+        
+        $this->load->Model('Crud');
+        $TB = array('tb');
+        $Da = array('ok');
+        $QR = "SELECT * FROM tb_eventos  ORDER BY e_cod DESC LIMIT 4";
+        $this->Crud->calldb($TB, 'SELECT', $Da, 0, $QR);        
+        $this->load->view('menuprincipal', $this->Crud->Results);
     }
 
     public function cadlink() {
@@ -75,6 +81,11 @@ class Start extends CI_Controller {
                         'Funcao' => $this->Crud->Results['Dados'][0]['u_funcao'],
                         'data' => date("Y-m-d H:i:s")
                     ];
+                  
+                    $this->Crud->calldb('tb_conf', 'SELECT', 0);
+                    
+                    
+                    
                     unset($_POST['u_user'], $_POST['u_senha']);
                     header("Location:" . base_url('menuprincipal'));
                 else:

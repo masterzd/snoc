@@ -1,0 +1,56 @@
+body{
+    background-image: url('../../img/wallblack.jpeg');
+    background-attachment: fixed;
+    background-position: bottom;
+}
+
+.header-busca{
+    background-color: #FFB900;
+    margin-top: 8%;
+    margin-left: 8%;
+    padding: 1%;
+}
+
+.content-busca{
+    background-color: #FFB900;
+    margin-left: 8%;
+    padding: 1%;
+}
+
+.content-busca{
+
+}
+
+.title-busca{
+    margin-left: 33%; 
+}
+
+.title-busca-cat{
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: -9px;
+}
+
+.line{
+    width: 64%;
+    border-top: 3px solid black;
+}
+
+
+.subTitle-busca{
+    margin-left: 38%;
+    font-weight: bold;
+}
+
+.table{
+    width: 70%;
+    background-color: silver;
+    color: black;
+    margin-left: 15%;
+    text-align: center;
+}
+
+th{
+    text-align: center;
+}

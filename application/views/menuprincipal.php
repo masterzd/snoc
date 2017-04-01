@@ -7,24 +7,25 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.css') ?>">	
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/m-principal.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/menu.css') ?>">        
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css') ?>">        
     </head>
     <script>
-		function Erro(mensagem){
-			alert(mensagem);
-			location.href = 'http://localhost/CI_SISNOC/menuprincipal';	
-	    }	
+        function Erro(mensagem) {
+            alert(mensagem);
+            location.href = 'http://localhost/CI_SISNOC/menuprincipal';
+        }
     </script>
     <body>
         <?php
         session_start();
-        if(empty($_SESSION['user'])):
+        if (empty($_SESSION['user'])):
             $Validation['erro'] = "Sessão Expirada. Fazer login novamente.";
             $this->load->view('login', $Validation);
             die();
-        endif;            
-            if(!empty($_SESSION['InfoCallViewCh']) or !empty($_SESSION['CtlCh'])):
-            	unset($_SESSION['InfoCallViewCh'], $_SESSION['CtlCh']);
-            endif;            
+        endif;
+        if (!empty($_SESSION['InfoCallViewCh']) or ! empty($_SESSION['CtlCh'])):
+            unset($_SESSION['InfoCallViewCh'], $_SESSION['CtlCh']);
+        endif;
         $this->load->view('commom/menu.php');
         ?>
         <div class="container-fluid">
@@ -35,9 +36,9 @@
                     <div class="ab_ch">
                         <p>Abertura de Ocorrência</p>
                         <?php
-	                        if (!empty($erro)):
-	                            echo "<script>Erro('{$erro}')</script>";
-	                        endif;
+                        if (!empty($erro)):
+                            echo "<script>Erro('{$erro}')</script>";
+                        endif;
                         ?>					
                         <form action="chamado" method="POST" class="j_newOcorr">
 
@@ -72,7 +73,8 @@
                             </div>
                             <div class="form-group col-md-3 col-xs-11">
                                 <label for="alm" class="col-sm-2 control-label">Momento do Alarme:</label>
-                                <input required type="datetime-local" name="o_hr_dw" class="form-control jdateDown">
+                                <input required readonly="" type="text" name="o_hr_dw" class="form-control jdateDown">
+                                <span class="add-on"><i class="icon-th"></i></span>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-default btn-submit-custom">Abrir Ocorrência</button>
@@ -107,13 +109,11 @@
 
                 <div class="pesquisa col-md-4 col-xs-8 box-3">
                     <p>Área de Pesquisa</p>
-                    <form action="#" method="POST">
+                    <form action="busca" method="POST" class="j_busca-Menu">
 
                         <div class="form-group">
-                            <input type="text" name="termoBusca" class="form-control" placeholder="Loja, Circuito ou Chamado.">
-                        </div>	
-                        <div class="resultAjax">
-
+                            <input type="text" name="termo" class="form-control j-termo-mP" placeholder="Loja, Circuito, Ocorrência, Rua, Bairro, Cidade, UF.">
+                            
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-danger btn-buscar-custom">Buscar</button>
@@ -127,8 +127,13 @@
                         <p>Eventos</p>					
                         <p>Ocorrências Abertas: XX</p>
                         <button class="btn btn-danger btn-ver-oc-ab">Ver Ocorrências Abertas</button>
-
                         <P>Ultimas Atualizações:</P>
+                        <?php 
+                           foreach ($Dados as $Eventos):
+                               echo "<p class='eventos'><a href='#'>{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
+                               echo "a ocorrência nº {$Eventos['e_chamado']} as {$Eventos['e_data']}</a></p><br>";
+                           endforeach;                        
+                        ?>
 
                     </aside>					
                 </div>
@@ -139,5 +144,13 @@
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/scripts.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/menu-topo.js') ?>"></script>
+        <script src="<?php echo base_url('/assets/js/bootstrap-datetimepicker.min.js') ?>"></script>
+        <script src="<?php echo base_url('/assets/js/bootstrap-datetimepicker.pt-BR.js') ?>" charset="UTF-8"></script>
+        <script>
+            $('.jdateDown').datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                language: 'pt-BR'
+            });
+        </script>
     </body>
 </html>

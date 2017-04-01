@@ -69,3 +69,22 @@ function prazoTecnico(){
     $Prazo = (array) $time;
     return $Prazo['date'];  
 }
+
+function CatProblema($Problema) {
+
+    /* Checando a categoria do problema */
+    
+    if($Problema == 'INT_Cancelamento' or $Problema == "OP_Cancelamento"):
+         $Cat = "Abertura Indevida";
+    elseif (preg_match('/INT_/', $Problema)):
+        $Cat = "Infra-Estrutura";
+    elseif (preg_match('/OP_/', $Problema)):
+        $Cat = "Operadora";
+    elseif (preg_match('/CO_/', $Problema)):
+        $Cat = "Concessionária";
+    elseif (preg_match('/IMP_/', $Problema)):
+        $Cat = "Improdutividade";
+    endif;
+
+    return $Cat;
+}
