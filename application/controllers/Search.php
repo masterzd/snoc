@@ -85,7 +85,7 @@ class Search extends CI_Controller {
     }
 
     private function searchCircuitos($Termos) {
-        $QR = "select * from tb_circuitos where cir_desig like '%{$Termos}'";
+        $QR = "select * from tb_circuitos where cir_desig like '%{$Termos}%'";
         $T = array('o');
         $D = array('i');
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
