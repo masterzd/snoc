@@ -573,4 +573,18 @@ class ShortHand_Gerenciamento extends CI_Controller {
         endif;
     }
 
+    /* Gravando notas no chamado aberto */
+    
+    public function Savenotas(){
+        
+        $Notas = filter_input_array(INPUT_POST, FILTER_DEFAULT);       
+        if(!empty($Notas) and !empty($Notas['ch_user'])):
+            $this->load->Model('Crud');
+            $this->Crud->calldb('tb_ch_notas', 'INSERT', $Notas);           
+            echo $this->Crud->Results;
+        endif;
+        
+        
+    }
+    
 }

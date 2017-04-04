@@ -14,16 +14,34 @@
             }
         </script>
         <style>
-            .sit{padding: 2%; margin-left: 39%;margin-bottom: -1%;}
+            .sit{padding: 2%; margin-left: 34%;margin-bottom: -1%;}
             .custom-logo-re{position: relative;}
+            .action{margin-left: 8%;font-style: italic;font-weight: 600;}
+            .notas-area{background-color: #FFB900;width: 97%;padding: 1.6%;box-shadow: 1px 1px 6px -1px black;}
+            .nota{width: 100%;padding: 2%;background-color: #d9534f;color: white;border-radius: 0%; border: white solid 2px; margin-top: 1%;}
+            .nota:hover{background-color: #895454; cursor:pointer;}
+            .nota p{text-align: center; font-weight: bold}
+            .btn-add-nota{margin-left: 56%; margin-top: 5%;}
+            .new-notas{margin-top: 4%;}
+            .new-notas textArea{width: 127%;margin-left: 15%;}
+            .notas-carregadas{width: 100%;}
         </style>
     </head>
     <body>
         <?php
+//        var_dump($_SESSION['user']);
+        if (empty($_SESSION['user'])):
+            header('Location:' . base_url('Start/?erro=1'));
+            return false;
+        endif;
         require APPPATH . 'third_party/Ultilitario.php';
         $Util = new Ultilitario();
-        var_dump($InfoCallViewCh);
+//        var_dump($InfoCallViewCh);
 //        $this->load->view('commom/menu.php');
+
+        $Necessidade = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Abertura Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Inadiplência' : 'Outros')))));
+        $SiT = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Falta de Pagamento (Inadiplência)' : 'Cancelado')))));
+        ;
         ?>
 
         <div class="container-fluid custom-container">
@@ -32,7 +50,7 @@
                 <header class="cabecalho col-md-10 col-xs-10">
                     <h1 class="col-md-5 col-xs-10 title">Ocorrência Nº <?= $InfoCallViewCh['DadosCh']['o_cod'] ?></h1>
                     <img src="<?= base_url('assets/img/RE_Red.png') ?>" class='img-responsive col-md-3 col-xs-5 custom-logo-re' alt="LOGORE">
-                    <p class="sit">Situação: Fechado</p>
+                    <p class="sit">Situação: <?= $SiT ?></p>
                 </header>
             </div>
 
@@ -137,67 +155,175 @@
                             </div>
                             <div class="form-group j_tp">
                                 <label for="St">Tipo de Problema:</label>
-                                 <?php
+                                <ul>
+                                    <?php
                                     foreach ($InfoCallViewCh['TPAC']['prob'] as $TP):
-                                        echo "<p>{$TP['ch_prob']}</p>";
+                                        echo "<li>{$TP['ch_prob']}</li>";
                                     endforeach;
-                                 ?>
+                                    ?>
+                                </ul>
 <!--                                <button class="btn btn-danger btn-sm btn-add j_btn"><i class="fa fa-plus" aria-hidden="true"></i></button>-->
                             </div>
-                            <div class="form-group">
-                                <label for="Cp">Causa do Problema:</label>
-                                <select name="o_causa_prob" disabled class="form-control j_cp">
-                                    <option value="">Selecione...</option>
-                                    <optgroup label="Infra-Estrutura (Loja)">
-                                        <option value="INT_Alta_ultilização">Alta Ultilização</option>
-                                        <option value="INT_Cabeamento">Cabeamento</option>
-                                        <option value="INT_Conf_Roteador">Conf. Roteador</option>
-                                        <option value="INT_Climatização">Climatização</option>
-                                        <option value="INT_Equipamento_Desligado">Equipamento Desligado</option>
-                                        <option value="INT_Falta_Energia">Falta de Energia (Interno)</option>
-                                        <option value="INT_Falha_Massiva">Falha Massiva(Ex: L3 down)</option>
-                                        <option value="INT_Falha_Roteador">Falha no Roteador</option>
-                                        <option value="INT_Falha_Swicth">Falha no Switch</option>
-                                        <option value="INT_Falha_Nobreak">Falha no Nobreak</option>
-                                        <option value="INT_Falha_Eletrica">Falha Elétrica (Interno)</option>
-                                        <option value="INT_Feriado">Feriado (Local ou Nacional)</option>
-                                        <option value="INT_Inadimplência">Inadimplência (Fatura em atraso)</option>
-                                        <option value="INT_Incrementando_CRC">Incrementando CRC</option>
-                                        <option value="INT_Sinistro">Sinistro(Roubo, Incêncio)</option>
-                                        <option value="INT_Rack_Desligado">Rack Desligado</option>
-                                        <option value="INT_Sem_Expediente">Sem Expediente</option>
-                                        <option value="INT_Upgrade_Mudança_link_Estr_Fisica">Upgrade / Mudança de link / Estrutura fisica  </option>
-                                    </optgroup>                                    
-                                    <optgroup label="Operadora">
-                                        <option value="OP_BGP/Rota">BGP/Rota</option>
-                                        <option value="OP_Cabeamento">Cabeamento</option>
-                                        <option value="OP_Velocidade_abaixo_contratado"> Banda Insuficiente (Vel. abaixo)</option>
-                                        <option value="OP_Evento_Vulto_Massiva">Evento de Vulto / Massiva</option>
-                                        <option value="OP_Falta_de_Energia">Falta de Energia (Operadora)</option>
-                                        <option value="OP_Falha_no_Roteador">Falha Roteador (Operadora)</option>
-                                        <option value="OP_Imcrementando CRC">Imcrementando CRC</option>
-                                        <option value="OP_Intermitência">Intermitência</option>
-                                        <option value="OP_Latência_Alta">Latência Alta</option>
-                                        <option value="OP_Proativo_Indevido">Proativo Indevido</option>
-                                        <option value="OP_Perda_de_Pacotes">Perda de Pacotes</option>
-                                        <option value="OP_Preventiva">Preventiva</option> 
-                                        <option value="OP_Rompimento de Fibra">Rompimento de Fibra</option>
-                                        <option value="OP_Sinistro">Sinistro (Roubo de Cabos etc.)</option>
-                                        <option value="OP_Sem_Intervencao_Tecnica">Sem Intervenção Técnica</option>
-                                        <option value="OP_Upgrade_Mudança_link_Estr_Fisica">Upgrade / Mudança de link / Estrutura fisica</option>                                     
-                                    </optgroup>
-                                    <optgroup label="Terceiros (Concessionária de Energia)">
-                                        <option value="CO_Falta_de_Energia">Falta de Energia (Concessionária)</option>
-                                        <option value="CO_Falha Estrutural">Falha Estrutural</option>
-                                        <option value="CO_Fenomenos_Naturais">Fenômenos Naturais</option>
-                                        <option value="CO_Variacao_Eletrica">Variação Elétrica</option>
-                                    </optgroup>                                   
-                                    <optgroup label="Abertura Indevida">
-                                        <option value="INT_Cancelamento">Cancelamento (Interno)</option>
-                                        <option value="OP_Cancelamento">Cancelamento (Operadora)</option>
-                                    </optgroup>
-                                </select>
-                            </div>
+
+
+
+                            <?php
+                            if (empty($InfoCallViewCh['DadosCh']['o_prot_op']) and $InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 and $_SESSION['user']['Nv'] <= 3):
+                                echo "<div class='form-group'>
+                                        <p class='j_des'>Protocolo Operadora:</p>
+                                        <input type='text' class='form-control j_des' name='o_prot_op' required>
+                                      </div>
+                                      <div class='form-group'>
+                                         <p class='j_des'>Prazo de Normalização</p>
+                                         <input type='datetime-local' class='form-control j_des' name='o_prazo' required>   
+                                      </div>
+                                       <div class='form-group'>
+                                          <p class='j_des'>Horário Chamado Operadora</p>
+                                          <input type='datetime-local' class='form-control j_des' name='o_hr_ch_op' required>  
+                                       </div>";
+
+                                if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) or ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
+                                    if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) and ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
+
+                                        echo "<label>Chamado SISMAN:</label>
+                                            <p class='whiteBold j_ctl_nece'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>
+                                            <label>Chamado OTRS:</label>
+                                            <p class='whiteBold'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
+
+                                    elseif (!empty($InfoCallViewCh['DadosCh']['o_sisman'])):
+
+                                        echo "<label>Chamado SISMAN:</label>
+                                             <p class='whiteBold j_sisman'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>";
+
+                                    elseif (!empty($InfoCallViewCh['DadosCh']['o_otrs'])):
+
+                                        echo"<label>Chamado OTRS:</label>
+                                            <p class='whiteBold j_otrs'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
+
+                                    endif;
+                                endif;
+
+                            elseif (!empty($InfoCallViewCh['DadosCh']['o_prot_op'])):
+                                $InfoCallViewCh['DadosCh']['o_prazo'] = DataBR($InfoCallViewCh['DadosCh']['o_prazo']);
+                                $InfoCallViewCh['DadosCh']['o_hr_ch_op'] = DataBR($InfoCallViewCh['DadosCh']['o_hr_ch_op']);
+
+                                echo "<p>Protocolo Operadora:</p>
+                                <p class='whiteBold j_prot_op'>{$InfoCallViewCh['DadosCh']['o_prot_op']}</p><br>
+                                <p>Prazo de Normalização</p>
+                                <p class='whiteBold'>{$InfoCallViewCh['DadosCh']['o_prazo']}</p><br>
+                                <p>Horário Chamado Operadora</p>
+                                <p class='whiteBold'>{$InfoCallViewCh['DadosCh']}</p><br>";
+
+                                if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) or ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
+                                    if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) and ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
+
+                                        echo "<label>Chamado SISMAN:</label>
+                                            <p class='whiteBold j_ctl_nece'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>
+                                            <label>Chamado OTRS:</label>
+                                            <p class='whiteBold'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
+
+                                    elseif (!empty($InfoCallViewCh['DadosCh']['o_sisman'])):
+
+                                        echo "<label>Chamado SISMAN:</label>
+                                             <p class='whiteBold j_sisman'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>";
+
+                                    elseif (!empty($InfoCallViewCh['DadosCh']['o_otrs'])):
+
+                                        echo"<label>Chamado OTRS:</label>
+                                              <p class='whiteBold j_otrs'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
+
+                                    endif;
+                                endif;
+                            elseif (!empty($InfoCallViewCh['DadosCh']['o_sisman'])):
+
+                                if (!empty($InfoCallViewCh['DadosCh']['o_otrs'])):
+
+                                    echo " <label>Chamado SISMAN:</label>
+                                        <p class='whiteBold j_sisman'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>
+                                        <label>Chamado OTRS:</label>
+                                        <p class='whiteBold j_otrs'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
+                                else:
+                                    echo "<label>Chamado SISMAN:</label>
+                                           <p class='whiteBold j_sisman'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>";
+                                endif;
+
+                            elseif ($InfoCallViewCh['DadosCh']['o_otrs']):
+
+                                if (!empty($InfoCallViewCh['DadosCh']['o_sisman'])):
+                                    echo"<label>Chamado OTRS:</label>
+                                        <p class='j_otrs'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>
+                                        <label>Chamado SISMAN:</label>
+                                        <p class='j_sisman'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>";
+                                else:
+                                    echo"<label>Chamado OTRS:</label>
+                                           <p class='j_otrs'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
+                                endif;
+                            endif;
+
+                            if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 6):
+                                ?>
+                                <div class="form-group">
+                                    <label for="Cp">Causa do Problema:</label>
+                                    <select name="o_causa_prob" disabled class="form-control j_cp">
+                                        <option value="">Selecione...</option>
+                                        <optgroup label="Infra-Estrutura (Loja)">
+                                            <option value="INT_Alta_ultilização">Alta Ultilização</option>
+                                            <option value="INT_Cabeamento">Cabeamento</option>
+                                            <option value="INT_Conf_Roteador">Conf. Roteador</option>
+                                            <option value="INT_Climatização">Climatização</option>
+                                            <option value="INT_Equipamento_Desligado">Equipamento Desligado</option>
+                                            <option value="INT_Falta_Energia">Falta de Energia (Interno)</option>
+                                            <option value="INT_Falha_Massiva">Falha Massiva(Ex: L3 down)</option>
+                                            <option value="INT_Falha_Roteador">Falha no Roteador</option>
+                                            <option value="INT_Falha_Swicth">Falha no Switch</option>
+                                            <option value="INT_Falha_Nobreak">Falha no Nobreak</option>
+                                            <option value="INT_Falha_Eletrica">Falha Elétrica (Interno)</option>
+                                            <option value="INT_Feriado">Feriado (Local ou Nacional)</option>
+                                            <option value="INT_Inadimplência">Inadimplência (Fatura em atraso)</option>
+                                            <option value="INT_Incrementando_CRC">Incrementando CRC</option>
+                                            <option value="INT_Sinistro">Sinistro(Roubo, Incêncio)</option>
+                                            <option value="INT_Rack_Desligado">Rack Desligado</option>
+                                            <option value="INT_Sem_Expediente">Sem Expediente</option>
+                                            <option value="INT_Upgrade_Mudança_link_Estr_Fisica">Upgrade / Mudança de link / Estrutura fisica  </option>
+                                        </optgroup>                                    
+                                        <optgroup label="Operadora">
+                                            <option value="OP_BGP/Rota">BGP/Rota</option>
+                                            <option value="OP_Cabeamento">Cabeamento</option>
+                                            <option value="OP_Velocidade_abaixo_contratado"> Banda Insuficiente (Vel. abaixo)</option>
+                                            <option value="OP_Evento_Vulto_Massiva">Evento de Vulto / Massiva</option>
+                                            <option value="OP_Falta_de_Energia">Falta de Energia (Operadora)</option>
+                                            <option value="OP_Falha_no_Roteador">Falha Roteador (Operadora)</option>
+                                            <option value="OP_Imcrementando CRC">Imcrementando CRC</option>
+                                            <option value="OP_Intermitência">Intermitência</option>
+                                            <option value="OP_Latência_Alta">Latência Alta</option>
+                                            <option value="OP_Proativo_Indevido">Proativo Indevido</option>
+                                            <option value="OP_Perda_de_Pacotes">Perda de Pacotes</option>
+                                            <option value="OP_Preventiva">Preventiva</option> 
+                                            <option value="OP_Rompimento de Fibra">Rompimento de Fibra</option>
+                                            <option value="OP_Sinistro">Sinistro (Roubo de Cabos etc.)</option>
+                                            <option value="OP_Sem_Intervencao_Tecnica">Sem Intervenção Técnica</option>
+                                            <option value="OP_Upgrade_Mudança_link_Estr_Fisica">Upgrade / Mudança de link / Estrutura fisica</option>                                     
+                                        </optgroup>
+                                        <optgroup label="Terceiros (Concessionária de Energia)">
+                                            <option value="CO_Falta_de_Energia">Falta de Energia (Concessionária)</option>
+                                            <option value="CO_Falha Estrutural">Falha Estrutural</option>
+                                            <option value="CO_Fenomenos_Naturais">Fenômenos Naturais</option>
+                                            <option value="CO_Variacao_Eletrica">Variação Elétrica</option>
+                                        </optgroup>                                   
+                                        <optgroup label="Abertura Indevida">
+                                            <option value="INT_Cancelamento">Cancelamento (Interno)</option>
+                                            <option value="OP_Cancelamento">Cancelamento (Operadora)</option>
+                                        </optgroup>
+                                    </select>
+                                </div>  
+                                <?php
+                            elseif ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
+                                echo "<p>Causa do Problema</p>";
+                                echo "<p>{$InfoCallViewCh['DadosCh']['o_causa_prob']}</p>";
+                                echo "</div>";
+                            endif;
+                            ?>
+
                         </div>
 
                         <div class="col2 col-md-3 col-xs-9 col-generic">
@@ -208,27 +334,82 @@
 
                             <div class="form-group j_ac">
                                 <label for="AC">Ação Tomada:</label>
-                                 <?php
+                                <ul>
+                                    <?php
                                     foreach ($InfoCallViewCh['TPAC']['acao'] as $AC):
-                                        echo "<p>{$AC['ch_acao']}</p>";
+                                        echo "<li>{$AC['ch_acao']}</li>";
                                     endforeach;
+
+                                    if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
+                                        $Result = 'SIM';
+                                    else:
+                                        $Result = 'Não';
+                                    endif;
                                     ?>
+                                </ul>
+
 <!--                                <button class="btn btn-danger btn-sm btn-add j_btn2"><i class="fa fa-plus" aria-hidden="true"></i></button>-->
                             </div>
 
-                            <p>Resultado da Ação:</p>
-                            
+                            <label>Resultado da Ação:</label>
+
                             <div class="form-group j_action">
-                                <label for="Ln">Loja Normalizada:</label> <?php echo "SIM" ?>
-                                <label for="Op">Aberta por:</label> <?= $InfoCallViewCh['DadosCh']['o_opr_ab']."<br>";?>
-                                
-                                
-                                <label for="Ln">Loja Normalizada?</label>
-                                <select required name="sit" class="form-control j_rst" id="Ln">
-                                    <option value="">Selecione...</option>
-                                    <option value="1">SIM</option>
-                                    <option value="2">NAO</option>
-                                </select>
+                                <p class="action">Loja Normalizada: <?= $Result ?></p> 
+                                <p class="action">Necessidade:  <?= $Necessidade ?></p> 
+                                <p class="action">Aberto por: <?= $InfoCallViewCh['DadosCh']['o_opr_ab'] . "<br>"; ?></p>    
+                                <?php
+                                if (!empty($InfoCallViewCh['DadosCh']['o_opr_op']) and $InfoCallViewCh['DadosCh']['o_opr_op'] != '"N"'):
+                                    echo "<p class='action'>Ocorrência Tratada por: <small class='whiteBold'>{$InfoCallViewCh['DadosCh']['o_opr_op']}</small></p>";
+                                endif;
+
+                                if ($InfoCallViewCh['DadosCh']['o_sit_ch'] >= 2):
+                                    echo "<p class='action' style='color:red'>Operador Atual: <b>{$_SESSION['user']['Nome']}</b></p>";
+                                elseif ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
+                                    echo "<p>Ocorrência Fechada por: <small><b>{$InfoCallViewCh['DadosCh']['o_opr_fc']}</b></small></p>";
+                                endif;
+
+                                if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 and $InfoCallViewCh['DadosCh']['o_nece'] == 2):
+                                    echo "<div class='checkbox'>
+                                        <label> 
+                                           <input type='checkbox' name='link_norm' class='j_norm'> Link Normalizado antes de Abrir o chamado
+                                        </label>   
+                                        <label> 
+                                          <input type='checkbox' name='link_prev' class='j_prev'> Preventiva aberta
+                                        </label>   
+                                    </div>";
+                                endif;
+
+                                if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 3 or $InfoCallViewCh['DadosCh']['o_sit_ch'] == 6 or $InfoCallViewCh['DadosCh']['o_sit_ch'] == 4):
+                                    if ($_SESSION['user']['Nv'] <= 2 or $_SESSION['user']['Nv'] == 4 and $InfoCallViewCh['DadosCh']['o_sit_ch'] == 3):
+                                        echo "
+                                                    <label>Loja Normalizada?</label>
+                                                    <select name='sit' required class='form-control'>
+                                                        <option value=''>Selecione ...</option>
+                                                        <option value='1'>SIM</option>
+                                                        <option value='2'>NÂO</option>
+                                                    </select>";
+                                    endif;
+                                endif;
+                                if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 6 and $_SESSION['user']['Nv'] <= 2):
+                                    echo "<p>Momento da Normalização:</p>";
+                                    echo "<input type='datetime-local' name='o_hr_up'>";
+                                elseif ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
+                                    $InfoCallViewCh['DadosCh']['o_hr_up'] = DataBR($InfoCallViewCh['DadosCh']['o_hr_up']);
+                                    echo "<p>Momento da Normalização:</p>";
+                                    echo "<p>{$InfoCallViewCh['DadosCh']['o_hr_up']}</p>";
+                                endif;
+                                if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 6 or $InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
+                                    if (!empty($InfoCallViewCh['DadosCh']['o_prot_op'])):
+                                        echo "<p'>RAT do Chamado:</p>";
+                                        if (empty($InfoCallViewCh['DadosCh']['o_rat'])):
+                                            echo "<p  class='whiteBold'>RAT Não Encontrada!</p>";
+                                            echo "<input  type='file' name='o_rat'>";
+                                        elseif (!empty($InfoCallViewCh['DadosCh']['o_rat'])):
+                                            echo " <a onclick=\"window.open(this.href, 'Not', 'width=825, height=525');return false;\"\  id='Not' href='rat.php?loc={$InfoCallViewCh['DadosCh']['o_rat']}'><input class='rat' type='button' value='Visualizar RAT'></a>";
+                                        endif;
+                                    endif;
+                                endif;
+                                ?>
                             </div>
                         </div>	
 
@@ -247,8 +428,24 @@
                 <div class="row">
                     <content class="col-md-11 col-xs-12 conteudo col-person">
                         <div class="col3 col-md-7 col-xs-11 col-generic ">
-                            <p>Observações</p>
-                            <textarea name="obs" rows="10" cols="100" maxlength="900" placeholder="Deixe seu comentário aqui!" class="form-control"></textarea>
+                            <label>Notas da Ocorrência:</label>
+                            <div class="col-md-8 notas-area">
+                                <div class="notas-carregadas col-md-8">
+                                    <div class="ref"></div>
+                                    <div class="col-md-5 nota">
+                                        <p>Henrique Rocha de Souza, as 13:45:00 10/04/2017 disse:</p>
+                                        <p>Conteúdo da nota</p>
+                                    </div>
+                                    <div class="col-md-5 nota">
+                                        <p>Henrique Rocha de Souza, as 13:45:00 10/04/2017 disse:</p>
+                                        <p>Conteúdo da nota </p>
+                                    </div>
+                                </div>
+                                <div class="new-notas col-md-8">
+                                   <textarea name="obs" rows="5" cols="100" maxlength="900" placeholder="Deixe seu comentário aqui!" class="form-control j-new-nota"></textarea>
+                                   <button type="button" class="btn btn-danger btn-add-nota j-btn-nota"><i class="fa fa-plus-square" aria-hidden="true">Adicionar Nota </i></button> 
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-danger btn-lg btn-sm save-buttom"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Salvar</button>
                         </div>
                     </content>
@@ -256,7 +453,9 @@
             </form>	
 
         </div>
-
+        <!--INPUTS PARA AUXILIAR NA INSERÇÂO DE NOTAS-->
+        <input type="hidden" value="<?=$_SESSION['user']['Nome']?>" class="nome">
+        <input type="hidden" value="<?= date('Y-m-d H:i:s');?>" class="hora">
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>

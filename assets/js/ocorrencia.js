@@ -202,5 +202,24 @@ $(function () {
             TestePing();
         });
     });
+    
+    /* Adicionando nota dinamicamente na ocorrência */
+    $('.j-btn-nota').click(function(){
+         var content = $('.j-new-nota').val();
+         var data = $('.hora').val();
+         var nome = $('.nome').val();
+         
+         $.post(urlBaseCh +'/Savenotas', {ch_user: nome, ch_nota: content, ch_time: data}, function(r){
+             if(r == 1){
+                 $('.ref').before("<div class='col-md-5 nota'>"+
+                                "<p>"+nome+", no dia: "+data+" disse:</p>"+
+                                "<p>"+content+"</p>"+
+                                "</div>");
+             }
+         });
+         
+        $('.j-new-nota').val(""); 
+        console.log(data);
+    });
 
 });
