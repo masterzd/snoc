@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/chamado.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/menu.css') ?>">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css') ?>">
         <script>
             function alertaSMS() {
                 alert("Não foi possível enviar sms para um ou mais destinatários.");
@@ -29,7 +30,7 @@
     </head>
     <body>
         <?php
-//        var_dump($_SESSION['user']);
+//        var_dump($_SESSION);
         if (empty($_SESSION['user'])):
             header('Location:' . base_url('Start/?erro=1'));
             return false;
@@ -37,7 +38,7 @@
         require APPPATH . 'third_party/Ultilitario.php';
         $Util = new Ultilitario();
 //        var_dump($InfoCallViewCh);
-//        $this->load->view('commom/menu.php');
+        $this->load->view('commom/menu.php');
 
         $Necessidade = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Abertura Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Inadiplência' : 'Outros')))));
         $SiT = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Falta de Pagamento (Inadiplência)' : 'Cancelado')))));
@@ -139,7 +140,7 @@
 
                 </content>				
             </div>         
-            <form action="save" method="POST">
+            <form action="http://sisnoc.maquinadevendas.corp/CI_SISNOC/update" method="POST">
                 <div class="row">					
                     <div class="col-md-11 col-xs-11 conteudo">
 
@@ -170,16 +171,16 @@
                             <?php
                             if (empty($InfoCallViewCh['DadosCh']['o_prot_op']) and $InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 and $_SESSION['user']['Nv'] <= 3):
                                 echo "<div class='form-group'>
-                                        <p class='j_des'>Protocolo Operadora:</p>
+                                        <label class='j_des'>Protocolo Operadora:</label>
                                         <input type='text' class='form-control j_des' name='o_prot_op' required>
                                       </div>
                                       <div class='form-group'>
-                                         <p class='j_des'>Prazo de Normalização</p>
-                                         <input type='datetime-local' class='form-control j_des' name='o_prazo' required>   
+                                         <label class='j_des'>Prazo de Normalização</label>
+                                         <input type='text' class='form-control j_des j-date-picker' name='o_prazo' placeholder='Informe aqui' required>   
                                       </div>
                                        <div class='form-group'>
-                                          <p class='j_des'>Horário Chamado Operadora</p>
-                                          <input type='datetime-local' class='form-control j_des' name='o_hr_ch_op' required>  
+                                          <label class='j_des'>Horário Chamado Operadora</label>
+                                          <input type='text' class='form-control j_des j-date-picker' name='o_hr_ch_op' placeholder='Informe aqui' required>  
                                        </div>";
 
                                 if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) or ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
@@ -383,7 +384,7 @@
                                     if ($_SESSION['user']['Nv'] <= 2 or $_SESSION['user']['Nv'] == 4 and $InfoCallViewCh['DadosCh']['o_sit_ch'] == 3):
                                         echo "
                                                     <label>Loja Normalizada?</label>
-                                                    <select name='sit' required class='form-control'>
+                                                    <select name='sit' required class='form-control j_rst'>
                                                         <option value=''>Selecione ...</option>
                                                         <option value='1'>SIM</option>
                                                         <option value='2'>NÂO</option>
@@ -392,7 +393,7 @@
                                 endif;
                                 if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 6 and $_SESSION['user']['Nv'] <= 2):
                                     echo "<p>Momento da Normalização:</p>";
-                                    echo "<input type='datetime-local' name='o_hr_up'>";
+                                    echo "<input type='text' readonly name='o_hr_up' class='form-control j-date-picker' placeholder='Informe aqui'>";
                                 elseif ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
                                     $InfoCallViewCh['DadosCh']['o_hr_up'] = DataBR($InfoCallViewCh['DadosCh']['o_hr_up']);
                                     echo "<p>Momento da Normalização:</p>";
@@ -415,16 +416,6 @@
 
                     </div>
                 </div>
-                <!--DADOS PARA SEREM TRANSFERIDOS PARA A ETAPA DE GRAVAÇÂO DA OCORRÊNCIA-->
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="">
-                <input type="hidden" name="">
                 <div class="row">
                     <content class="col-md-11 col-xs-12 conteudo col-person">
                         <div class="col3 col-md-7 col-xs-11 col-generic ">
@@ -432,14 +423,17 @@
                             <div class="col-md-8 notas-area">
                                 <div class="notas-carregadas col-md-8">
                                     <div class="ref"></div>
-                                    <div class="col-md-5 nota">
-                                        <p>Henrique Rocha de Souza, as 13:45:00 10/04/2017 disse:</p>
-                                        <p>Conteúdo da nota</p>
-                                    </div>
-                                    <div class="col-md-5 nota">
-                                        <p>Henrique Rocha de Souza, as 13:45:00 10/04/2017 disse:</p>
-                                        <p>Conteúdo da nota </p>
-                                    </div>
+                                    <?php 
+                                       foreach ($InfoCallViewCh['Notas'] as $N):
+                                           $Dta = $Util->DataBR($N['ch_time']);
+                                           echo "
+                                                <div class='col-md-5 nota'>
+                                                    <p>{$N['ch_user']}, no dia {$Dta} disse:</p>
+                                                    <p>{$N['ch_nota']}</p>
+                                                </div>
+                                            ";
+                                       endforeach;  
+                                    ?> 
                                 </div>
                                 <div class="new-notas col-md-8">
                                    <textarea name="obs" rows="5" cols="100" maxlength="900" placeholder="Deixe seu comentário aqui!" class="form-control j-new-nota"></textarea>
@@ -450,16 +444,26 @@
                         </div>
                     </content>
                 </div>
+                <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_cod']?>" class="ch" name='o_cod'>
             </form>	
 
         </div>
         <!--INPUTS PARA AUXILIAR NA INSERÇÂO DE NOTAS-->
         <input type="hidden" value="<?=$_SESSION['user']['Nome']?>" class="nome">
         <input type="hidden" value="<?= date('Y-m-d H:i:s');?>" class="hora">
+        <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_cod']?>" class="ch">
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/menu-topo.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/ocorrencia.js') ?>"></script>
+        <script src="<?php echo base_url('/assets/js/bootstrap-datetimepicker.min.js') ?>"></script>
+        <script src="<?php echo base_url('/assets/js/bootstrap-datetimepicker.pt-BR.js') ?>" charset="UTF-8"></script>
+        <script>
+            $('.j-date-picker').datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                language: 'pt-BR'
+            });
+        </script>
     </body>
 </html>

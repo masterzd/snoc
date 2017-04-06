@@ -143,9 +143,9 @@ $(function () {
         }
 
         if ($(this).val() == 3) {
-            $(".j_action").append("<label class='title-ch'>Chamado OTRS</label> <input required type='text' class='otrs form-control' name='o_otrs'>");
+            $(".j_action").append("<label class='title-ch j_remove'>Chamado OTRS</label> <input required type='text' class='otrs form-control j_remove' name='o_otrs'>");
         } else if ($(this).val() == 4) {
-            $(".j_action").append("<label class='title-ch'>Chamado SISMAN</label> <input required type='text' class='sisman form-control' name='o_sisman'>");
+            $(".j_action").append("<label class='title-ch j_remove'>Chamado SISMAN</label> <input required type='text' class='sisman form-control j_remove' name='o_sisman'>");
         }
     });
 
@@ -188,7 +188,7 @@ $(function () {
         lk = 1;
         lk2 = 1;
         var ImgCtl = 1;
-        
+
         $("div[class*=j_link]").each(function () {
             $('.jImgLoad' + ImgCtl).show();
             if ($('.links').hasClass('online')) {
@@ -202,24 +202,59 @@ $(function () {
             TestePing();
         });
     });
-    
+
     /* Adicionando nota dinamicamente na ocorrência */
-    $('.j-btn-nota').click(function(){
-         var content = $('.j-new-nota').val();
-         var data = $('.hora').val();
-         var nome = $('.nome').val();
-         
-         $.post(urlBaseCh +'/Savenotas', {ch_user: nome, ch_nota: content, ch_time: data}, function(r){
-             if(r == 1){
-                 $('.ref').before("<div class='col-md-5 nota'>"+
-                                "<p>"+nome+", no dia: "+data+" disse:</p>"+
-                                "<p>"+content+"</p>"+
-                                "</div>");
-             }
-         });
-         
-        $('.j-new-nota').val(""); 
-        console.log(data);
+    $('.j-btn-nota').click(function () {
+        
+        var makeData = makedata();
+        
+        var content = $('.j-new-nota').val();
+        var data = makeData['formatUsa'];
+        var nome = $('.nome').val();
+        var ch = $('.ch').val();
+
+        $.post(urlBaseCh + '/Savenotas', {ch_user: nome, ch_nota: content, ch_time: data, o_cod: ch}, function (r) {
+            if (r == 1) {
+                $('.ref').after("<div class='col-md-5 nota'>" +
+                "<p>" + nome + ", no dia " + makeData['formatBr'] + " disse:</p>" +
+                "<p>" + content + "</p>" +
+                "</div>");
+            }
+        });
+
+        $('.j-new-nota').val("");
     });
+
+    function makedata() {
+        var data = new Date();
+        var y = data.getFullYear();
+        var m = data.getMonth() + 1;
+        var d = data.getDate();
+        var h = data.getHours();
+        var mn = data.getMinutes();
+
+        if (m <= 9) {
+            m = "0" + m;
+        }
+
+        if (d <= 9) {
+            d = "0" + d;
+        }
+
+        if (h <= 9) {
+            h = "0" + h;
+        }
+
+        if (mn <= 9) {
+            mn = "0" + mn;
+        }
+        
+        var fdate = {
+          'formatUsa' :  y + "-" + m + "-" + d + " " + h + ":" + mn,
+          'formatBr' : d + "/" + m + "/" + y + " " + h + ":" + mn
+        };
+                
+       return fdate;
+    }
 
 });

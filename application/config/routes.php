@@ -59,6 +59,7 @@ $route['validacao'] = 'Start/validacao';
 $route['chamado'] = 'Chamado/chamado';
 $route['busca'] = 'Search/search';
 $route['save'] = 'Save/SaveCh';
+$route['update'] = 'UpdateCh/update';
 $route['verchamado'] = 'Ocorrencia/ConsultaCh';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

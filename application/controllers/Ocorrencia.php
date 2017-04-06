@@ -48,7 +48,10 @@ class Ocorrencia extends CI_Controller {
         $this->TpAc['prob'] = $this->Crud->Results['Dados'];
         
         /* Consulta notas da ocorrência */
-        $this->Crud->calldb('tb_ch_notas', 'SELECT', $Chamado);
+        $Qr = "SELECT * FROM tb_ch_notas WHERE o_cod = {$Chamado['o_cod']} ORDER BY ch_time DESC";
+        $T = array();
+        $D = array();
+        $this->Crud->calldb($T, 'SELECT', $D, 0, $Qr);
         $this->Notas = $this->Crud->Results['Dados'];
                
     }
@@ -68,10 +71,10 @@ class Ocorrencia extends CI_Controller {
         $this->load->view('errors/Erro', $Erro);
     }
     
-    private function CallView(){
-        
+    private function CallView(){       
         session_start();
-         $_SESSION['InfoCallViewCh'] = [
+        
+         $_SESSION['Ocorrência_'.$this->Chamado['o_cod']]['InfoCallViewCh'] = [
             'DadosCh' => $this->Chamado,
             'DadosLoja' => $this->Loja,
             'Contatos' => $this->ContatosSms,
@@ -79,7 +82,7 @@ class Ocorrencia extends CI_Controller {
             'TPAC' => $this->TpAc
         ];
         
-        $this->load->view('ocorrencia', $_SESSION);
+        $this->load->view('ocorrencia', $_SESSION['Ocorrência_'.$this->Chamado['o_cod']]);
          
     }
 }
