@@ -41,7 +41,8 @@
         $this->load->view('commom/menu.php');
 
         $Necessidade = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Abertura Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Inadiplência' : 'Outros')))));
-        $SiT = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Falta de Pagamento (Inadiplência)' : 'Cancelado')))));
+        $SiT = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 7 ? 'Falta de Pagamento (Inadiplência)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'Fechado': 'Cancelado'))))));
+        $Disabled = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'disabled' : '');
         ;
         ?>
 
@@ -205,15 +206,15 @@
                                 endif;
 
                             elseif (!empty($InfoCallViewCh['DadosCh']['o_prot_op'])):
-                                $InfoCallViewCh['DadosCh']['o_prazo'] = DataBR($InfoCallViewCh['DadosCh']['o_prazo']);
-                                $InfoCallViewCh['DadosCh']['o_hr_ch_op'] = DataBR($InfoCallViewCh['DadosCh']['o_hr_ch_op']);
+                                $InfoCallViewCh['DadosCh']['o_prazo'] = $Util->DataBR($InfoCallViewCh['DadosCh']['o_prazo']);
+                                $InfoCallViewCh['DadosCh']['o_hr_ch_op'] = $Util->DataBR($InfoCallViewCh['DadosCh']['o_hr_ch_op']);
 
-                                echo "<p>Protocolo Operadora:</p>
+                                echo "<label>Protocolo Operadora:</label>
                                 <p class='whiteBold j_prot_op'>{$InfoCallViewCh['DadosCh']['o_prot_op']}</p><br>
-                                <p>Prazo de Normalização</p>
+                                <label>Prazo de Normalização</label>
                                 <p class='whiteBold'>{$InfoCallViewCh['DadosCh']['o_prazo']}</p><br>
-                                <p>Horário Chamado Operadora</p>
-                                <p class='whiteBold'>{$InfoCallViewCh['DadosCh']}</p><br>";
+                                <label>Horário Chamado Operadora</label>
+                                <p class='whiteBold'>{$InfoCallViewCh['DadosCh']['o_hr_ch_op']}</p><br>";
 
                                 if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) or ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
                                     if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) and ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
@@ -319,7 +320,8 @@
                                 </div>  
                                 <?php
                             elseif ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
-                                echo "<p>Causa do Problema</p>";
+                                echo "<div class='form-group'>";
+                                echo "<label>Causa do Problema</label>";
                                 echo "<p>{$InfoCallViewCh['DadosCh']['o_causa_prob']}</p>";
                                 echo "</div>";
                             endif;
@@ -392,25 +394,16 @@
                                     endif;
                                 endif;
                                 if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 6 and $_SESSION['user']['Nv'] <= 2):
-                                    echo "<p>Momento da Normalização:</p>";
-                                    echo "<input type='text' readonly name='o_hr_up' class='form-control j-date-picker' placeholder='Informe aqui'>";
+                                    echo "<label>Momento da Normalização:</label>";
+                                    echo "<input type='text' name='o_hr_up' class='form-control j-date-picker j_fer' placeholder='Informe aqui'>";
                                 elseif ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
-                                    $InfoCallViewCh['DadosCh']['o_hr_up'] = DataBR($InfoCallViewCh['DadosCh']['o_hr_up']);
-                                    echo "<p>Momento da Normalização:</p>";
+                                    $InfoCallViewCh['DadosCh']['o_hr_up'] = $Util->DataBR($InfoCallViewCh['DadosCh']['o_hr_up']);
+                                    echo "<label>Momento da Normalização:</label>";
                                     echo "<p>{$InfoCallViewCh['DadosCh']['o_hr_up']}</p>";
                                 endif;
-                                if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 6 or $InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
-                                    if (!empty($InfoCallViewCh['DadosCh']['o_prot_op'])):
-                                        echo "<p'>RAT do Chamado:</p>";
-                                        if (empty($InfoCallViewCh['DadosCh']['o_rat'])):
-                                            echo "<p  class='whiteBold'>RAT Não Encontrada!</p>";
-                                            echo "<input  type='file' name='o_rat'>";
-                                        elseif (!empty($InfoCallViewCh['DadosCh']['o_rat'])):
-                                            echo " <a onclick=\"window.open(this.href, 'Not', 'width=825, height=525');return false;\"\  id='Not' href='rat.php?loc={$InfoCallViewCh['DadosCh']['o_rat']}'><input class='rat' type='button' value='Visualizar RAT'></a>";
-                                        endif;
-                                    endif;
-                                endif;
+                                
                                 ?>
+                            
                             </div>
                         </div>	
 
@@ -435,12 +428,14 @@
                                        endforeach;  
                                     ?> 
                                 </div>
+                                
+                                
                                 <div class="new-notas col-md-8">
-                                   <textarea name="obs" rows="5" cols="100" maxlength="900" placeholder="Deixe seu comentário aqui!" class="form-control j-new-nota"></textarea>
-                                   <button type="button" class="btn btn-danger btn-add-nota j-btn-nota"><i class="fa fa-plus-square" aria-hidden="true">Adicionar Nota </i></button> 
+                                   <textarea name="obs" <?=$Disabled?> rows="5" cols="100" maxlength="900" placeholder="Deixe seu comentário aqui!" class="form-control j-new-nota"></textarea>
+                                   <button type="button" <?=$Disabled?> disabled="" class="btn btn-danger btn-add-nota j-btn-nota"><i class="fa fa-plus-square" aria-hidden="true">Adicionar Nota </i></button> 
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-danger btn-lg btn-sm save-buttom"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Salvar</button>
+                            <button type="submit" <?=$Disabled?> class="btn btn-danger btn-lg btn-sm save-buttom"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Salvar</button>
                         </div>
                     </content>
                 </div>
@@ -450,7 +445,6 @@
         </div>
         <!--INPUTS PARA AUXILIAR NA INSERÇÂO DE NOTAS-->
         <input type="hidden" value="<?=$_SESSION['user']['Nome']?>" class="nome">
-        <input type="hidden" value="<?= date('Y-m-d H:i:s');?>" class="hora">
         <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_cod']?>" class="ch">
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>

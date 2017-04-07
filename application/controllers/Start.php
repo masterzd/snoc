@@ -40,6 +40,12 @@ class Start extends CI_Controller {
     public function chamado() {
         $this->load->view('nova-ocorrencia');
     }
+    
+    public function sair(){
+        session_destroy();
+        header('Location:' . base_url('Start/?erro=1'));
+        return false;
+    }
 
     public function checklink() {
 

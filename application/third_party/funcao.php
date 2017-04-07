@@ -1,7 +1,6 @@
 <?php
 
 function calc_data($horaup, $horadown, $tempInds) {
-        
     //tempo  do expediente em minutos 
     $ini_exp = 510; // inicio
     $fim_exp = 1050; // fim 
@@ -9,7 +8,7 @@ function calc_data($horaup, $horadown, $tempInds) {
 
 
     //separando data de hora
-    $horacaiu = explode('T', $horadown);
+    $horacaiu = explode(' ', $horadown);
     $horavoltou = explode(' ', $horaup);
 
     //separando data, mes, ano

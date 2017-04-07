@@ -113,7 +113,7 @@
 
                         <div class="form-group">
                             <input type="text" name="termo" class="form-control j-termo-mP" placeholder="Loja, Circuito, Ocorrência, Rua, Bairro, Cidade, UF.">
-                            
+
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-danger btn-buscar-custom">Buscar</button>
@@ -128,11 +128,13 @@
                         <p>Ocorrências Abertas: XX</p>
                         <button class="btn btn-danger btn-ver-oc-ab">Ver Ocorrências Abertas</button>
                         <P>Ultimas Atualizações:</P>
-                        <?php 
-                           foreach ($Dados as $Eventos):
-                               echo "<p class='eventos'><a href='#'>{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
-                               echo "a ocorrência nº {$Eventos['e_chamado']} as {$Eventos['e_data']}</a></p><br>";
-                           endforeach;                        
+                        <?php
+                        if (!empty($Dados)):
+                            foreach ($Dados as $Eventos):
+                                echo "<p class='eventos'><a target='_blank' href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Eventos['e_chamado']}'>{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
+                                echo "a ocorrência nº {$Eventos['e_chamado']} as {$Eventos['e_data']}</a></p><br>";
+                            endforeach;
+                        endif;
                         ?>
 
                     </aside>					
@@ -147,10 +149,10 @@
         <script src="<?php echo base_url('/assets/js/bootstrap-datetimepicker.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap-datetimepicker.pt-BR.js') ?>" charset="UTF-8"></script>
         <script>
-            $('.jdateDown').datetimepicker({
-                format: 'yyyy-mm-dd hh:ii',
-                language: 'pt-BR'
-            });
+        $('.jdateDown').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            language: 'pt-BR'
+        });
         </script>
     </body>
 </html>

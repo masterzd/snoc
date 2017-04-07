@@ -98,7 +98,7 @@ class Ultilitario extends CI_Controller {
         return $Cat;
     }
 
-    public function TimeInds($NumCh, $HrUP, $HrDW) {        
+    public function TimeInds($NumCh, $HrUP, $HrDW) { 
         $T = array('b');
         $D = array('ok');
         $QR = "SELECT TIMEDIFF(o_hr_up, tb_ocorrencias.o_hr_dw)o_difftime, o_cod, o_hr_dw, o_hr_up FROM tb_ocorrencias WHERE o_cod LIKE {$NumCh}";

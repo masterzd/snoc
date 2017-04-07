@@ -10,7 +10,7 @@
                 <li role="presentation" class="custom-ancor"><a href="#">DashBoard</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">ADM</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">Sobre</a></li>
-                <li class="custom-ancor"><a href="#">Sair</a></li>
+                <li class="custom-ancor"><a href="logoff">Sair</a></li>
             </ul>
 
             <img src="<?php echo base_url($_SESSION['user']['Img']) ?>" title="<?= $_SESSION['user']['Nome'] ?>" class="custom-nav img-responsive user-img">
