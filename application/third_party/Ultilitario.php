@@ -9,7 +9,7 @@ class Ultilitario extends CI_Controller {
     public function __construct() {
         $this->CI = & get_instance();
         $this->CI->load->Model('Crud');
-        require APPPATH.'third_party/funcao.php';
+        require APPPATH . 'third_party/funcao.php';
     }
 
     public function DataBR($Data) {
@@ -98,20 +98,46 @@ class Ultilitario extends CI_Controller {
         return $Cat;
     }
 
-    public function TimeInds($NumCh, $HrUP, $HrDW) { 
+    public function TimeInds($NumCh, $HrUP, $HrDW) {
         $T = array('b');
         $D = array('ok');
         $QR = "SELECT TIMEDIFF(o_hr_up, tb_ocorrencias.o_hr_dw)o_difftime, o_cod, o_hr_dw, o_hr_up FROM tb_ocorrencias WHERE o_cod LIKE {$NumCh}";
         $this->CI->Crud->calldb($T, 'SELECT', $D, 0, $QR);
-        $difftime = $this->CI->Crud->Results['Dados'][0]['o_difftime']; 
-        $this->Worktime($NumCh ,$HrUP, $HrDW, $difftime);
+        $difftime = $this->CI->Crud->Results['Dados'][0]['o_difftime'];
+        $this->Worktime($NumCh, $HrUP, $HrDW, $difftime);
     }
-    
-    private function Worktime($NumCh ,$HrUP, $HrDW, $DIF){
+
+    private function Worktime($NumCh, $HrUP, $HrDW, $DIF) {
         $worktime = calc_data($HrUP, $HrDW, $DIF);
         $where = array('o_cod' => $NumCh);
         $Time = array('o_time_ind' => $DIF, 'o_time_work' => $worktime);
         $this->CI->Crud->calldb('tb_ocorrencias', 'UPDATE', $Time, $where);
+    }
+
+    public function ConvSeg($Data) {
+        $termo = "T";
+        /* Condição Para checar a variável data */
+        if (strstr($Data, $termo) == TRUE):
+            $quebradata = explode('T', $Data);
+        else:
+            $quebradata = explode(' ', $Data);
+        endif;
+        /* Lista de variáveis geradas a partir do explode feito na variável Data */
+        list($data, $hora) = $quebradata;
+
+        /* Fragmentamos a variável $data e separamos em 3 variáveis com os valores de ano, mes, dia */
+        $ArData = explode('-', $data);
+        list($ano, $mes, $dia) = $ArData;
+
+        /* Fragmentamos a variável $hora e separamos em 3 variáveis com os valores de hora, minuto, segundo */
+        $ArHora = explode(':', $hora);
+        list($hora, $min) = $ArHora;
+        $seg = 00;
+
+        /* conversão dos valores para segundos. */
+        $DataConv = mktime($hora, $min, $seg, $mes, $dia, $ano);
+
+        return $DataConv;
     }
 
 }

@@ -131,7 +131,7 @@
                         <?php
                         if (!empty($Dados)):
                             foreach ($Dados as $Eventos):
-                                echo "<p class='eventos'><a target='_blank' href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Eventos['e_chamado']}'>{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
+                                echo "<p class='eventos'><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Eventos['e_chamado']}'>{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
                                 echo "a ocorrência nº {$Eventos['e_chamado']} as {$Eventos['e_data']}</a></p><br>";
                             endforeach;
                         endif;

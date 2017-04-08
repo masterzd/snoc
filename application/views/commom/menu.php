@@ -4,8 +4,8 @@
         <div class="col-md-12 menu-top">
             <img src="<?php echo base_url('assets/img/SNOC3.png') ?>" alt="SISNOC LOGO" class="img-responsive custom-nav custom-img">
             <ul class="nav nav-pills custom-nav custom-opc">
-                <li role="presentation" class="custom-ancor"><a href="menuprincipal">Home</a></li>
-                <li role="presentation" class="custom-ancor"><a href="manager">Gerenciamento</a></li>
+                <li role="presentation" class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/menuprincipal">Home</a></li>
+                <li role="presentation" class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/manager">Gerenciamento</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">Relatórios</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">DashBoard</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">ADM</a></li>

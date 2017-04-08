@@ -1,16 +1,18 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Chamado extends CI_Controller {
 
-    public  $DadosLoja;
+    public $DadosLoja;
     private $Ocorrência;
     private $ContatosSms;
     private $Chamado;
     private $ResultSms;
 
-    function __construct() {        
+    function __construct() {
         parent::__construct();
-        $this->load->model('Crud'); 
+        $this->load->model('Crud');
         $this->load->library('sendsms');
         $this->load->library('infolojas');
         $this->load->helper('url');
@@ -29,7 +31,10 @@ class Chamado extends CI_Controller {
         $Dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
         if (!empty($Dados) and ! empty($Dados['o_loja'])):
-            $Dados['o_status'] = 'Funcionando_' . $Dados['o_status'];
+            if ($Dados['o_status'] != 'Loja Offline'):
+                $Dados['o_status'] = 'Funcionando_' . $Dados['o_status'];
+            endif;
+
             /* 1 Etapa: Verifica e levanta os dados da loja que são necessários para a ocorrência */
 
             if (!empty($_SESSION['InfoCallViewCh'])):
@@ -38,9 +43,9 @@ class Chamado extends CI_Controller {
             endif;
 
             if (!empty($_SESSION['CtlCh']['ChETP1']) and $_SESSION['CtlCh']['ChETP1'] === 'N'):
-                   $this->infolojas->CheckDadosLoja($Dados['o_loja'], $Dados['o_link']);
-                   $this->DadosLoja = $this->infolojas->DadosLoja;
-                   $this->ContatosSms = $this->infolojas->ContatosSms;
+                $this->infolojas->CheckDadosLoja($Dados['o_loja'], $Dados['o_link']);
+                $this->DadosLoja = $this->infolojas->DadosLoja;
+                $this->ContatosSms = $this->infolojas->ContatosSms;
                 if (empty($this->DadosLoja['Loja'])):
                     $Er['erro'] = $this->DadosLoja['mensagem'];
                     $this->load->view('menuprincipal', $Er);

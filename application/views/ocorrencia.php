@@ -2,7 +2,7 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <title>Nova Ocorrência - SISNOC</title>
+        <title>Ocorrência: <?= $InfoCallViewCh['DadosCh']['o_cod'] ?>, Loja : <?= $InfoCallViewCh['DadosLoja']['Loja']['lj_num'] ?> - SISNOC</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.min.css') ?>">	
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/chamado.css') ?>">
@@ -41,7 +41,7 @@
         $this->load->view('commom/menu.php');
 
         $Necessidade = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Abertura Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Inadiplência' : 'Outros')))));
-        $SiT = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 7 ? 'Falta de Pagamento (Inadiplência)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'Fechado': 'Cancelado'))))));
+        $SiT = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 7 ? 'Falta de Pagamento (Inadiplência)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'Fechado': ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 8 ?'Cancelado': 'Pré-Fechamento')))))));
         $Disabled = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'disabled' : '');
         ;
         ?>
@@ -428,11 +428,10 @@
                                        endforeach;  
                                     ?> 
                                 </div>
-                                
-                                
+
                                 <div class="new-notas col-md-8">
                                    <textarea name="obs" <?=$Disabled?> rows="5" cols="100" maxlength="900" placeholder="Deixe seu comentário aqui!" class="form-control j-new-nota"></textarea>
-                                   <button type="button" <?=$Disabled?> disabled="" class="btn btn-danger btn-add-nota j-btn-nota"><i class="fa fa-plus-square" aria-hidden="true">Adicionar Nota </i></button> 
+                                   <button type="button" <?=$Disabled?> class="btn btn-danger btn-add-nota j-btn-nota"><i class="fa fa-plus-square" aria-hidden="true">Adicionar Nota </i></button> 
                                 </div>
                             </div>
                             <button type="submit" <?=$Disabled?> class="btn btn-danger btn-lg btn-sm save-buttom"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Salvar</button>
@@ -446,6 +445,7 @@
         <!--INPUTS PARA AUXILIAR NA INSERÇÂO DE NOTAS-->
         <input type="hidden" value="<?=$_SESSION['user']['Nome']?>" class="nome">
         <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_cod']?>" class="ch">
+        <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_sit_ch']?>" class="sitCh">
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>

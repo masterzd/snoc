@@ -234,15 +234,7 @@
                     </div>
                 </div>
                 <!--DADOS PARA SEREM TRANSFERIDOS PARA A ETAPA DE GRAVAÇÂO DA OCORRÊNCIA-->
-                    <input type="hidden" name="">
-                    <input type="hidden" name="">
-                    <input type="hidden" name="">
-                    <input type="hidden" name="">
-                    <input type="hidden" name="">
-                    <input type="hidden" name="">
-                    <input type="hidden" name="">
-                    <input type="hidden" name="">
-                    <input type="hidden" name="">
+                    <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_sit_ch']?>" class="sitCh">
                 <div class="row">
                     <content class="col-md-11 col-xs-12 conteudo col-person">
                         <div class="col3 col-md-7 col-xs-11 col-generic ">

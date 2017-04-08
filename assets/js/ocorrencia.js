@@ -84,8 +84,8 @@ $(function () {
         if (a == 2) {
 
             var b = document.getElementsByName('direcionar').length;
-
-            if (b == 0) {
+            console.log($('.sitCh').val());    
+            if (b == 0 && ($('.sitCh').val() < '3'|| $('.sitCh').val() > '4')) {
                 $('.j_action').append("<label class='j_remove'>Necessidade:</label> <select class='select j_remove j_ch_opt j_disabled_opt form-control' name='direcionar' required><option value=''>Selecione...</option> <option class='j_disable_o' value='2'>Abertura de Chamado Operadora</option><option class='j_disable_t' value='3'>Técnico Regional</option>\n\
 			              <option class='j_disable_s' value='4'>SEMEP</option><option value='5'>Restabelecimento de Energia</option><option value='7'>Pagamento de Fatura (Inadiplência)</option></select>");
 
