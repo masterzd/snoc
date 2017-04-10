@@ -188,9 +188,9 @@
                                     if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) and ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
 
                                         echo "<label>Chamado SISMAN:</label>
-                                            <p class='whiteBold j_ctl_nece'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>
+                                            <p class='whiteBold j_ctl_nece j_sisman'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>
                                             <label>Chamado OTRS:</label>
-                                            <p class='whiteBold'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
+                                            <p class='whiteBold j_otrs'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
 
                                     elseif (!empty($InfoCallViewCh['DadosCh']['o_sisman'])):
 
@@ -220,9 +220,9 @@
                                     if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) and ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):
 
                                         echo "<label>Chamado SISMAN:</label>
-                                            <p class='whiteBold j_ctl_nece'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>
+                                            <p class='whiteBold j_ctl_nece j_sisman'>{$InfoCallViewCh['DadosCh']['o_sisman']}</p>
                                             <label>Chamado OTRS:</label>
-                                            <p class='whiteBold'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
+                                            <p class='whiteBold j_otrs'>{$InfoCallViewCh['DadosCh']['o_otrs']}</p>";
 
                                     elseif (!empty($InfoCallViewCh['DadosCh']['o_sisman'])):
 

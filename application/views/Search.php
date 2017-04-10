@@ -40,7 +40,7 @@
                                     <th>Estado</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="j-replace">
                                 <?php
                                 foreach ($Lojas as $L):
                                     echo "   
@@ -56,7 +56,34 @@
                             </tbody>
                         </table>
                     </div>
+                    <?php 
+          if($Lojas['Count'] > 2):
+                    ?>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Anterior</span>
+                                </a>
+                            </li>
+                            <?php                            
+                                for ($i = 1; $i < $Lojas['Count']; $i++):
+                                    if ($i <= 15):
+                                        echo "<li class=\"page-item\"><a class=\"page-link j-link-pag\" href=\"{$i}\">{$i}</a></li>";
+                                    endif;
+                                endfor;
+                            ?>
 
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Próximo</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+               <?php endif; ?>     
                 </content>
             </div>
             <div class="row">
@@ -139,11 +166,12 @@
                 </content>
             </div>
         </div>
-
+        <input type="hidden" class="termo" value="<?= $Termo ?>">
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/scripts.js') ?>"></script>
+        <script src="<?php echo base_url('/assets/js/search.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/menu-topo.js') ?>"></script>
     </body>
 </html>

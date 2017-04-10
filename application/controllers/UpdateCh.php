@@ -12,7 +12,6 @@ class UpdateCh extends CI_Controller {
     private $ContatosSms;
     private $DadosIn;
     private $Ultilitarios;
-    private $SitCh;
 
     function __construct() {
         parent::__construct();
@@ -41,7 +40,7 @@ class UpdateCh extends CI_Controller {
             $this->ContatosSms = $_SESSION['Ocorrência_' . $Ch['o_cod']]['InfoCallViewCh']['Contatos'];
             unset($_SESSION['Ocorrência_' . $Ch['o_cod']], $Ch['obs'], $Ch['o_cod']);
             $this->DadosIn = $Ch;
-                       
+
             $Exe = NULL;
 
             switch ($this->Chamado['o_sit_ch']):
@@ -59,32 +58,32 @@ class UpdateCh extends CI_Controller {
                     break;
             endswitch;
             if ($Exe == TRUE):
-
-                if ($this->Chamado['o_sit_ch'] == 2):
+                
+                if($this->Chamado['o_sit_ch'] == 2):
                     $SMS = $this->enviaSms(5);
-                elseif ($this->Chamado['o_sit_ch'] == 3):
-
+                elseif ($this->DadosIn['sit'] == 1 and preg_match('/Cancelamento/', $this->DadosIn['o_causa_prob']) == 0):
+                    $SMS = $this->enviaSms(2);
+                elseif ($this->DadosIn['direcionar'] == 2):
+                    $SMS = $this->enviaSms(3);
+                elseif ($this->DadosIn['direcionar'] == 3):
                     /* Enviando Email */
 //                    $Mensagem = "Caros Operadores:<br><br> A ocorrência {$this->Chamado['o_cod']} da loja {$this->Chamado['o_loja']} foi Atualizada pelo Técnico {$_SESSION['user']['Nome']}. Favor dar Continuidade a ocorrência.";
 //                    $Assunto = "Atualização da ocorrência: {$this->Chamado['o_cod']}. Loja: {$this->Chamado['o_loja']}";
 //                    $Destinatarios = $this->Ultilitarios->CheckDestinatários(3, $this->Loja['tr_cod']);
 //                    $Email = $this->enviaEmail($Assunto, $Mensagem, $Destinatarios);
-                    /* Enviando SMS */
+                    /* Envio SMS */
                     $SMS = $this->enviaSms(4);
-                elseif ($this->Chamado['o_sit_ch'] == 4):
-                    /* Enviando SMS */
+                elseif ($this->DadosIn['direcionar'] == 4):
                     $SMS = $this->enviaSms(7);
-                elseif ($this->SitCh == 1 and preg_match('/Cancelamento/', $this->DadosIn['o_causa_prob']) == 0):
-                    $SMS = $this->enviaSms(2);
-                elseif ($this->DadosIn['direcionar'] == 5):
+                elseif($this->DadosIn['direcionar'] == 5):
                     $SMS = $this->enviaSms(6);
-
                 else:
                     $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
                     $Erro['Msg'] = 'Consegui salvar o chamado. Mas não consegui determinar se envio SMS ou Email. Contate o suporte';
                     $this->load->view('errors/Erro', $Erro);
                     return false;
                 endif;
+                
             else:
                 $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
                 $Erro['Msg'] = 'Falha ao processar os dados ou a Hora que foi informada de normalização é menor que a hora que o link caiu. Verifique os dados e tente novamente.';
@@ -160,11 +159,17 @@ class UpdateCh extends CI_Controller {
         else:
             return true;
         endif;
-        $this->SitCh = $this->DadosIn['sit'];
-        unset($this->DadosIn['sit']);
+
+        $Ocorrência = $this->DadosIn;
+        unset($Ocorrência['sit']);
+
+        if (!empty($Ocorrência['direcionar'])):
+            unset($Ocorrência['direcionar']);
+        endif;
+
         $this->DadosIn['o_last_update'] = date('Y-m-d H:i:s');
         $Where = array('o_cod' => $this->Chamado['o_cod']);
-        $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $this->DadosIn, $Where);
+        $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Ocorrência, $Where);
         $this->saveEventos('Alterou');
         return $this->Crud->Results;
     }
@@ -179,16 +184,16 @@ class UpdateCh extends CI_Controller {
             if ($HrUP < $HrDown):
                 return false;
             endif;
-            $this->SitCh = $this->DadosIn['sit'];
-            unset($this->DadosIn['sit']);
-            $this->DadosIn['o_sit_ch'] = (preg_match('/Cancelamento/', $this->DadosIn['o_causa_prob']) ? 8 : 1 );
-            $this->DadosIn['o_cat_prob'] = $this->Ultilitarios->CatProblema($this->DadosIn['o_causa_prob']);
-            $this->DadosIn['o_opr_fc'] = $_SESSION['user']['Nome'];
-            $this->DadosIn['o_hr_fc'] = date('Y-m-d H:i:s');
-            $this->DadosIn['o_last_update'] = date('Y-m-d H:i:s');
+            $Ocorrencia = $this->DadosIn;
+            unset($Ocorrencia['sit']);
+            $Ocorrencia['o_sit_ch'] = (preg_match('/Cancelamento/', $this->DadosIn['o_causa_prob']) ? 8 : 1 );
+            $Ocorrencia['o_cat_prob'] = $this->Ultilitarios->CatProblema($this->DadosIn['o_causa_prob']);
+            $Ocorrencia['o_opr_fc'] = $_SESSION['user']['Nome'];
+            $Ocorrencia['o_hr_fc'] = date('Y-m-d H:i:s');
+            $Ocorrencia['o_last_update'] = date('Y-m-d H:i:s');
             $Where = array('o_cod' => $this->Chamado['o_cod']);
-            $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $this->DadosIn, $Where);
-            $this->Ultilitarios->TimeInds($this->Chamado['o_cod'], $this->DadosIn['o_hr_up'], $this->Chamado['o_hr_dw']);
+            $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Ocorrencia, $Where);
+            $this->Ultilitarios->TimeInds($this->Chamado['o_cod'], $Ocorrencia['o_hr_up'], $this->Chamado['o_hr_dw']);
             $this->saveEventos('Fechou');
             $Exe = $this->Crud->Results;
         elseif ($this->DadosIn['sit'] == 2):
@@ -220,7 +225,7 @@ class UpdateCh extends CI_Controller {
     }
 
     private function enviaSms($Etapa) {
-        return  $this->sendsms->sms($this->ContatosSms, $this->Chamado, $this->Loja, $Etapa);
+        return $this->sendsms->sms($this->ContatosSms, $this->Chamado, $this->Loja, $Etapa);
     }
 
 }
