@@ -71,6 +71,12 @@ class Search extends CI_Controller {
             endif;
 
         else:
+             if (empty($_SESSION)):
+                    session_start();
+                endif;
+                $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
+                $Erro['Msg'] = "Não entendi o que você deseja pesquisar. Favor Volte e tente novamente.";
+                $this->load->view('errors/Erro', $Erro);
         endif;
     }
 
@@ -78,7 +84,7 @@ class Search extends CI_Controller {
         
         /* Consulta a quantidade total de registros na tabela */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
-                . "where lj_num = '{$Termo}' or lj_end like '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_end like '%{$Termo}%' or lj_cidade like '%{$Termo}%'";
+                . "where lj_num = '{$Termo}' or lj_end like '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_end like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}'";
         $T = array('o');
         $D = array('i');
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
@@ -86,17 +92,19 @@ class Search extends CI_Controller {
         
         /* Consulta com a condição */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
-                . "where lj_num = '{$Termo}' or lj_end like '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_end like '%{$Termo}%' or lj_cidade like '%{$Termo}%' LIMIT 6 OFFSET 0";
+                . "where lj_num = '{$Termo}' or lj_end like '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_end like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";
         $T = array('o');
         $D = array('i');
         
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
         $this->ResultLojas = $this->Crud->Results['Dados'];
-        $this->ResultLojas['Count'] = ceil($Count / 5);
+        if($Count >= 1):
+            $this->ResultLojas['Count'] = ceil($Count / 5);
+        endif;
     }
 
     private function searchCircuitos($Termos) {
-        $QR = "select * from tb_circuitos where cir_desig like '%{$Termos}%'";
+        $QR = "select * from tb_circuitos where cir_desig like '%{$Termos}%' or cir_ip_link = '{$Termos}'";
         $T = array('o');
         $D = array('i');
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
@@ -110,7 +118,7 @@ class Search extends CI_Controller {
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
         $CountOcorrencia = $this->Crud->Results['lines'];
         
-        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%')";
+        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%') LIMIT 6 OFFSET 0 ";
         $T = array('o');
         $D = array('i');
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);

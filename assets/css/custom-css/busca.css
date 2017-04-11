@@ -54,3 +54,16 @@ body{
 th{
     text-align: center;
 }
+
+.c-pg{
+  margin-left: 42%; 
+}
+
+.color-btn-side{
+    background-color: #d9534f;
+    color: white;
+}
+
+.color-btn-side:hover{
+    background-color: #cd8d91; 
+}

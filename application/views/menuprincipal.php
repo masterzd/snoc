@@ -112,7 +112,7 @@
                     <form action="busca" method="POST" class="j_busca-Menu">
 
                         <div class="form-group">
-                            <input type="text" name="termo" class="form-control j-termo-mP" placeholder="Loja, Circuito, Ocorrência, Rua, Bairro, Cidade, UF.">
+                            <input type="text" name="termo" required="" title="Informe algo para eu pesquisar" class="form-control j-termo-mP" placeholder="Loja, Circuito, Ocorrência, Rua, Bairro, Cidade, UF.">
 
                         </div>
                         <div class="form-group">

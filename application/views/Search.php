@@ -56,34 +56,28 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php 
-          if($Lojas['Count'] > 2):
-                    ?>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                    <span class="sr-only">Anterior</span>
-                                </a>
-                            </li>
-                            <?php                            
-                                for ($i = 1; $i < $Lojas['Count']; $i++):
-                                    if ($i <= 15):
-                                        echo "<li class=\"page-item\"><a class=\"page-link j-link-pag\" href=\"{$i}\">{$i}</a></li>";
-                                    endif;
-                                endfor;
-                            ?>
+                    <?php
+                    if ($Lojas['Count'] > 2):
+                        ?>
+                        <nav aria-label="Page navigation" class="j-remove-ctl c-pg">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link j-link-pag color-btn-side" href="-" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Anterior</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link page-current" onclick="return false;" href="1">1 de <?= $Lojas['Count'] ?></a></li>
 
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&raquo;</span>
-                                    <span class="sr-only">Próximo</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-               <?php endif; ?>     
+                                <li class="page-item">
+                                    <a class="page-link j-link-pag color-btn-side" href="+" aria-label="Previous">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Próximo</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    <?php endif; ?>     
                 </content>
             </div>
             <div class="row">
@@ -103,8 +97,10 @@
                                     <th>Situação:</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="j-replace-ch">
                                 <?php
+                                $ChamadosCount = $Chamados['CountOcorrencias'];
+                                unset($Chamados['CountOcorrencias']);
                                 foreach ($Chamados as $C):
                                     if ($C != NULL):
                                         foreach ($C as $Ch):
@@ -148,7 +144,7 @@
 
                                             echo"
                                         <tr>
-                                            <td>{$Ch['o_cod']}</td>
+                                            <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Ch['o_cod']}'>{$Ch['o_cod']}</a></td>
                                             <td>{$Ch['o_loja']}</td>
                                             <td>{$Ch['o_link']}</td>
                                             <td>{$Ch['o_prazo']}</td>
@@ -162,11 +158,35 @@
                                 ?>
                             </tbody>
                         </table>
-                    </div>                    
+                    </div>
+                     <?php
+                    if ($ChamadosCount > 2):
+                        ?>
+                        <nav aria-label="Page navigation" class="j-remove-ctl c-pg">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link j-link-pag-ch color-btn-side" href="-" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Anterior</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link page-current-ch" onclick="return false;" href="1">1 de <?= $ChamadosCount ?></a></li>
+
+                                <li class="page-item">
+                                    <a class="page-link j-link-pag-ch color-btn-side" href="+" aria-label="Previous">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Próximo</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    <?php endif; ?>    
                 </content>
             </div>
         </div>
         <input type="hidden" class="termo" value="<?= $Termo ?>">
+        <input type="hidden" class="totalpag" value="<?=$Lojas['Count']?>">
+        <input type="hidden" class="totalpag-ch" value="<?=$ChamadosCount?>">
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>
