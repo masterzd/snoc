@@ -162,7 +162,6 @@ $(function () {
     });
 
     var TestePing = function () {
-        console.log("ok");
         $.post(urlBaseCh + '/testePing', {ip: $(".j_link" + lk).find("p").eq(2).html()}, function (r) {
 
             var regExSucess = /Teste Feito com sucesso/;

@@ -129,5 +129,19 @@ class Start extends CI_Controller {
             die("Falha ao Carregar os dados - ARR_REG");
         endif;
     }
+    
+    public function consultaFilial(){
+        
+        $LJ = (int) $this->input->get('Lj');
+        if ($LJ == NULL):
+            die('Parametro inválido');
+        endif;
+        
+        $this->load->library('infolojas');
+        $this->infolojas->CheckDadosLoja($LJ);
+        $LojasInfo = $this->infolojas->DadosLoja;
+        $LojasInfo['Resp'] = $this->infolojas->ContatosSms;
+        $this->load->view('filiais', $LojasInfo);        
+    }
 
 }

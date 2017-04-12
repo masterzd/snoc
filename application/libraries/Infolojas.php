@@ -17,7 +17,7 @@ class Infolojas extends CI_Controller{
         $this->CI->load->model('Crud');
     }
     
-     public  function CheckDadosLoja($Loja, $Link) {
+     public  function CheckDadosLoja($Loja, $Link = 'MPLS') {
 
         $L = array('lj_num' => $Loja);
         $this->CI->Crud->calldb('tb_lojas', 'SELECT', $L);

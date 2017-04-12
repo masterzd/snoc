@@ -1,0 +1,65 @@
+body{
+    background-image: url('../../img/wallblack.jpeg');
+}
+
+.topo{
+    background-color: #FFB900;
+    margin-top: 8%;
+    margin-left: 17%;
+    padding: 1.5%;
+}
+
+.topo h1{
+    text-align: center;
+    font-size: 3em;
+    font-weight: 700;
+    color: black;
+}
+
+table {
+    background-color: darkgray;
+}
+
+.custom-loading{
+    width: 2%;
+    margin-left: 4%;
+    position: absolute;
+}
+
+
+caption {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    color: black;
+    text-align: center;
+    font-size: 1.2em;
+        font-weight: bold;
+}
+
+.table > thead > tr > th {
+    vertical-align: bottom;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+}
+
+td, th {
+    padding: 0;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.j-custom-input {
+    width: 55%;
+    margin-left: 19%;
+}
+
+.ajust-margin-top{
+    margin-top: 0;
+}
+
+.custom-status {
+    width: 3%;
+    margin-left: 3.5%;
+    margin-top: -0.5%;
+    position: absolute;
+}

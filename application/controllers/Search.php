@@ -99,7 +99,7 @@ class Search extends CI_Controller {
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
         $this->ResultLojas = $this->Crud->Results['Dados'];
         if($Count >= 1):
-            $this->ResultLojas['Count'] = ceil($Count / 5);
+            $this->ResultLojas['Count'] = ceil($Count / 6);
         endif;
     }
 
@@ -118,12 +118,12 @@ class Search extends CI_Controller {
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
         $CountOcorrencia = $this->Crud->Results['lines'];
         
-        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%') LIMIT 6 OFFSET 0 ";
+        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%') ORDER BY o_sit_ch DESC LIMIT 6 OFFSET 0 ";
         $T = array('o');
         $D = array('i');
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
         $this->ResultOcorrencias[] = $this->Crud->Results['Dados'];
-        $this->ResultOcorrencias['CountOcorrencias'] = ceil($CountOcorrencia / 5);
+        $this->ResultOcorrencias['CountOcorrencias'] = ceil($CountOcorrencia / 6);
     }
 
 

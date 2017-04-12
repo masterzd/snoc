@@ -42,7 +42,7 @@ class ShortHand_paginator extends CI_Controller {
     }
 
     private function paginacaoChamados() {
-        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$this->Termo}' or o_loja = '{$this->Termo}' or o_desig like '{$this->Termo}%') LIMIT {$this->Registros} OFFSET {$this->Offset}";
+        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$this->Termo}' or o_loja = '{$this->Termo}' or o_desig like '{$this->Termo}%') ORDER BY o_sit_ch DESC LIMIT {$this->Registros} OFFSET {$this->Offset}";
         $T = array('o');
         $D = array('i');
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
@@ -106,15 +106,15 @@ class ShortHand_paginator extends CI_Controller {
                     $SitCh = 'Sem informações';
             endswitch;
 
-            echo" <tr>
-                        <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Ch['o_cod']}'>{$Ch['o_cod']}</a></td>
-                        <td>{$Ch['o_loja']}</td>
-                        <td>{$Ch['o_link']}</td>
-                        <td>{$Ch['o_prazo']}</td>
-                        <td>{$Ch['o_opr_ab']}</td>
-                        <td>{$Sit}</td>
-                        <td>{$SitCh}</td>
-                     </tr>";
+           echo" <tr>
+                    <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Ch['o_cod']}'>{$Ch['o_cod']}</a></td>
+                    <td>{$Ch['o_loja']}</td>
+                    <td>{$Ch['o_link']}</td>
+                    <td>{$Ch['o_prazo']}</td>
+                    <td>{$Ch['o_opr_ab']}</td>
+                    <td>{$Sit}</td>
+                    <td>{$SitCh}</td>
+                </tr>";
         endforeach;
         echo" </tbody>";
     }

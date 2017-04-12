@@ -62,5 +62,6 @@ $route['save'] = 'Save/SaveCh';
 $route['logoff'] = 'Start/sair';
 $route['update'] = 'UpdateCh/update';
 $route['verchamado'] = 'Ocorrencia/ConsultaCh';
+$route['consulta-loja'] = 'Start/consultaFilial';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
