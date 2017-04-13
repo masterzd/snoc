@@ -115,17 +115,19 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                        foreach ($Links as $Link):  
+                                        $i = 1;
+                                        foreach ($Links as $Link):
                                           echo " 
                                                   <tr>
                                                    <td>{$Link['cir_link']}</td>
                                                    <td>{$Link['cir_desig']}</td>
                                                    <td>{$Link['cir_oper']}</td>
                                                    <td>{$Link['cir_band']}</td>
-                                                   <td class='Ip_link'>{$Link['cir_ip_link']}</td>
-                                                   <td><img src=" . base_url('assets/img/loading.gif') . " class='img-responsive custom-loading switch'></td>
+                                                   <td class='Ip_link' rel='{$Link['cir_link']}'>{$Link['cir_ip_link']}</td>
+                                                   <td><img src=". base_url('assets/img/loading.gif') . " class='img-responsive custom-loading' id='{$Link['cir_link']}'></td>
                                                   </tr> 
                                                 ";
+                                                $i++;   
                                         endforeach;
                                     ?>
                                 </tbody>

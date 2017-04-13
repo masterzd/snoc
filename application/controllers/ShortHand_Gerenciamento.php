@@ -293,11 +293,29 @@ class ShortHand_Gerenciamento extends CI_Controller {
                     $PingResult = $PingResult . "\n" . $Result;
                 endforeach;
                 if ($ICMP1 == TRUE AND $ICMP2 == TRUE AND $ICMP3 == TRUE AND $ICMP4 == TRUE):
-                    echo "Teste Feito com sucesso. Segue abaixo o resultado do Ping: \n" . $PingResult;
+                    $Retorno = array(
+                        'Resultado' => 'Teste Feito com sucesso',
+                        'ResultPing' => $PingResult,
+                        'Ip' => $IP['ip'],
+                        'link' => $IP['link']
+                    );
+                    echo json_encode($Retorno);
                 elseif ($ICMP1 == FALSE AND $ICMP2 == FALSE AND $ICMP3 == FALSE AND $ICMP4 == FALSE):
-                    echo "Falha ao fazer o ping. Segue abaixo o resultado do Ping: \n" . $PingResult;
+                    $Retorno = array(
+                        'Resultado' => 'Falha ao fazer o ping',
+                        'ResultPing' => $PingResult,
+                        'Ip' => $IP['ip'],
+                        'link' => $IP['link']
+                    );
+                   echo json_encode($Retorno);
                 else:
-                    echo "Perda de pacotes. Segue abaixo o resultado do Ping: \n" . $PingResult;
+                    $Retorno = array(
+                        'Resultado' => 'Perda de pacotes',
+                        'ResultPing' => $PingResult,
+                        'Ip' => $IP['ip'],
+                        'link' => $IP['link']
+                    );
+                   echo json_encode($Retorno);
                 endif;
             else:
                 echo"O IP informado não é válido.";

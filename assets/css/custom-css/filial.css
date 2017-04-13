@@ -63,3 +63,17 @@ td, th {
     margin-top: -0.5%;
     position: absolute;
 }
+
+.online{
+    background-color: green;
+    color: white;
+}
+
+.offline{
+    background-color: red;
+    color: white;
+}
+
+.losspacket{
+    background-color: yellow;
+}
