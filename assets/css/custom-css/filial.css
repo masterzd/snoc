@@ -77,3 +77,15 @@ td, th {
 .losspacket{
     background-color: yellow;
 }
+
+.form-group {
+    margin-bottom: 15px;
+    margin-left: 45%;
+}
+
+.lj-closed {
+    margin-left: 36%;
+    padding: 1%;
+    font-weight: bold;
+    color: red;
+}

@@ -84,8 +84,8 @@ $(function () {
         if (a == 2) {
 
             var b = document.getElementsByName('direcionar').length;
-            console.log($('.sitCh').val());    
-            if (b == 0 && ($('.sitCh').val() < '3'|| $('.sitCh').val() > '4')) {
+            console.log($('.sitCh').val());
+            if (b == 0 && ($('.sitCh').val() < '3' || $('.sitCh').val() > '4')) {
                 $('.j_action').append("<label class='j_remove'>Necessidade:</label> <select class='select j_remove j_ch_opt j_disabled_opt form-control' name='direcionar' required><option value=''>Selecione...</option> <option class='j_disable_o' value='2'>Abertura de Chamado Operadora</option><option class='j_disable_t' value='3'>Técnico Regional</option>\n\
 			              <option class='j_disable_s' value='4'>SEMEP</option><option value='5'>Restabelecimento de Energia</option><option value='7'>Pagamento de Fatura (Inadiplência)</option></select>");
 
@@ -150,63 +150,52 @@ $(function () {
     });
 
     /* Variáveis que auxiliam na função TestePing */
-    var lk = 1;
-    var lk2 = 1;
 
     /* Teste de ping na ocorrência */
     $(document).ready(function () {
-        $('[data-toggle="popover"]').popover() /
-                $("div[class*=j_link]").each(function () {
-            TestePing();
-        });
+        searchIp();
     });
+    
+    var searchIp = function(){
+       $("p[class*=j_link]").each(function () {
+            TestePing($(this).text(), $(this).attr('rel'));
+        }); 
+    }
+    
 
-    var TestePing = function () {
-        $.post(urlBaseCh + '/testePing', {ip: $(".j_link" + lk).find("p").eq(2).html()}, function (r) {
+    var TestePing = function (IP, Link) {
+        $.post(urlBaseCh + '/testePing', {ip: IP, link: Link}, function (r) {
 
-            var regExSucess = /Teste Feito com sucesso/;
-            var regExFail = /Falha ao fazer o ping/;
-            var regExLossPacket = /Perda de pacotes/;
+            var jsonArr = jQuery.parseJSON(r);
+            console.log(jsonArr);
 
-            $('.jImgLoad' + lk2).hide();
-            if (regExSucess.test(r)) {
-                $(".j_link" + lk2).addClass('online');
-                $(".j_link" + lk2).attr('data-content', r);
-            } else if (regExFail.test(r)) {
-                $(".j_link" + lk2).addClass('offline');
-            } else if (regExLossPacket.test(r)) {
-                $(".j_link" + lk2).addClass('packetLoss');
+            $('#' + jsonArr.link + ' img').hide();
+
+            if (jsonArr.Resultado == 'Teste Feito com sucesso') {
+                $('#' + jsonArr.link).addClass('online');
+            } else if (jsonArr.Resultado == 'Falha ao fazer o ping') {
+                $('#' + jsonArr.link).addClass('offline');
+            } else if (jsonArr.Resultado == 'Perda de pacotes') {
+                $('#' + jsonArr.link).addClass('packetLoss');
             }
-            lk2++;
         });
-        lk++;
+
     }
 
     /* Ação ao clicar em atualizar */
     $('.jrefresh').click(function () {
-        lk = 1;
-        lk2 = 1;
-        var ImgCtl = 1;
-
-        $("div[class*=j_link]").each(function () {
-            $('.jImgLoad' + ImgCtl).show();
-            if ($('.links').hasClass('online')) {
-                $("div[class*=j_link]").removeClass('online');
-            } else if ($('.links').hasClass('offline')) {
-                $("div[class*=j_link]").removeClass('offline');
-            } else if ($('.links').hasClass('packetLoss')) {
-                $("div[class*=j_link]").removeClass('packetLoss');
-            }
-            ImgCtl++;
-            TestePing();
-        });
+        $('.links').removeClass('online');
+        $('.links').removeClass('offline');
+        $('.links').removeClass('packetloss');
+        $('.links img').show();
+        searchIp();
     });
 
     /* Adicionando nota dinamicamente na ocorrência */
     $('.j-btn-nota').click(function () {
-        
+
         var makeData = makedata();
-        
+
         var content = $('.j-new-nota').val();
         var data = makeData['formatUsa'];
         var nome = $('.nome').val();
@@ -215,9 +204,9 @@ $(function () {
         $.post(urlBaseCh + '/Savenotas', {ch_user: nome, ch_nota: content, ch_time: data, o_cod: ch}, function (r) {
             if (r == 1) {
                 $('.ref').after("<div class='col-md-5 nota'>" +
-                "<p>" + nome + ", no dia " + makeData['formatBr'] + " disse:</p>" +
-                "<p>" + content + "</p>" +
-                "</div>");
+                        "<p>" + nome + ", no dia " + makeData['formatBr'] + " disse:</p>" +
+                        "<p>" + content + "</p>" +
+                        "</div>");
             }
         });
 
@@ -247,13 +236,13 @@ $(function () {
         if (mn <= 9) {
             mn = "0" + mn;
         }
-        
+
         var fdate = {
-          'formatUsa' :  y + "-" + m + "-" + d + " " + h + ":" + mn,
-          'formatBr' : d + "/" + m + "/" + y + " " + h + ":" + mn
+            'formatUsa': y + "-" + m + "-" + d + " " + h + ":" + mn,
+            'formatBr': d + "/" + m + "/" + y + " " + h + ":" + mn
         };
-                
-       return fdate;
+
+        return fdate;
     }
 
 });

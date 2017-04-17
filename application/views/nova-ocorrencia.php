@@ -93,27 +93,20 @@
                 <content class="col-md-11 col-xs-11 conteudo">
                     <h3>Conectividade</h3>					
                     <?php
-                    $i = 1;
                     foreach ($InfoCallViewCh['DadosLoja']['Links'] as $Link):
                         echo "
-                        <div class='links col-md-2 col-xs-4 j_link{$i}' data-toggle='popover' title='Link:{$Link['cir_link']}' data-content='Verificando...' data-placement='bottom'>
-                                <img src=" . base_url('assets/img/loading.gif') . " class='img-responsive custom-loading jImgLoad{$i}'>
+                        <div class='links col-md-2 col-xs-4' id='{$Link['cir_link']}'>
+                                <img src=" . base_url('assets/img/loading.gif') . " class='img-responsive custom-loading'>
                                 <p>{$Link['cir_link']}</p>
                                 <p>{$Link['cir_desig']}</p>
-                                <p>{$Link['cir_ip_link']}</p>
-                        </div>";
-
-                        if ($i < 3):
-                            $i++;
-                        else:
-                            break;
-                        endif;
+                                <p class='j_link' rel='{$Link['cir_link']}'>{$Link['cir_ip_link']}</p>
+                        </div>";       
                     endforeach;
                     ?>							
 
                     <div class="col-md-2 action-buttons col-xs-2">
                         <button class="btn btn-danger jrefresh" data-toogle="tooltip" data-placement="top" title="Checar Status do Link"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-                        <button class="btn btn-danger btn-more-info" data-toogle="tooltip" data-placement="top" title="Mais Informações"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                        <button class="btn btn-danger btn-more-info" data-toogle="tooltip" data-placement="top" title="Mais Informações"><a target="_blank" href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/consulta-loja/?Lj=<?=$InfoCallViewCh['DadosLoja']['Loja']['lj_num']?>" style="color: white"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></button>
                     </div>	
 
                 </content>				

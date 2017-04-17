@@ -7,12 +7,12 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.css') ?>">	
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/m-principal.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/menu.css') ?>">        
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css') ?>">        
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css') ?>">     
     </head>
     <script>
         function Erro(mensagem) {
             alert(mensagem);
-            location.href = 'http://localhost/CI_SISNOC/menuprincipal';
+            location.href = 'http://sisnoc.maquinadevendas.corp/CI_SISNOC/menuprincipal';
         }
     </script>
     <body>

@@ -23,10 +23,10 @@ class Infolojas extends CI_Controller{
         $this->CI->Crud->calldb('tb_lojas', 'SELECT', $L);
 
         if (is_array($this->CI->Crud->Results)):
-            if ($this->CI->Crud->Results['Dados'][0]['lj_sit' ] == 'Fechada'):
+            if ($this->CI->Crud->Results['Dados'][0]['lj_sit' ] == 'Fechada' and $this->CI->uri->uri_string != 'consulta-loja'):
                 $this->DadosLoja = array('mensagem' => 'Não é possível abrir uma ocorrência para a Loja informada. A loja encerrou as atividades', 'result' => false);
                 return false;
-            elseif ($this->CI->Crud->Results['Dados'][0]['r_cod'] == '0'):
+            elseif ($this->CI->Crud->Results['Dados'][0]['r_cod'] == '0' and $this->CI->uri->uri_string != 'consulta-loja'):
                 $this->DadosLoja = array('mensagem' => 'Não é possível abrir uma ocorrência para a Loja informada. A loja não possui regional cadastrada', 'result' => false);
                 return false;
             else:

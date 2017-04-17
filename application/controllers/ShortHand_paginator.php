@@ -54,7 +54,7 @@ class ShortHand_paginator extends CI_Controller {
         echo "<tbody class='j-replace'>";
         foreach ($this->ResultSet as $L):
             echo" <tr>
-                        <td>{$L['lj_num']}</td>
+                        <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/consulta-loja/?Lj={$L['lj_num']}'>{$L['lj_num']}</a></td>
                         <td>{$L['lj_end']}</td>
                         <td>{$L['lj_bairro']}</td>
                         <td>{$L['lj_cidade']}</td>

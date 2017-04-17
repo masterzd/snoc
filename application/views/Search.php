@@ -45,7 +45,7 @@
                                 foreach ($Lojas as $L):
                                     echo "   
                                      <tr>
-                                        <td>{$L['lj_num']}</td>
+                                        <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/consulta-loja/?Lj={$L['lj_num']}'>{$L['lj_num']}</a></td>
                                         <td>{$L['lj_end']}</td>
                                         <td>{$L['lj_bairro']}</td>
                                         <td>{$L['lj_cidade']}</td>
