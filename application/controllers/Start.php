@@ -148,5 +148,17 @@ class Start extends CI_Controller {
         $LojasInfo['Ocorrencias'] = $this->Crud->Results['Dados'];
         $this->load->view('filiais', $LojasInfo);        
     }
+    
+    public function chToday(){
+        $this->load->Model('Crud');
+        $QR1 = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '".date('Y-m-d')." 00:00:00' AND '".date('Y-m-d')." 23:59:59'";
+        $QR2 = "SELECT * FROM tb_ocorrencias WHERE o_hr_fc BETWEEN '".date('Y-m-d')." 00:00:00' AND '".date('Y-m-d')." 23:59:59'";
+        $TB = array('ok');
+        $this->Crud->calldb($TB, 'SELECT', $TB, 0, $QR1);
+        $DadosToday['abHoje'] = $this->Crud->Results['Dados'];
+        $this->Crud->calldb($TB, 'SELECT', $TB, 0, $QR2);
+        $DadosToday['fcHoje'] = $this->Crud->Results['Dados'];
+        $this->load->view('chamadoDia', $DadosToday);
+    }
 
 }

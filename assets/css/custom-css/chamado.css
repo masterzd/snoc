@@ -31,9 +31,11 @@ body{
 
 @media (max-width: 500px) {
     .cabecalho{
-        margin: 1% 2% 0% 0%;
+        margin: 1% 4% 0% -5%;
         position: relative;
         font-size: 0.7em;
+        width: 116%;
+        margin-left: -7%;
     }
 
     .title{
@@ -47,6 +49,8 @@ body{
     .hidden-table{
         display: none;
     }
+
+
 }
 
 
@@ -155,13 +159,13 @@ h3{
 
 @media (max-width: 500px){
     .links{
-        width: 34%;
-        font-size: 0.9em;
+        width: 32%;
+        font-size: 0.70em;
         top: 15px;
-        padding: 1%;
-        margin: 0%;
+        padding: 3%;
+        margin: 4%;
         margin-left: -0.9%;
-        left: 0%;
+        left: -3%;
     }
 
     .links:nth-child(3){
@@ -169,8 +173,10 @@ h3{
     }
 
     .action-buttons{
-        left: 34%;
-        top: 28px;
+        left: -33%;
+        top: 120px;
+        margin-bottom: 36%;
+        width: 17%;
     }
 
     .btn-more-info{
@@ -179,6 +185,13 @@ h3{
         top: -34px
     }
 
+    .conteudo {
+        background-color: #fcfbe0;
+        width: 116%;
+        border-left: solid 3px #FFB900;
+        border-right: solid 3px #FFB900;
+        margin-left: -7%;
+    }
 
 }
 

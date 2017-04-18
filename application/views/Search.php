@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Resultados da Busca - SISNOC</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/menu.css') ?>"> 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/busca.css') ?>"> 
@@ -20,13 +21,13 @@
 
         <div class="container-fluid">
             <div class="row">
-                <header class="col-md-10 header-busca">
+                <header class="col-md-10 col-xs-10 header-busca">
                     <h1 class="title-busca">Resultados da Busca</h1>
                     <p class="subTitle-busca">Exibindo resultados para: <?= $Termo ?></p>
                 </header>
             </div>
             <div class="row">
-                <content class="col-md-10 content-busca">
+                <content class="col-md-10 col-xs-10 content-busca">
                     <p class="title-busca-cat">Lojas:</p>
                     <hr class="line">
                     <div class="table-responsive">
@@ -34,7 +35,7 @@
                             <thead class="table-custom">
                                 <tr class="tb-color">
                                     <th>Loja</th>
-                                    <th>Endereço</th>
+                                    <th class="hidden-table">Endereço</th>
                                     <th>Bairro</th>
                                     <th>Cidade</th>
                                     <th>Estado</th>
@@ -46,7 +47,7 @@
                                     echo "   
                                      <tr>
                                         <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/consulta-loja/?Lj={$L['lj_num']}'>{$L['lj_num']}</a></td>
-                                        <td>{$L['lj_end']}</td>
+                                        <td class=\"hidden-table\">{$L['lj_end']}</td>
                                         <td>{$L['lj_bairro']}</td>
                                         <td>{$L['lj_cidade']}</td>
                                         <td>{$L['lj_uf']}</td>
@@ -81,7 +82,7 @@
                 </content>
             </div>
             <div class="row">
-                <content class="col-md-10 content-busca">
+                <content class="col-md-10 col-xs-10 content-busca">
                     <p class="title-busca-cat">Ocorrências:</p>
                     <hr class="line">
                     <div class="table-responsive">
@@ -91,9 +92,9 @@
                                     <th>Ocorrência</th>
                                     <th>Loja</th>
                                     <th>Link</th>
-                                    <th>Prazo de Normalização</th>
-                                    <th>Aberto por:</th>
-                                    <th>Emcaminhado para:</th>
+                                    <th class="hidden-table">Prazo de Normalização</th>
+                                    <th class="hidden-table">Aberto por:</th>
+                                    <th class="hidden-table">Emcaminhado para:</th>
                                     <th>Situação:</th>
                                 </tr>
                             </thead>
@@ -147,9 +148,9 @@
                                             <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Ch['o_cod']}'>{$Ch['o_cod']}</a></td>
                                             <td>{$Ch['o_loja']}</td>
                                             <td>{$Ch['o_link']}</td>
-                                            <td>{$Ch['o_prazo']}</td>
-                                            <td>{$Ch['o_opr_ab']}</td>
-                                            <td>{$Sit}</td>
+                                            <td class=\"hidden-table\">{$Ch['o_prazo']}</td>
+                                            <td class=\"hidden-table\">{$Ch['o_opr_ab']}</td>
+                                            <td class=\"hidden-table\">{$Sit}</td>
                                             <td>{$SitCh}</td>
                                         </tr>";
                                         endforeach;

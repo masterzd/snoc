@@ -73,7 +73,7 @@
                             </div>
                             <div class="form-group col-md-3 col-xs-11">
                                 <label for="alm" class="col-sm-2 control-label">Momento do Alarme:</label>
-                                <input required readonly="" type="text" name="o_hr_dw" class="form-control jdateDown">
+                                <input required readonly type="text" name="o_hr_dw" class="form-control jdateDown">
                                 <span class="add-on"><i class="icon-th"></i></span>
                             </div>
                             <div class="form-group">
@@ -126,7 +126,7 @@
                     <aside>
                         <p>Eventos</p>					
                         <p>Ocorrências Abertas: XX</p>
-                        <button class="btn btn-danger btn-ver-oc-ab">Ver Ocorrências Abertas</button>
+                        <a href="ocorrencias-diarias"><button class="btn btn-danger btn-ver-oc-ab">Ver Ocorrências Abertas</button></a>
                         <P>Ultimas Atualizações:</P>
                         <?php
                         if (!empty($Dados)):

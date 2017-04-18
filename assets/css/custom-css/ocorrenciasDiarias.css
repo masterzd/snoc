@@ -1,0 +1,14 @@
+body{
+    background-image: url('../../img/wallblack.jpeg');
+}
+
+.first{
+    background-color: #FFB900;
+    margin-top: 8%;
+    margin-left: 10%;
+    padding: 1.5%;
+}
+
+.table-responsive{
+    font-size: 0.85em;
+}

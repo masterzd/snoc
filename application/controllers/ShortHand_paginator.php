@@ -12,7 +12,9 @@ class ShortHand_paginator extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->Model('Crud');
+        
     }
+    
 
     public function definePaginator() {
         $Pg = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -110,9 +112,9 @@ class ShortHand_paginator extends CI_Controller {
                     <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Ch['o_cod']}'>{$Ch['o_cod']}</a></td>
                     <td>{$Ch['o_loja']}</td>
                     <td>{$Ch['o_link']}</td>
-                    <td>{$Ch['o_prazo']}</td>
-                    <td>{$Ch['o_opr_ab']}</td>
-                    <td>{$Sit}</td>
+                    <td class=\"hidden-table\">{$Ch['o_prazo']}</td>
+                    <td class=\"hidden-table\">{$Ch['o_opr_ab']}</td>
+                    <td class=\"hidden-table\">{$Sit}</td>
                     <td>{$SitCh}</td>
                 </tr>";
         endforeach;

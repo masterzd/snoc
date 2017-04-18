@@ -33,7 +33,7 @@ caption {
     color: black;
     text-align: center;
     font-size: 1.2em;
-        font-weight: bold;
+    font-weight: bold;
 }
 
 .table > thead > tr > th {
@@ -88,4 +88,35 @@ td, th {
     padding: 1%;
     font-weight: bold;
     color: red;
+}
+
+@media (max-width: 500px){
+
+    .topo {
+        background-color: #FFB900;
+        margin-top: 30%;
+        margin-left: 6%;
+        padding: 1.5%;
+        width: 91%;
+    }
+
+    .hidden-table{
+        display: none;
+    }
+
+    .j-btn-refresh{
+        margin-left: -28%;
+    }
+
+    .custom-loading {
+        width: 3%;
+        margin-left: 4%;
+        position: absolute;
+    }
+    
+    .lj-closed{
+        margin-left: 15%;
+    }
+
+
 }

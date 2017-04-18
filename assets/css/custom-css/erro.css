@@ -41,3 +41,34 @@ body{
     margin-left: 45%;
     margin-top: 2%;
 }
+
+@media (max-width: 500px){
+    .menssage-error{
+        margin-top: 47%;
+        margin-left: 14%;
+        width: 73%;
+    }
+
+    .img-error {
+        width: 40%;
+        margin: 3%;
+        margin-left: 30%;
+        margin-top: 5%;
+    }
+
+    .title-error{
+        margin-left: 11%;
+        font-weight: bold;
+        width: 82%;
+    }
+
+    .btn-erro{
+        margin-left: 27%;
+        margin-top: 8%;
+        margin-bottom: 5%;
+    }
+
+    .return-message{
+        padding: 0.8%;
+    }
+}

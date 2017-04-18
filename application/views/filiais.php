@@ -32,7 +32,7 @@
                                 <caption>Localização:</caption>
                                 <thead class="table-custom">
                                     <tr class="tb-color">
-                                        <th>Endereço</th>
+                                        <th class="hidden-table">Endereço</th>
                                         <th>Bairro</th>
                                         <th>Cidade</th>
                                         <th>Estado</th>									
@@ -40,7 +40,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td title="lj_end"><?= $Loja['lj_end'] ?></td>
+                                        <td class="hidden-table" title="lj_end"><?= $Loja['lj_end'] ?></td>
                                         <td title="lj_bairro"><?= $Loja['lj_bairro'] ?></td>
                                         <td title="lj_cidade"><?= $Loja['lj_cidade'] ?></td>
                                         <td title="lj_uf"><?= $Loja['lj_uf'] ?></td>
@@ -50,9 +50,9 @@
                             <table class="table table-striped" id="edit-table">
                                 <thead class="table-custom">
                                     <tr class="tb-color">								
-                                        <th class="hidden-table">Tipo de Loja</th>
-                                        <th class="hidden-table">Ramal</th>								
-                                        <th class="hidden-table">Tel. Fixo</th>	
+                                        <th>Tipo de Loja</th>
+                                        <th>Ramal</th>								
+                                        <th>Tel. Fixo</th>	
                                         <th class="hidden-table">Regional:</th>	
                                     </tr>
                                 </thead>
@@ -61,7 +61,7 @@
                                         <td title="lj_tipo" class="hidden-table"><?= $Loja['lj_tipo'] ?></td>								
                                         <td title="lj_tel_ram" class="hidden-table"><?= $Loja['lj_tel_ram'] ?></td>
                                         <td title="lj_tel_fix" class="hidden-table"><?= $Loja['lj_tel_fix'] ?></td>
-                                        <td title="r_cod" class="hidden-table"><?= $Loja['r_cod'] ?></td>
+                                        <td class="hidden-table" title="r_cod" class="hidden-table"><?= $Loja['r_cod'] ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -73,16 +73,16 @@
                                     <tr class="tb-color">
                                         <th>Gerente</th>
                                         <th>Corp. Gerente</th>
-                                        <th>Gerente Regional</th>
-                                        <th>Corp Ger. Regional</th>								                                     								                                     
+                                        <th class="hidden-table">Gerente Regional</th>
+                                        <th class="hidden-table">Corp Ger. Regional</th>								                                     								                                     
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td title="lj_ger"><?= $Loja['lj_ger'] ?></td>
                                         <td title="lj_tel_ger"><?= $Loja['lj_tel_ger'] ?></td>
-                                        <td></td>
-                                        <td><?= $Resp['GerReg'] ?></td>
+                                        <td class="hidden-table"></td>
+                                        <td class="hidden-table"><?= $Resp['GerReg'] ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -91,16 +91,16 @@
                                     <tr class="tb-color">							                                     
                                         <th>Diretor Regional</th>
                                         <th>Corp Dir. Regional</th>								                                     
-                                        <th>Resp. Técnico</th>
-                                        <th>Corp. Res. Técnico</th>								                                     
+                                        <th class="hidden-table">Resp. Técnico</th>
+                                        <th class="hidden-table">Corp. Res. Técnico</th>								                                     
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td></td>
                                         <td><?= $Resp['DirReg'] ?></td>
-                                        <td><?= $Loja['lj_resp_tec']['resp_nome'] ?></td>
-                                        <td><?= $Loja['lj_resp_tec']['resp_corp'] ?></td>
+                                        <td class="hidden-table"><?= $Loja['lj_resp_tec']['resp_nome'] ?></td>
+                                        <td class="hidden-table"><?= $Loja['lj_resp_tec']['resp_corp'] ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -112,8 +112,8 @@
                                     <tr class="tb-color">
                                         <th>Link</th>
                                         <th>Circuito</th>
-                                        <th>Operadora</th>
-                                        <th>Banda</th>
+                                        <th class="hidden-table">Operadora</th>
+                                        <th class="hidden-table">Banda</th>
                                         <th>Ip de monitoramento:</th>								                                     
                                         <th>Status:</th>								                                     
                                     </tr>
@@ -125,8 +125,8 @@
                                                   <tr>
                                                    <td>{$Link['cir_link']}</td>
                                                    <td>{$Link['cir_desig']}</td>
-                                                   <td>{$Link['cir_oper']}</td>
-                                                   <td>{$Link['cir_band']}</td>
+                                                   <td class=\"hidden-table\">{$Link['cir_oper']}</td>
+                                                   <td class=\"hidden-table\">{$Link['cir_band']}</td>
                                                    <td class='Ip_link' rel='{$Link['cir_link']}'>{$Link['cir_ip_link']}</td>
                                                    <td><img src=" . base_url('assets/img/loading.gif') . " class='img-responsive custom-loading j-reset' id='{$Link['cir_link']}'></td>
                                                   </tr> 
@@ -155,9 +155,9 @@
                                     <tr class="tb-color">
                                         <th>Ocorrência</th>
                                         <th>Link</th>
-                                        <th>Prazo de Normalização</th>
-                                        <th>Aberto por</th>									
-                                        <th>Emcaminhado para:</th>									
+                                        <th class="hidden-table">Prazo de Normalização</th>
+                                        <th class="hidden-table">Aberto por</th>									
+                                        <th class="hidden-table">Emcaminhado para:</th>									
                                         <th>Situação: </th>									
                                     </tr>
                                 </thead>
@@ -210,9 +210,9 @@
                                             <tr>
                                                 <td><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch=<?=$Ch['o_cod']?>"><?= $Ch['o_cod'] ?></a></td>
                                                 <td><?= $Ch['o_link'] ?></td>
-                                                <td><?= $util->DataBR($Ch['o_prazo']) ?></td>
-                                                <td><?= $Ch['o_opr_ab'] ?></td>    
-                                                <td><?= $Sit ?></td>    
+                                                <td class="hidden-table"><?= $util->DataBR($Ch['o_prazo']) ?></td>
+                                                <td class="hidden-table"><?= $Ch['o_opr_ab'] ?></td>    
+                                                <td class="hidden-table"><?= $Sit ?></td>    
                                                 <td><?= $SitCh ?></td> 
                                             </tr>
                                       <?php endforeach;

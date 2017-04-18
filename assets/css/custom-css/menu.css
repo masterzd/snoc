@@ -63,7 +63,7 @@
 /* Menu em modo portatil */
 .offcanvas{
     background: #efe9ba;
-    width: 65%;
+    width: 79%;
     height: 800px;
     float: left;
     position: absolute;
@@ -75,17 +75,17 @@
 }
 
 .offcanvas-img-user{
-    width: 46%;
-    border-radius: 75px;
-    margin-left: 33%;
-    margin-top: 9%;
+    width: 53%;
+    border-radius: 22px;
+    margin-left: 27%;
+    margin-top: 12%;
     box-shadow: 1px 1px 20px 1px black;
 }
 .offcanvas-info-user{
     padding: 5%;
     margin-left: 10%;
     position: relative;
-    left: 30%;
+    left: 16%;
     top: 30px;
     font-size: 1.2em;
 }

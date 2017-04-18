@@ -26,6 +26,32 @@
             .new-notas{margin-top: 4%;}
             .new-notas textArea{width: 127%;margin-left: 15%;}
             .notas-carregadas{width: 100%;}
+            @media (max-width: 500px){
+                .nota{
+                    width: 100%;
+                    padding: 7%;
+                    background-color: #d9534f;
+                    color: white;
+                    border-radius: 0%;
+                    border: white solid 2px;
+                    margin-top: 1%;
+                    font-size: 0.85em;
+                }
+                .new-notas textArea {
+                    width: 107%;
+                    margin-left: -3%;
+                }
+                .btn-add-nota {
+                    margin-left: 19%;
+                    margin-top: 5%;
+                    margin-bottom: 5%;
+                }
+                .custom-logo-re {
+                    width: 29%;
+                    margin-left: -13%;
+                    margin-top: 9%;
+                }
+            }
         </style>
     </head>
     <body>
@@ -41,7 +67,7 @@
         $this->load->view('commom/menu.php');
 
         $Necessidade = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Abertura Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Inadiplência' : 'Outros')))));
-        $SiT = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 7 ? 'Falta de Pagamento (Inadiplência)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'Fechado': ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 8 ?'Cancelado': 'Pré-Fechamento')))))));
+        $SiT = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 7 ? 'Falta de Pagamento (Inadiplência)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'Fechado' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 8 ? 'Cancelado' : 'Pré-Fechamento')))))));
         $Disabled = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'disabled' : '');
         ;
         ?>
@@ -123,13 +149,13 @@
                                 <p>{$Link['cir_link']}</p>
                                 <p>{$Link['cir_desig']}</p>
                                 <p class='j_link' rel='{$Link['cir_link']}'>{$Link['cir_ip_link']}</p>
-                        </div>";       
+                        </div>";
                     endforeach;
                     ?>
-                    
+
                     <div class="col-md-2 action-buttons col-xs-2">
                         <button class="btn btn-danger jrefresh" data-toogle="tooltip" data-placement="top" title="Checar Status do Link"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-                        <button class="btn btn-danger btn-more-info" data-toogle="tooltip" data-placement="top" title="Mais Informações"><a target="_blank" href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/consulta-loja/?Lj=<?=$InfoCallViewCh['DadosLoja']['Loja']['lj_num']?>" style="color: white"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></button>
+                        <button class="btn btn-danger btn-more-info" data-toogle="tooltip" data-placement="top" title="Mais Informações"><a target="_blank" href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/consulta-loja/?Lj=<?= $InfoCallViewCh['DadosLoja']['Loja']['lj_num'] ?>" style="color: white"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></button>
                     </div>	
 
                 </content>				
@@ -394,9 +420,8 @@
                                     echo "<label>Momento da Normalização:</label>";
                                     echo "<p>{$InfoCallViewCh['DadosCh']['o_hr_up']}</p>";
                                 endif;
-                                
                                 ?>
-                            
+
                             </div>
                         </div>	
 
@@ -409,36 +434,36 @@
                             <div class="col-md-8 notas-area">
                                 <div class="notas-carregadas col-md-8">
                                     <div class="ref"></div>
-                                    <?php 
-                                       foreach ($InfoCallViewCh['Notas'] as $N):
-                                           $Dta = $Util->DataBR($N['ch_time']);
-                                           echo "
+                                    <?php
+                                    foreach ($InfoCallViewCh['Notas'] as $N):
+                                        $Dta = $Util->DataBR($N['ch_time']);
+                                        echo "
                                                 <div class='col-md-5 nota'>
                                                     <p>{$N['ch_user']}, no dia {$Dta} disse:</p>
                                                     <p>{$N['ch_nota']}</p>
                                                 </div>
                                             ";
-                                       endforeach;  
+                                    endforeach;
                                     ?> 
                                 </div>
 
                                 <div class="new-notas col-md-8">
-                                   <textarea name="obs" <?=$Disabled?> rows="5" cols="100" maxlength="900" placeholder="Deixe seu comentário aqui!" class="form-control j-new-nota"></textarea>
-                                   <button type="button" <?=$Disabled?> class="btn btn-danger btn-add-nota j-btn-nota"><i class="fa fa-plus-square" aria-hidden="true">Adicionar Nota </i></button> 
+                                    <textarea name="obs" <?= $Disabled ?> rows="5" cols="100" maxlength="900" placeholder="Deixe seu comentário aqui!" class="form-control j-new-nota"></textarea>
+                                    <button type="button" <?= $Disabled ?> class="btn btn-danger btn-add-nota j-btn-nota"><i class="fa fa-plus-square" aria-hidden="true">Adicionar Nota </i></button> 
                                 </div>
                             </div>
-                            <button type="submit" <?=$Disabled?> class="btn btn-danger btn-lg btn-sm save-buttom"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Salvar</button>
+                            <button type="submit" <?= $Disabled ?> class="btn btn-danger btn-lg btn-sm save-buttom"><i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp;Salvar</button>
                         </div>
                     </content>
                 </div>
-                <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_cod']?>" class="ch" name='o_cod'>
+                <input type="hidden" value="<?= $InfoCallViewCh['DadosCh']['o_cod'] ?>" class="ch" name='o_cod'>
             </form>	
 
         </div>
         <!--INPUTS PARA AUXILIAR NA INSERÇÂO DE NOTAS-->
-        <input type="hidden" value="<?=$_SESSION['user']['Nome']?>" class="nome">
-        <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_cod']?>" class="ch">
-        <input type="hidden" value="<?=$InfoCallViewCh['DadosCh']['o_sit_ch']?>" class="sitCh">
+        <input type="hidden" value="<?= $_SESSION['user']['Nome'] ?>" class="nome">
+        <input type="hidden" value="<?= $InfoCallViewCh['DadosCh']['o_cod'] ?>" class="ch">
+        <input type="hidden" value="<?= $InfoCallViewCh['DadosCh']['o_sit_ch'] ?>" class="sitCh">
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>
