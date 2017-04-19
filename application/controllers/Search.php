@@ -35,14 +35,14 @@ class Search extends CI_Controller {
                 endforeach;
             else:
                 $this->searchCircuitos($this->Termo);
-                if (is_array($this->ResultCircuitos)):
+                if (is_array($this->ResultCircuitos) and strlen($this->Termo) > 6):
                     $this->searchLojas($this->ResultCircuitos[0]['cir_loja']);
                     $this->searchOcorrencias($this->ResultCircuitos[0]['cir_loja']);
                 else:
                     $this->searchOcorrencias($this->Termo);
                     if (is_array($this->ResultOcorrencias) and $this->ResultOcorrencias[0] != NULL):
-                        echo "Chamado";
-                        return false;
+                        $this->searchLojas($this->ResultOcorrencias[0][0]['o_loja']);
+                        
                     else:
                         if (empty($_SESSION)):
                             session_start();
@@ -54,8 +54,9 @@ class Search extends CI_Controller {
                     endif;
                 endif;
             endif;
-
-            if ((!empty($this->ResultLojas)and ! empty($this->ResultOcorrencias)) or ( !empty($this->ResultLojas)and empty($this->ResultOcorrencias))):
+            
+            
+            if ((!empty($this->ResultLojas) and !empty($this->ResultOcorrencias)) or ( !empty($this->ResultLojas)and empty($this->ResultOcorrencias))):
                 $Results = array();
                 $Results['Termo'] = $this->Termo;
                 $Results['Lojas'] = $this->ResultLojas;
@@ -84,7 +85,7 @@ class Search extends CI_Controller {
         
         /* Consulta a quantidade total de registros na tabela */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
-                . "where lj_num = '{$Termo}' or lj_end like '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_end like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}'";
+                . "where lj_num = '{$Termo}' or lj_end like '{$Termo}' or lj_bairro like '%{$Termo}%' or  lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}'";
         $T = array('o');
         $D = array('i');
         $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
@@ -92,7 +93,7 @@ class Search extends CI_Controller {
         
         /* Consulta com a condição */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
-                . "where lj_num = '{$Termo}' or lj_end like '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_end like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";
+                . "where lj_num = '{$Termo}' or lj_end = '{$Termo}' or lj_bairro like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";
         $T = array('o');
         $D = array('i');
         

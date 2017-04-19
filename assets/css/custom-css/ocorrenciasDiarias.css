@@ -7,8 +7,25 @@ body{
     margin-top: 8%;
     margin-left: 10%;
     padding: 1.5%;
+    box-shadow: 3px 2px 2px 0px #c3baba;
 }
 
 .table-responsive{
     font-size: 0.85em;
+}
+
+caption {
+    padding-top: 8px;
+    padding-bottom: 21px;
+    color: #e21e1c;
+    text-align: left;
+    font-weight: 900;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+h1, .h1 {
+    font-size: 36px;
+    text-align: center;
+    font-weight: 700;
 }

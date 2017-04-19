@@ -8,7 +8,7 @@
             <ul class="nav nav-pills custom-nav custom-opc">
                 <li role="presentation" class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/menuprincipal">Home</a></li>
                 <li role="presentation" class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/manager">Gerenciamento</a></li>
-                <li role="presentation" class="custom-ancor"><a href="#">Relatórios</a></li>
+                <li role="presentation" class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/relatorios">Relatórios</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">DashBoard</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">ADM</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">Sobre</a></li>

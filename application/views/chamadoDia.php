@@ -12,14 +12,14 @@
         <?php
         session_start();
         $this->load->view('commom/menu.php');
-        require APPPATH.'third_party/Ultilitario.php';
+        require APPPATH . 'third_party/Ultilitario.php';
         $util = new Ultilitario();
         ?>
         <div class="container-fluid">            
             <div class="row">
                 <div class="col-md-10 col-xs-10 first">
                     <header>
-                        <h1>Ocorrências Abertas</h1>
+                        <h1>Ocorrências Diárias</h1>
                     </header>
                     <main>                   
                         <div class="table-responsive">
@@ -40,8 +40,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        foreach($abHoje as $Day):
+                                    <?php
+                                    if (!empty($abHoje)):
+                                        foreach ($abHoje as $Day):
                                             echo "
                                             <tr>
                                                 <td>{$Day['o_sit_ch']}</td>
@@ -57,7 +58,7 @@
                                             </tr>  
                                             ";
                                         endforeach;
-                                    
+                                    endif;
                                     ?>
                                 </tbody>
                             </table>
@@ -77,7 +78,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
+                                    if (!empty($fcHoje)):
                                         foreach ($fcHoje as $fcDay):
                                             echo "
                                             <tr>
@@ -93,6 +95,7 @@
                                             </tr>  
                                             ";
                                         endforeach;
+                                    endif;
                                     ?>
                                 </tbody>
                             </table>

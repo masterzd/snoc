@@ -1,0 +1,36 @@
+body{
+    background-image: url('../../img/wallblack.jpeg');
+    background-attachment: fixed;
+    background-position: bottom;
+}
+
+.block-rel{
+    background-color: #FFB900;
+    margin-top: 7%;
+    margin-left: 23%;
+}
+
+.h3, h3 {
+    font-size: 24px;
+    text-align: center;
+    padding: 1%;
+    font-weight: 700
+}
+
+p {
+    margin: 0 0 10px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.form-control{
+    width: 48%;
+    margin-left: 26%;
+}
+
+.btn{
+    margin-bottom: 2%;
+    margin-top: 2%;
+    margin-left: 45%;
+    font-size: 14px; 
+}

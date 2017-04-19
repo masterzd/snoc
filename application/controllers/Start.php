@@ -29,8 +29,14 @@ class Start extends CI_Controller {
         $TB = array('tb');
         $Da = array('ok');
         $QR = "SELECT * FROM tb_eventos  ORDER BY e_cod DESC LIMIT 4";
-        $this->Crud->calldb($TB, 'SELECT', $Da, 0, $QR);        
-        $this->load->view('menuprincipal', $this->Crud->Results);
+        $this->Crud->calldb($TB, 'SELECT', $Da, 0, $QR); 
+        $Info['eventos'] = $this->Crud->Results['Dados'];
+        
+        $QR2 = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
+        $this->Crud->calldb($TB, 'SELECT', $TB, 0, $QR2);
+        $Info['abChamados'] = $this->Crud->Results['lines'];
+        
+        $this->load->view('menuprincipal', $Info);
     }
 
     public function cadlink() {
@@ -159,6 +165,12 @@ class Start extends CI_Controller {
         $this->Crud->calldb($TB, 'SELECT', $TB, 0, $QR2);
         $DadosToday['fcHoje'] = $this->Crud->Results['Dados'];
         $this->load->view('chamadoDia', $DadosToday);
+    }
+    
+    public function relatorios(){
+        
+        $this->load->view('relatorios');
+        
     }
 
 }

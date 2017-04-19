@@ -125,12 +125,12 @@
                 <div class="pesquisa col-md-2 col-xs-8 box-4">
                     <aside>
                         <p>Eventos</p>					
-                        <p>Ocorrências Abertas: XX</p>
-                        <a href="ocorrencias-diarias"><button class="btn btn-danger btn-ver-oc-ab">Ver Ocorrências Abertas</button></a>
+                        <p>Ocorrências Abertas: <?=$abChamados?></p>
+                        <a href="ocorrencias-diarias"><button class="btn btn-danger btn-ver-oc-ab">Atividades Diárias</button></a>
                         <P>Ultimas Atualizações:</P>
                         <?php
-                        if (!empty($Dados)):
-                            foreach ($Dados as $Eventos):
+                        if (!empty($eventos)):
+                            foreach ($eventos as $Eventos):
                                 echo "<p class='eventos'><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Eventos['e_chamado']}'>{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
                                 echo "a ocorrência nº {$Eventos['e_chamado']} as {$Eventos['e_data']}</a></p><br>";
                             endforeach;
