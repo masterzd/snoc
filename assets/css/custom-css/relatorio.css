@@ -34,3 +34,22 @@ p {
     margin-left: 45%;
     font-size: 14px; 
 }
+
+.j-date{
+   margin-left: 68%; 
+}
+
+div#datepicker {
+    margin-left: 4%;
+}
+
+.j-sel-rel {
+    margin-left: 31%;
+    margin-bottom: 2%;
+}
+
+p.title {
+    margin-top: 3%;
+    font-size: 1.3em;
+    margin-bottom: 2%;
+}

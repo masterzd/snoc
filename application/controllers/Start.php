@@ -24,7 +24,7 @@ class Start extends CI_Controller {
     /* Funções */
 
     public function menu() {
-        
+ 
         $this->load->Model('Crud');
         $TB = array('tb');
         $Da = array('ok');
