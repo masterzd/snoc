@@ -9,7 +9,7 @@ $(function () {
                 break;
             case '3':
                 $('.j-form-rel').attr('action', 'rel/Loja');
-                $('.j-add-el').append("<p>Informe o numero da loja</p> <input type='number' name='lj_num' min='1' max-'99999' class='form-control input-sm'>");
+                $('.j-add-el').append("<div class'content-din col-md-5'><p>Informe o numero da loja</p> <input type='number' name='lj_num' min='1' max-'99999' class='form-control input-sm margin-left'></div>");
                 break;
             case '4':
                 $('.j-form-rel').attr('action', 'rel/DispInter');

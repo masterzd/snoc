@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="tel">Telefone</label>
-                                        <input type="tel" name="u_tel" class="form-control j_tel j_user_clear" id="tel" required title="Informe o numero de telefone.">
+                                        <input type="tel" name="u_tel" pattern="^[0-9]{11}$" class="form-control j_tel j_user_clear" id="tel" required title="Informe o numero de telefone.">
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="user">Nome de Usuário</label>
@@ -94,11 +94,11 @@
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="pass">Informe a senha</label>
-                                        <input type="password" name="u_senha" class="form-control j_pass j_user_clear" id="pass" required title="Informe uma senha.">
+                                        <input type="password" pattern="^[A-Z][a-z0-9]{7,}" name="u_senha"  class="form-control j_pass j_user_clear" id="pass" required title="A senha precisa ter no minimo 8 caracteres sendo que o primeiro caractere deve ser Maiúscula e os restante minúscula ou números.">
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="pass2">Repita a senha</label>
-                                        <input type="password" name="u_senha2" class="form-control j_pass2 j_user_clear" id="pass2" required title="Informe a senha novamente">
+                                        <input type="password" pattern="^[A-Z][a-z0-9]{7,}" name="u_senha2" class="form-control j_pass2 j_user_clear" id="pass2" required title="A senha precisa ter no minimo 8 caracteres sendo que o primeiro caractere deve ser Maiúscula e os restante minúscula ou números.">
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label for="active">Ativar Conta?</label>

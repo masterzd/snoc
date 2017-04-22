@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/m-principal.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/menu.css') ?>">        
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap-datetimepicker.min.css') ?>">     
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     </head>
     <script>
         function Erro(mensagem) {
@@ -28,7 +29,7 @@
         endif;
         $this->load->view('commom/menu.php');
         ?>
-        <div class="container-fluid">
+        <div class="container-fluid j-area-remove-offcanvas">
             <div class="row">			
                 <div class="box-1 col-md-8 col-xs-8 col-lg-8">				
                     <button class="btn btn-danger btn-menu-custom-2 btn-menu-custom j_btn-menu-custom">Abrir Ocorrência</button>

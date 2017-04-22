@@ -53,3 +53,11 @@ p.title {
     font-size: 1.3em;
     margin-bottom: 2%;
 }
+
+input.form-control.input-sm.margin-left {
+    margin-left: 37%;
+}
+
+.content-din{
+    margin-top: 2%; 
+}
