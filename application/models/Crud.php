@@ -16,7 +16,7 @@ class Crud extends CI_Model {
         $this->load->database();
     }
 
-    public function calldb($Tabela, $Opc, $Dados = null, $Helper = null, $FullQuery = null) {
+    public function calldb($Tabela = null, $Opc, $Dados = null, $Helper = null, $FullQuery = null) {
         $this->setTabela($Tabela);
         $this->setDados($Dados);
         $this->setHelper($Helper);
@@ -52,7 +52,7 @@ class Crud extends CI_Model {
     /** Metodos Privados * */
     private function search() {
 
-        if (is_array($this->Dados) and is_array($this->Tabela)):
+        if (!empty($this->FullQuery)):
             $query = $this->db->query($this->FullQuery);
         elseif (is_array($this->Dados)):
             $query = $this->db->get_where($this->Tabela, $this->Dados);

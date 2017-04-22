@@ -49,9 +49,7 @@ class Ocorrencia extends CI_Controller {
         
         /* Consulta notas da ocorrência */
         $Qr = "SELECT * FROM tb_ch_notas WHERE o_cod = {$Chamado['o_cod']} ORDER BY ch_time DESC";
-        $T = array();
-        $D = array();
-        $this->Crud->calldb($T, 'SELECT', $D, 0, $Qr);
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $Qr);
         $this->Notas = $this->Crud->Results['Dados'];
                
     }

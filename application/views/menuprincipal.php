@@ -30,7 +30,7 @@
         ?>
         <div class="container-fluid">
             <div class="row">			
-                <div class="box-1 col-md-8 col-xs-8">				
+                <div class="box-1 col-md-8 col-xs-8 col-lg-8">				
                     <button class="btn btn-danger btn-menu-custom-2 btn-menu-custom j_btn-menu-custom">Abrir Ocorrência</button>
 
                     <div class="ab_ch">
@@ -42,7 +42,7 @@
                         ?>					
                         <form action="chamado" method="POST" class="j_newOcorr">
 
-                            <div class="form-group col-md-2 col-xs-11">
+                            <div class="form-group col-md-2 col-xs-11 ">
                                 <label for="nloja" class="col-sm-2 custom-label">Loja:</label>
                                 <input required type="number" min="00" max="999999" name="o_loja" id="nLoja" class="form-control jnum-lj">
                             </div>
@@ -86,7 +86,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="gerador col-md-2 col-xs-8 box-2">
+                <div class="gerador col-md-2 col-xs-8  box-2">
                     <p>Gerador de Senha</p>
 
                     <div class="controlpass">
@@ -122,7 +122,7 @@
                     </form>
                 </div>
 
-                <div class="pesquisa col-md-2 col-xs-8 box-4">
+                <div class="pesquisa col-md-2 col-xs-8 col-lg-2 box-4">
                     <aside>
                         <p>Eventos</p>					
                         <p>Ocorrências Abertas: <?=$abChamados?></p>
@@ -131,7 +131,7 @@
                         <?php
                         if (!empty($eventos)):
                             foreach ($eventos as $Eventos):
-                                echo "<p class='eventos'><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Eventos['e_chamado']}'>{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
+                                echo "<p class='eventos'><a href=". base_url("verchamado/?Ch={$Eventos['e_chamado']}").">{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
                                 echo "a ocorrência nº {$Eventos['e_chamado']} as {$Eventos['e_data']}</a></p><br>";
                             endforeach;
                         endif;

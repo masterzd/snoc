@@ -3,12 +3,12 @@
 ?>
 <div class="container-fluid menu-fixed">
     <div class="row">
-        <div class="col-md-12 menu-top">
-            <a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/menuprincipal"><img src="<?php echo base_url('assets/img/SNOC3.png') ?>" alt="SISNOC LOGO" class="img-responsive custom-nav custom-img"></a>
+        <div class="col-md-12 col-lg-12 menu-top">
+            <a  href="<?= base_url('menuprincipal') ?>"><img src="<?php echo base_url('assets/img/SNOC3.png') ?>" alt="SISNOC LOGO" class="img-responsive custom-nav custom-img"></a>
             <ul class="nav nav-pills custom-nav custom-opc">
-                <li role="presentation" class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/menuprincipal">Home</a></li>
-                <li role="presentation" class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/manager">Gerenciamento</a></li>
-                <li role="presentation" class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/relatorios">Relatórios</a></li>
+                <li role="presentation" class="custom-ancor"><a href="<?= base_url('menuprincipal') ?>">Home</a></li>
+               <li role="presentation" class="custom-ancor"><a href="<?= base_url('manager') ?>">Gerenciamento</a></li>
+                <li role="presentation" class="custom-ancor"><a href="<?= base_url('relatorios') ?>">Relatórios</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">DashBoard</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">ADM</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">Sobre</a></li>
@@ -34,9 +34,9 @@
             </div>
 
             <ul class="nav nav-pills nav-stacked custom-nav-offcanvas offcanvas-menu">
-                <li class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/menuprincipal">Home</a></li>
+                <li class="custom-ancor"><a href="<?= base_url('menuprincipal') ?>">Home</a></li>
                 
-                <li class="custom-ancor"><a href="#">Relatórios</a></li>
+                <li class="custom-ancor"><a href="<?= base_url('relatorios') ?>">Relatórios</a></li>
                 <li class="custom-ancor"><a href="#">DashBoard</a></li>
                 <li class="custom-ancor"><a href="#">ADM</a></li>
                 <li class="custom-ancor"><a href="#">Sobre</a></li>

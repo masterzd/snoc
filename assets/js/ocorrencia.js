@@ -1,7 +1,15 @@
 $(function () {
     /*Arquivo Js responsável pela tela de Ocorrência*/
+    var currentUrl = window.location.href;
 
-    var urlBaseCh = 'http://sisnoc.maquinadevendas.corp/CI_SISNOC/index.php/ShortHand_Gerenciamento';
+    if(/\?/.test(currentUrl)){
+        var pos = currentUrl.lastIndexOf("verchamado");
+    }else{
+         var pos = currentUrl.lastIndexOf("/");
+    }
+  
+    currentUrl = currentUrl.substr(0, pos);
+    var urlBaseCh = currentUrl +  '/index.php/ShortHand_Gerenciamento';
 
     /* Config. da descrição dos botões atualizar e mais informações */
     $('[data-toogle="tooltip"]').tooltip();
@@ -155,13 +163,13 @@ $(function () {
     $(document).ready(function () {
         searchIp();
     });
-    
-    var searchIp = function(){
-       $("p[class*=j_link]").each(function () {
+
+    var searchIp = function () {
+        $("p[class*=j_link]").each(function () {
             TestePing($(this).text(), $(this).attr('rel'));
-        }); 
+        });
     }
-    
+
 
     var TestePing = function (IP, Link) {
         $.post(urlBaseCh + '/testePing', {ip: IP, link: Link}, function (r) {

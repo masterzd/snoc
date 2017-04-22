@@ -208,7 +208,7 @@
                                           
                                           ?>
                                             <tr>
-                                                <td><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch=<?=$Ch['o_cod']?>"><?= $Ch['o_cod'] ?></a></td>
+                                                <td><a href=<?= base_url("verchamado/?Ch={$Ch['o_cod']}")?>"><?= $Ch['o_cod'] ?></a></td>
                                                 <td><?= $Ch['o_link'] ?></td>
                                                 <td class="hidden-table"><?= $util->DataBR($Ch['o_prazo']) ?></td>
                                                 <td class="hidden-table"><?= $Ch['o_opr_ab'] ?></td>    

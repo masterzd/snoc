@@ -86,18 +86,13 @@ class Search extends CI_Controller {
         /* Consulta a quantidade total de registros na tabela */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
                 . "where lj_num = '{$Termo}' or lj_end like '{$Termo}' or lj_bairro like '%{$Termo}%' or  lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}'";
-        $T = array('o');
-        $D = array('i');
-        $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Count = $this->Crud->Results['lines'];
         
         /* Consulta com a condição */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
-                . "where lj_num = '{$Termo}' or lj_end = '{$Termo}' or lj_bairro like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";
-        $T = array('o');
-        $D = array('i');
-        
-        $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
+                . "where lj_num = '{$Termo}' or lj_end = '{$Termo}' or lj_bairro like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";       
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $this->ResultLojas = $this->Crud->Results['Dados'];
         if($Count >= 1):
             $this->ResultLojas['Count'] = ceil($Count / 6);
@@ -106,23 +101,17 @@ class Search extends CI_Controller {
 
     private function searchCircuitos($Termos) {
         $QR = "select * from tb_circuitos where cir_desig like '%{$Termos}%' or cir_ip_link = '{$Termos}'";
-        $T = array('o');
-        $D = array('i');
-        $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $this->ResultCircuitos = $this->Crud->Results['Dados'];
     }
 
     private function searchOcorrencias($Termo) {
         $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%')";
-        $T = array('o');
-        $D = array('i');
-        $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $CountOcorrencia = $this->Crud->Results['lines'];
         
-        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%') ORDER BY o_sit_ch DESC LIMIT 6 OFFSET 0 ";
-        $T = array('o');
-        $D = array('i');
-        $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
+        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%') ORDER BY o_sit_ch DESC LIMIT 6 OFFSET 0 ";;
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $this->ResultOcorrencias[] = $this->Crud->Results['Dados'];
         $this->ResultOcorrencias['CountOcorrencias'] = ceil($CountOcorrencia / 6);
     }

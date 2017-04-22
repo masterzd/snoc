@@ -1,7 +1,17 @@
 $(function () {
     /* Funções JS PARA A TELA DE LOGIN*/
-    var urlBase = 'http://sisnoc.maquinadevendas.corp/CI_SISNOC/index.php/ShortHand_Gerenciamento/';
-    var urlBaseChamados = 'http://sisnoc.maquinadevendas.corp/CI_SISNOC/index.php/ShortHand_Chamado/';
+    
+     var currentUrl = window.location.href;
+     var pos =  currentUrl.lastIndexOf("/");
+    currentUrl = currentUrl.substr(0, pos);
+    
+    var urlBase =  currentUrl +'/index.php/ShortHand_Gerenciamento/';
+    var urlBaseChamados =  currentUrl +  '/index.php/ShortHand_Chamado/';
+    
+   
+
+    console.log(urlBase);
+    
     $(document).ready(function () {
         $('.login').fadeIn(500);
     });
@@ -53,7 +63,7 @@ $(function () {
     /* Menu de Gerar senhas */
 
     $(".j_btn-pass").click(function () {
-        $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/assets/ponte/jsPassGenerator.php', function (retorno) {
+        $.post( currentUrl + '/assets/ponte/jsPassGenerator.php', function (retorno) {
             console.log(retorno);
             $('.j_resultado').val(retorno);
         });

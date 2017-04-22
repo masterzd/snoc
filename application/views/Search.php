@@ -46,7 +46,7 @@
                                 foreach ($Lojas as $L):
                                     echo "   
                                      <tr>
-                                        <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/consulta-loja/?Lj={$L['lj_num']}'>{$L['lj_num']}</a></td>
+                                        <td><a href=". base_url("consulta-loja/?Lj={$L['lj_num']}").">{$L['lj_num']}</a></td>
                                         <td class=\"hidden-table\">{$L['lj_end']}</td>
                                         <td>{$L['lj_bairro']}</td>
                                         <td>{$L['lj_cidade']}</td>
@@ -145,7 +145,7 @@
 
                                             echo"
                                         <tr>
-                                            <td><a href='http://sisnoc.maquinadevendas.corp/CI_SISNOC/verchamado/?Ch={$Ch['o_cod']}'>{$Ch['o_cod']}</a></td>
+                                            <td><a href=". base_url("verchamado/?Ch={$Ch['o_cod']}").">{$Ch['o_cod']}</a></td>
                                             <td>{$Ch['o_loja']}</td>
                                             <td>{$Ch['o_link']}</td>
                                             <td class=\"hidden-table\">{$Ch['o_prazo']}</td>

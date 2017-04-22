@@ -26,14 +26,12 @@ class Start extends CI_Controller {
     public function menu() {
  
         $this->load->Model('Crud');
-        $TB = array('tb');
-        $Da = array('ok');
         $QR = "SELECT * FROM tb_eventos  ORDER BY e_cod DESC LIMIT 4";
-        $this->Crud->calldb($TB, 'SELECT', $Da, 0, $QR); 
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR); 
         $Info['eventos'] = $this->Crud->Results['Dados'];
         
         $QR2 = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
-        $this->Crud->calldb($TB, 'SELECT', $TB, 0, $QR2);
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR2);
         $Info['abChamados'] = $this->Crud->Results['lines'];
         
         $this->load->view('menuprincipal', $Info);
@@ -145,10 +143,8 @@ class Start extends CI_Controller {
         $this->load->library('infolojas');
         $this->load->Model('Crud');
         $this->infolojas->CheckDadosLoja($LJ);
-        $T = array('ok');
-        $D = array('ok');
         $QR = "SELECT o_cod, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch FROM tb_ocorrencias WHERE o_loja = {$LJ} ORDER BY o_cod DESC LIMIT 5";
-        $this->Crud->calldb($T, 'SELECT', $D, 0, $QR);
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $LojasInfo = $this->infolojas->DadosLoja;
         $LojasInfo['Resp'] = $this->infolojas->ContatosSms;
         $LojasInfo['Ocorrencias'] = $this->Crud->Results['Dados'];
@@ -159,10 +155,9 @@ class Start extends CI_Controller {
         $this->load->Model('Crud');
         $QR1 = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '".date('Y-m-d')." 00:00:00' AND '".date('Y-m-d')." 23:59:59'";
         $QR2 = "SELECT * FROM tb_ocorrencias WHERE o_hr_fc BETWEEN '".date('Y-m-d')." 00:00:00' AND '".date('Y-m-d')." 23:59:59'";
-        $TB = array('ok');
-        $this->Crud->calldb($TB, 'SELECT', $TB, 0, $QR1);
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR1);
         $DadosToday['abHoje'] = $this->Crud->Results['Dados'];
-        $this->Crud->calldb($TB, 'SELECT', $TB, 0, $QR2);
+        $this->Crud->calldb(0, 'SELECT',0, 0, $QR2);
         $DadosToday['fcHoje'] = $this->Crud->Results['Dados'];
         $this->load->view('chamadoDia', $DadosToday);
     }

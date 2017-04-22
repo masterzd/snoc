@@ -1,5 +1,8 @@
 $(function () {
-
+     var currentUrl = window.location.href;
+     var pos =  currentUrl.lastIndexOf("/");
+    currentUrl = currentUrl.substr(0, pos);
+    
     $('.j-link-pag').click(function () {
 
         var totalPag = $('.totalpag').val();
@@ -15,7 +18,7 @@ $(function () {
             return false;
         }
 
-        $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/index.php/ShortHand_paginator/definePaginator', {pg: pagina, termo: $('.termo').val(), totalpg: $('.totalpag').val(), action: 'L'}, function (r) {
+        $.post( currentUrl +'/index.php/ShortHand_paginator/definePaginator', {pg: pagina, termo: $('.termo').val(), totalpg: $('.totalpag').val(), action: 'L'}, function (r) {
             
             $('.j-replace').fadeOut(500, function(){
                 $('.j-replace').replaceWith(r);
@@ -43,7 +46,7 @@ $(function () {
             return false;
         }
 
-        $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/index.php/ShortHand_paginator/definePaginator', {pg: pagina, termo: $('.termo').val(), totalpg: $('.totalpag-ch').val(), action: 'O'}, function (r) {
+        $.post( currentUrl + '/index.php/ShortHand_paginator/definePaginator', {pg: pagina, termo: $('.termo').val(), totalpg: $('.totalpag-ch').val(), action: 'O'}, function (r) {
             
             $('.j-replace-ch').fadeOut(500, function(){
                 $('.j-replace-ch').replaceWith(r);
