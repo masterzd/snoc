@@ -36,6 +36,13 @@ class Ultilitario extends CI_Controller {
             return $DataBR;
         endif;
     }
+    
+    public function DataUsa($Data){
+       $DT = explode("-", $Data); 
+       $DateUSA = $DT[2]."-".$DT[1]."-".$DT['0']; 
+       return $DateUSA; 
+    }
+
 
     public function CheckDestinatários($Enc, $TecCod = NULL) {
 

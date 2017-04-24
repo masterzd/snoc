@@ -30,9 +30,9 @@
                         </select>
                         <p>Informe o período:</p>
                         <div class="input-daterange input-group" id="datepicker">
-                            <input type="text" placeholder="Informe a data inicial" class="j-date input-sm form-control col-md-2" name="dataIni">
+                            <input type="text" placeholder="Informe a data inicial" title="O Formato informad" required pattern="^[0-9]{2}-[0-9]{2}-[0-9]{4}$" class="j-date input-sm form-control col-md-2" name="dataIni">
                             <span class="input-group-addon">a</span>
-                            <input type="text" placeholder="Informe a data final" class="j-date input-sm form-control col-md-2" name="dataFim">
+                            <input type="text" placeholder="Informe a data final" required pattern="^[0-9]{2}-[0-9]{2}-[0-9]{4}$" class="j-date input-sm form-control col-md-2" name="dataFim">
                         </div>
                         <div class="j-add-el"></div>
                         <button class="btn btn-danger">Gerar</button>
@@ -50,7 +50,7 @@
         <script src="<?php echo base_url('/assets/js/relatorio.js') ?>" charset="UTF-8"></script>
         <script>
             $('.j-date').datepicker({
-                format: 'yyyy-mm-dd',
+                format: 'dd-mm-yyyy',
                 language: 'pt-BR',
                 orientation: 'bottom auto',
                 autoclose: true
