@@ -223,7 +223,7 @@
                     </coontent>
                 </div>
             </div>
-            <div class="row ">
+            <div class="row">
                 <div class="col-xs-3 col-md-3 col-lg-3 num-loja-help">
                     <p>Loja <?= $Loja['lj_num']?></p>
                 </div>

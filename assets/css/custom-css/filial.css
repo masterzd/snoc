@@ -90,20 +90,20 @@ td, th {
     color: red;
 }
 
-    .num-loja-help {
-        background-color: #d9534f;
-        width: 8%;
-        padding: 1%;
-        position: fixed;
-        top: 85%;
-        left: 87.50%;
-        font-size: 1.1em;
-        color: white;
-        text-align: center;
-        border: white solid 2px;
-        font-weight: bold;
-       display: none;
-    }
+.num-loja-help {
+    background-color: #d9534f;
+    width: 8%;
+    padding: 1%;
+    position: fixed;
+    top: 85%;
+    left: 87.50%;
+    font-size: 1.1em;
+    color: white;
+    text-align: center;
+    border: white solid 2px;
+    font-weight: bold;
+    display: none;
+}
 
 @media (max-width: 500px){
 

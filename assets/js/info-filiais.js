@@ -37,14 +37,11 @@ $(function () {
     }
     
     $(document).scroll(function(){
-       
        if($(this).scrollTop() >= 160){
            $('.num-loja-help').fadeIn(600);
        }else if($(this).scrollTop() <= 160){
            $('.num-loja-help').fadeOut(600);
        }
-       
-       
     });
     
     

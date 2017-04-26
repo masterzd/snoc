@@ -1,0 +1,28 @@
+.rel-img{
+    width: 200px;
+    margin-left: 250px;
+}
+
+h3{
+    margin-left: 135px;
+    margin-top: 25px;
+}
+
+h4{
+    margin-top: 30px;
+}
+
+table{
+    margin-left: 18px;
+}
+
+caption{
+    padding: 20px;
+    font-size: 15pt;
+}
+tbody tr td,
+thead > tr > th{
+    text-align: center;
+    padding: 20px;
+}
+

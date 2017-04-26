@@ -64,6 +64,7 @@ $route['update'] = 'UpdateCh/update';
 $route['verchamado'] = 'Ocorrencia/ConsultaCh';
 $route['relatorios'] = 'Start/relatorios';
 $route['rel/Geral'] = 'Relatorios/Geral';
+$route['rel/Sms'] = 'Relatorios/relSms';
 $route['ocorrencias-diarias'] = 'Start/chToday';
 $route['consulta-loja'] = 'Start/consultaFilial';
 $route['404_override'] = '';
