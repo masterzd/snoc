@@ -223,7 +223,11 @@
                     </coontent>
                 </div>
             </div>
-            <div class="row "></div>
+            <div class="row ">
+                <div class="col-xs-3 col-md-3 col-lg-3 num-loja-help">
+                    <p>Loja <?= $Loja['lj_num']?></p>
+                </div>
+            </div>
         </div>
 
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>

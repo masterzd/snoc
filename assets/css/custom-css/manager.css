@@ -1,13 +1,13 @@
 body{
-	background-image: url('../../img/wallblack.jpeg');
-	background-attachment: fixed;
+    background-image: url('../../img/wallblack.jpeg');
+    background-attachment: fixed;
     background-position: bottom;
 }
 
 .m-space{
-	background-color: #fff;
-	position: relative;
-    top: 83px;
+    background-color: #fff;
+    position: relative;
+    top: 101px;
     width: 80%;
     margin-left: 10%;
     background-color: #FFB900;
@@ -15,162 +15,162 @@ body{
 }
 
 li a{
-	color: black;
+    color: black;
 }
 
 .hide-manager{
-	display: none;
+    display: none;
 }
 
 
 /* Aba Gestão de usuários */
 
-	.box-users{
-		margin-left: 8%;
-	}
+.box-users{
+    margin-left: 8%;
+}
 
 
-	h4{
-		position: relative;
-	    left: 35%;
-		padding: 1%;
-		color: black;
-		font-size: 1.3em;
-		width: 30%
-	}
+h4{
+    position: relative;
+    left: 35%;
+    padding: 1%;
+    color: black;
+    font-size: 1.3em;
+    width: 30%
+}
 
-	.search{
-		margin-left: 28%;
-		margin-bottom: 3%;
-	}
+.search{
+    margin-left: 28%;
+    margin-bottom: 3%;
+}
 
-	.search p{
-		color: black;
-		text-align: center;
-	}
+.search p{
+    color: black;
+    text-align: center;
+}
 
-	.card-users{
-		width: 109%;
-	    position: relative;
-	    left: -11%;
-	}
+.card-users{
+    width: 109%;
+    position: relative;
+    left: -11%;
+}
 
-	.card{
-	    width: 33%;
-		height: 380px;
-	}
+.card{
+    width: 33%;
+    height: 380px;
+}
 
-	.btn-new-user{
-		margin-bottom: 6%;
-		margin-left: 100%;
-	}
+.btn-new-user{
+    margin-bottom: 6%;
+    margin-left: 100%;
+}
 
-	.control-form{
-		position: relative;
-	    margin-top: 6%;
-	    left: -18%;
-	}
+.control-form{
+    position: relative;
+    margin-top: 6%;
+    left: -18%;
+}
 
-	.new-title{
-		position: relative;
-	    left: 162%;
-	    padding: 2%;
-	    top: -21PX;
-	    font-weight: bold;
-	}
+.new-title {
+    position: relative;
+    left: 110%;
+    padding: 2%;
+    top: -8PX;
+    font-weight: bold;
+}
 
-	.btn-save-user{
-		    position: relative;
-		    top: 73px;
-		    left: 24%;
-	}
+.btn-save-user{
+    position: relative;
+    top: 73px;
+    left: 24%;
+}
 
-	.btn-search{
-		position: relative;
-		left: 103%;
-    	top: -34px;
-	}
+.btn-search{
+    position: relative;
+    left: 103%;
+    top: -34px;
+}
 
-	.custom-modal{
-	   background-color: #FFB900;
-	}
+.custom-modal{
+    background-color: #FFB900;
+}
 
-	.j_edit{
-	   margin-left: 31%;
-	}
+.j_edit{
+    margin-left: 31%;
+}
 
-	.btn-danger{
-	   margin-left: 6%;
-	}
+.btn-danger{
+    margin-left: 6%;
+}
 
-	/* Aba de Gerenciamento de lojas */
+/* Aba de Gerenciamento de lojas */
 
-	.search-loja{
-		padding: 3%;
-	    margin-left: 45%;
-	}
+.search-loja{
+    padding: 3%;
+    margin-left: 45%;
+}
 
-	.title-loja{
-		text-align: center;
-    	font-weight: bold;
-    	font-size: 2.1em;
-	}
+.title-loja{
+    text-align: center;
+    font-weight: bold;
+    font-size: 2.1em;
+}
 
-	.card-area-lojas{
-		width: 100%;
-    	margin-left: -2%;
-	}
+.card-area-lojas{
+    width: 100%;
+    margin-left: -2%;
+}
 
-	.card-lojas{
-		height: 300px;
-		width: 68%;
-	}
+.card-lojas{
+    height: 300px;
+    width: 68%;
+}
 
-	.custom-form-loja{
-		margin-left: 48%;
-    	margin-top: -2%
-	}
+.custom-form-loja{
+    margin-left: 48%;
+    margin-top: -2%
+}
 
-	.add{
-		padding: 4%;
-    	margin-left: 55%;
-	}
+.add{
+    padding: 4%;
+    margin-left: 55%;
+}
 
-	.btn-cad-link{
-		width: 100%;
-	    margin-left: 114%;
-	    margin-top: 4%;
-	}
+.btn-cad-link{
+    width: 100%;
+    margin-left: 114%;
+    margin-top: 4%;
+}
 
-	.btn-salvar-loja{
-		margin-left: 151%;
-	    position: relative;
-	    top: 69px;
-	    margin-bottom: 15%;
-	}
+.btn-salvar-loja{
+    margin-left: 151%;
+    position: relative;
+    top: 69px;
+    margin-bottom: 15%;
+}
 
-	.btn-list-link{
-		position: relative;
-	    top: -41px;
-	    margin-left: 142%;
-	}
+.btn-list-link {
+    position: relative;
+    top: -57px;
+    margin-left: 144%;
+}
 
-	.new-loja {
-		margin-top: 6%;
-	}
+.new-loja {
+    margin-top: 6%;
+}
 
 /* Aba de técnicos gerentes e diretores da regional */
 
 .area-filtro{
-	width: 184%;
+    width: 184%;
 }
 
 .radio-css{
-	margin-left: 1%;
+    margin-left: 1%;
 }
 
 .title-tec{
-	font-weight: bold;
+    font-weight: bold;
     margin-left: 62%;
     padding: 5%;
     width: 40%;
@@ -178,13 +178,13 @@ li a{
 }
 
 .grp-btn{
-	margin-bottom: 3%;
+    margin-bottom: 3%;
     margin-left: 39%;
     margin-top: 3%;
 }
 
 .aa{
-	margin-top: 3%;
+    margin-top: 3%;
     margin-left: 38%;
 }
 
@@ -196,11 +196,11 @@ li a{
 }
 
 .detail-regional{
-	display: none;
+    display: none;
 }
 
 .btn-pos-reg{
-	position: relative;
+    position: relative;
     left: 22%;
 }
 
@@ -214,8 +214,8 @@ li a{
 }
 
 h3{
-  font-size: 18px;
-  padding: 4%;
+    font-size: 18px;
+    padding: 4%;
 }
 
 .btn-edit-resp-tec {
@@ -235,22 +235,22 @@ h3{
 } 
 
 .block-lojas{
-	height: 500px;
-	overflow: auto;
-	margin-bottom: 5%;
+    height: 500px;
+    overflow: auto;
+    margin-bottom: 5%;
 }
 
 .custom-container{
-	width: 100%;
+    width: 100%;
 }
 
 .btn-grp-result{
-	margin-left: 44%;
+    margin-left: 44%;
     margin-top: -6%;
 }
 
 .new-reg{
-	display: none;
+    display: none;
 }
 
 .titleNumreg {
@@ -302,5 +302,24 @@ h3{
 }
 
 .titleRegAssc{
-	margin-left: 40%;
+    margin-left: 40%;
+}
+
+.title-loja-cad{
+    
+}
+
+@media(min-width:1370px){
+    h4{
+        left: 37%;
+    }
+
+    .btn-new-user {
+        margin-left: 104%;
+    }
+
+    .btn-list-link {
+        top: -75px;
+        margin-left: 146%;
+    }
 }

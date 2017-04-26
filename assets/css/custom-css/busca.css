@@ -22,7 +22,7 @@ body{
 }
 
 .title-busca{
-    margin-left: 33%; 
+    margin-left: 35%; 
 }
 
 .title-busca-cat{
@@ -39,7 +39,7 @@ body{
 
 
 .subTitle-busca{
-    margin-left: 38%;
+    margin-left: 41%;
     font-weight: bold;
 }
 
@@ -105,5 +105,15 @@ th{
 
     .c-pg {
         margin-left: 32%;
+    }
+}
+
+@media(min-width: 1370px){
+    .title-busca{
+        margin-left: 38%;
+    }
+
+    .subTitle-busca {
+        margin-left: 43%;
     }
 }

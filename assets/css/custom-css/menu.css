@@ -204,3 +204,9 @@
 .info-menu{
     background-color: #f8f4f4;
 }
+
+@media (min-width: 1370px){
+    .menu-top{
+            padding-left: 11%;
+    }
+}

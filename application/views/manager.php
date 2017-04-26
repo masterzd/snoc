@@ -147,16 +147,16 @@
                         </div>
 
                         <div class="new-loja hide-manager">
-                            <div class="new col-md-4">
-                                <p class="new-title">Informe os dados da Loja</p>
-                            </div>
+<!--                            <div class="new col-md-4">
+                                <p class="title-loja-cad">Informe os dados da Loja</p>
+                            </div>-->
 
                             <form action="" method="POST" class="j_new-loja">
                                 <div class="col-md-10 control-form custom-form-loja">
 
                                     <div class="form-group col-md-5 control-edit">
                                         <label for="num">Numero da Loja:</label>
-                                        <input type="text" name="lj_num" class="form-control j_lj_num j_loja_clear" id="num" required>
+                                        <input type="text" pattern="^[0-9]{4,5}$"  title="Numero Inválido para Loja. Numero da Loja normalmente é composto po 4 números" name="lj_num" class="form-control j_lj_num j_loja_clear" id="num" required>
                                     </div>
 
                                     <div class="form-group col-md-5 control-edit">
@@ -207,7 +207,7 @@
 
                                     <div class="form-group col-md-5 control-edit">
                                         <label for="uf">Estado</label>
-                                        <input type="text" name="lj_uf" class="form-control j_lj_uf j_loja_clear" id="uf" required>
+                                        <input type="text"  pattern="^[A-Z]{2}$" title="Informe a Sigla do Estado em Letras maiúsculas" name="lj_uf" class="form-control j_lj_uf j_loja_clear" id="uf" required>
                                     </div>
 
                                     <div class="form-group col-md-5 control-edit">
@@ -232,7 +232,7 @@
 
                                     <div class="form-group col-md-5 control-edit">
                                         <label for="iplj">Ip da Loja:</label>
-                                        <input type="text" name="lj_ip_loja" class="form-control j_lj_ip j_loja_clear" id="iplj" required>
+                                        <input type="text" name="lj_ip_loja" pattern="^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" title="Informe um endereço ip válido"  class="form-control j_lj_ip j_loja_clear" id="iplj" required>
                                     </div>
 
                                 </div>
