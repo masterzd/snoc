@@ -54,9 +54,8 @@ class Relatorios extends CI_Controller {
                     $QR4 = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59'";
                     break;
                 default:
-                    $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
-                    $Erro['Msg'] = "Não consegui entender qual a situação da ocorrência";
-                    $this->load->view('errors/Erro', $Erro);
+                    $MS = "Não consegui entender qual a situação da ocorrência";
+                    $this->Erro($MS);
                     return;
                     break;
             endswitch;
@@ -68,12 +67,9 @@ class Relatorios extends CI_Controller {
             $this->Retorno['Periodo'] = $this->Dados;
             $this->load->view('relatorios/relGeral', $this->Retorno);
         else:
-            if (empty($_SESSION)):
-                session_start();
-            endif;
-            $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
-            $Erro['Msg'] = "Houve uma falha ao procurar os dados.";
-            $this->load->view('errors/Erro', $Erro);
+            $MS = "Houve uma falha ao procurar os dados.";
+            $this->Erro($MS);
+            return;
         endif;
     }
 
@@ -85,8 +81,8 @@ class Relatorios extends CI_Controller {
             $recDados['dataIni'] = $Util->DataUsa($recDados['dataIni']);
             $recDados['dataFim'] = $Util->DataUsa($recDados['dataFim']);
             $this->Dados = $recDados;
-            
-            /*Busca de Informações dos SMS por data ou data e loja*/
+
+            /* Busca de Informações dos SMS por data ou data e loja */
             if (!empty($this->Dados['lj_num'])):
                 $QR1 = "SELECT * FROM tb_sms WHERE sms_date BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59' AND sms_loja = {$this->Dados['lj_num']}";
                 $QR2 = "SELECT * FROM tb_sms WHERE sms_sit_env NOT LIKE '000' AND sms_date BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59' AND sms_loja = {$this->Dados['lj_num']}";
@@ -97,31 +93,112 @@ class Relatorios extends CI_Controller {
                 $QR3 = "SELECT * FROM tb_sms WHERE sms_sit_env = '000' AND sms_date BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59'";
             endif;
             $this->Crud->calldb(0, 'SELECT', 0, 0, $QR1);
-            
-            
-            
-            
+
             if ($this->Crud->Results == NULL):
-                if(empty($_SESSION)):
-                    session_start();
-                endif;                
-                $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
-                $Erro['Msg'] = "Não encontrei os dados para exibir. Verifique os dados e tente novamente.";
-                $this->load->view('errors/Erro', $Erro);
+                $MS = "Não encontrei os dados para exibir. Verifique os dados e tente novamente.";
+                $this->Erro($MS);
                 return;
             else:
                 /* Consulta para verificar quantos SMS foram enviados durante o período */
                 $this->Retorno['envFull'] = $this->Crud->Results['lines'];
                 $this->Retorno['Dados'] = $this->Crud->Results['Dados'];
-                $this->Crud->calldb(0,'SELECT',0,0,$QR2);
+                $this->Crud->calldb(0, 'SELECT', 0, 0, $QR2);
                 $this->Retorno['envFalse'] = $this->Crud->Results['lines'];
-                $this->Crud->calldb(0,'SELECT',0,0,$QR3);
+                $this->Crud->calldb(0, 'SELECT', 0, 0, $QR3);
                 $this->Retorno['envSucess'] = $this->Crud->Results['lines'];
                 $this->Retorno['Periodo'] = $this->Dados;
                 $this->load->view('relatorios/relSms', $this->Retorno);
             endif;
 
+        else:
+            $MS = "Houve uma falha ao procurar os dados.";
+            $this->Erro($MS);
+            return;
         endif;
+    }
+
+    public function relLoja() {
+
+        $recDados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+        if (!empty($recDados) and ! empty($recDados['dataIni'])):
+            $Util = new Ultilitario();
+            $recDados['dataIni'] = $Util->DataUsa($recDados['dataIni']);
+            $recDados['dataFim'] = $Util->DataUsa($recDados['dataFim']);
+            $this->Dados = $recDados;
+
+            switch ($this->Dados['sit-ch']):
+                case '1':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59' AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
+                    break;
+                case '2':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59'AND o_sit_ch = 1";
+                    break;
+                case '3':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59'";
+                    break;
+                default :
+                    $MS = "Não consegui entender o status da ocorrência. Verifique os dados e tente novamente";
+                    $this->Erro($MS);
+                    return;
+                    break;
+            endswitch;
+            $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+
+            if ($this->Crud->Results == NULL):
+                $MS = "Não encontrei os dados para exibir. Verifique os dados e tente novamente.";
+                $this->Erro($MS);
+            else:
+                $this->Retorno['Resultados'] = $this->Crud->Results['Dados'];
+                $this->Retorno['Periodo'] = $this->Dados;
+                $this->load->view('relatorios/relLoja', $this->Retorno);
+            endif;
+
+        else:
+            $MS = "Houve uma falha ao procurar os dados.";
+            $this->Erro($MS);
+            return;
+        endif;
+    }
+
+    public function relDispInter() {
+        $recDados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+        if (!empty($recDados) and ! empty($recDados['dataIni'])):
+
+            $Util = new Ultilitario();
+            $recDados['dataIni'] = $Util->DataUsa($recDados['dataIni']);
+            $recDados['dataFim'] = $Util->DataUsa($recDados['dataFim']);
+            $this->Dados = $recDados;
+
+            $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59' AND o_sit_ch NOT LIKE 8";
+            $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+
+            if ($this->Crud->Results == NULL):
+                $MS = "Não encontrei os dados para exibir. Verifique os informações e tente novamente.";
+                $this->Erro($MS);
+                return;
+            endif;
+
+            $this->Retorno['Periodo'] = $this->Dados;
+            $this->Retorno['Resultado'] = $this->Crud->Results['Dados'];
+
+            $this->load->view('relatorios/relDisp', $this->Retorno);
+        else:
+            $MS = "Houve uma falha ao consultar os dados";
+            $this->Erro($MS);
+            return;
+        endif;
+    }
+
+    private function Erro($Messagem) {
+        if (empty($_SESSION)):
+            session_start();
+        endif;
+        $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
+        $Erro['Msg'] = $Messagem;
+        $this->load->view('errors/Erro', $Erro);
+        return;
     }
 
 }

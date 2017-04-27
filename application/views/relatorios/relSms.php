@@ -13,7 +13,7 @@
 
 
         $RenderReport = "
-           <header>
+           <header> 
              <img src='" . base_url('assets/img/SNOC3.png') . "' class='rel-img'>
              <h3>Relatório SMS do Período: {$Periodo['dataIni']} a {$Periodo['dataFim']}</h3> 
              <h4>Dados Gerais:</h4>
