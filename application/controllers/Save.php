@@ -12,9 +12,6 @@ class Save extends CI_Controller {
     private $DadosLoja;
     private $Ultilitarios;
 
-
-
-
     function __construct() {
         parent::__construct();
         session_start();
@@ -116,7 +113,7 @@ class Save extends CI_Controller {
         /* Assunto */
         $Assunto = "Link Alarmado - Loja: {$this->Chamado['o_loja']}. Ocorrência SISNOC: {$this->Chamado['o_cod']}";
         /* Mensagem */
-        $Mensagem = "Caro Residente. Segue ocorrência SisNOC aberta pelos operadores. Número da Ocorrência: {$this->Chamado['o_cod']}. Favor realizar a abertura do chamado na operadora.";
+        $Mensagem = "Caro Residente ok. Segue ocorrência SisNOC aberta pelos operadores. Número da Ocorrência: {$this->Chamado['o_cod']}. Favor realizar a abertura do chamado na operadora.";
         /* Destinatários */
         $Dest = $this->Ultilitarios->CheckDestinatários(2);
         /* Enviando Email */
