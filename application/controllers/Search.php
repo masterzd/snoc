@@ -85,13 +85,13 @@ class Search extends CI_Controller {
         
         /* Consulta a quantidade total de registros na tabela */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
-                . "where lj_num = '{$Termo}' or lj_end like '{$Termo}' or lj_bairro like '%{$Termo}%' or  lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}'";
+                . "where lj_num = '{$Termo}' or lj_end like '%{$Termo}%' or lj_bairro like '%{$Termo}%' or  lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Count = $this->Crud->Results['lines'];
         
         /* Consulta com a condição */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
-                . "where lj_num = '{$Termo}' or lj_end = '{$Termo}' or lj_bairro like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";       
+                . "where lj_num = '{$Termo}' or lj_end = '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";       
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $this->ResultLojas = $this->Crud->Results['Dados'];
         if($Count >= 1):

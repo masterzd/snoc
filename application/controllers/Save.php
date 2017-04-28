@@ -12,6 +12,9 @@ class Save extends CI_Controller {
     private $DadosLoja;
     private $Ultilitarios;
 
+
+
+
     function __construct() {
         parent::__construct();
         session_start();
@@ -88,48 +91,47 @@ class Save extends CI_Controller {
 
     private function operadora() {
 
-      
-            $Arr['o_last_update'] = date('Y-m-d H:i:s');
-            $Arr['o_sit_ch'] = 2;
-            $Arr['o_op'] = $this->DadosLoja['Link']['cir_oper'];
-            $Arr['o_nece'] = 2;
-            $Where['o_cod'] = $this->Chamado['o_cod'];
 
-            $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
-            if ($this->Crud->Results == false):
-                $Messagem = "Falha ao salvar a ocorrência: Erro na atualização dos dados. Contate o suporte para verificar os dados";
-                return $Messagem;
-            endif;
-            /* Salvando notas da ocorrência */
-            $Notas = $this->saveNotas();
+        $Arr['o_last_update'] = date('Y-m-d H:i:s');
+        $Arr['o_sit_ch'] = 2;
+        $Arr['o_op'] = $this->DadosLoja['Link']['cir_oper'];
+        $Arr['o_nece'] = 2;
+        $Where['o_cod'] = $this->Chamado['o_cod'];
 
-            /* Salvando Tipo de problema e ação tomada */
-            $this->saveTpAc();
+        $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
+        if ($this->Crud->Results == false):
+            $Messagem = "Falha ao salvar a ocorrência: Erro na atualização dos dados. Contate o suporte para verificar os dados";
+            return $Messagem;
+        endif;
+        /* Salvando notas da ocorrência */
+        $Notas = $this->saveNotas();
 
-            /* Savando na Tabela de Eventos */
-            $this->saveEventos();
+        /* Salvando Tipo de problema e ação tomada */
+        $this->saveTpAc();
 
-            /* Envio de Email */
-            /* Assunto */
-            $Assunto = "Link Alarmado - Loja: {$this->Chamado['o_loja']}. Ocorrência SISNOC: {$this->Chamado['o_cod']}";
-            /* Mensagem */
-            $Mensagem = "Caro Residente. Segue ocorrência SisNOC aberta pelos operadores. Número da Ocorrência: {$this->Chamado['o_cod']}. Favor realizar a abertura do chamado na operadora.";
-            /* Destinatários */
-            $Dest = $this->Ultilitarios->CheckDestinatários(2);
-            /* Enviando Email */
-            $sendEmail = $this->enviaEmail($Assunto, $Mensagem, $Dest);
+        /* Savando na Tabela de Eventos */
+        $this->saveEventos();
 
-            /* Enviando SMS */
-            $SMS = $this->sendsms->sms($this->Contatos, $this->Chamado, $this->DadosLoja, 3);
+        /* Envio de Email */
+        /* Assunto */
+        $Assunto = "Link Alarmado - Loja: {$this->Chamado['o_loja']}. Ocorrência SISNOC: {$this->Chamado['o_cod']}";
+        /* Mensagem */
+        $Mensagem = "Caro Residente. Segue ocorrência SisNOC aberta pelos operadores. Número da Ocorrência: {$this->Chamado['o_cod']}. Favor realizar a abertura do chamado na operadora.";
+        /* Destinatários */
+        $Dest = $this->Ultilitarios->CheckDestinatários(2);
+        /* Enviando Email */
+        $sendEmail = $this->enviaEmail($Assunto, $Mensagem, $Dest);
 
-            if ($sendEmail == true and $SMS == true):
-                return true;
-            elseif ($sendEmail == false):
-                return "Email";
-            elseif ($SMS == false):
-                return "sms";
-            endif;
-            
+        /* Enviando SMS */
+        $SMS = $this->sendsms->sms($this->Contatos, $this->Chamado, $this->DadosLoja, 3);
+
+        if ($sendEmail == true and $SMS == true):
+            return true;
+        elseif ($sendEmail == false):
+            return "Email";
+        elseif ($SMS == false):
+            return "sms";
+        endif;
     }
 
     /* Função que possui as rotinas quando a ocorrência é direcionada para SEMEP */
@@ -197,7 +199,7 @@ class Save extends CI_Controller {
             $Messagem = "Falha ao salvar a ocorrência: Erro na atualização dos dados. Contate o suporte para verificar os dados";
             return $Messagem;
         endif;
-
+/*  Teste de envio ao Git*/
         /* Salvando notas da ocorrência */
         $Notas = $this->saveNotas();
 
@@ -286,13 +288,13 @@ class Save extends CI_Controller {
         $Arr['o_nece'] = 7;
         $Arr['o_prazo'] = $this->Ultilitarios->prazoTecnico();
         $Where['o_cod'] = $this->Chamado['o_cod'];
-        
+
         $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
         if ($this->Crud->Results == false):
             $Messagem = "Falha ao salvar a ocorrência: Erro na atualização dos dados. Contate o suporte para verificar os dados";
             return $Messagem;
         endif;
-        
+
 
         /* Salvando notas da ocorrência */
         $Notas = $this->saveNotas();
