@@ -1,0 +1,20 @@
+body{
+    background-image: url('../../img/wallblack.jpeg');
+}
+
+.custom-sidedar{
+    background-color: #FFB900;
+    padding: 2%;
+}
+
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: black;
+    font-size: 1.15em;
+}
+
+.logo-dash {
+    margin-bottom: 12%;
+}

@@ -67,6 +67,7 @@ $route['rel/Geral'] = 'Relatorios/Geral';
 $route['rel/Sms'] = 'Relatorios/relSms';
 $route['rel/Loja'] = 'Relatorios/relLoja';
 $route['rel/DispInter'] = 'Relatorios/relDispInter';
+$route['dashboard'] = 'DashBoard/Inicio';
 $route['ocorrencias-diarias'] = 'Start/chToday';
 $route['consulta-loja'] = 'Start/consultaFilial';
 $route['404_override'] = '';
