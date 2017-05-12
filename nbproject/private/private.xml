@@ -3,16 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/CI_SISNOC/assets/css/custom-css/menu.css</file>
-            <file>file:/var/www/html/CI_SISNOC/assets/css/custom-css/busca.css</file>
-            <file>file:/var/www/html/CI_SISNOC/application/controllers/Relatorios.php</file>
-            <file>file:/var/www/html/CI_SISNOC/application/views/manager.php</file>
+            <file>file:/var/www/html/CI_SISNOC/assets/js/scripts.js</file>
+            <file>file:/var/www/html/CI_SISNOC/assets/js/dashboard.js</file>
+            <file>file:/var/www/html/CI_SISNOC/application/config/routes.php</file>
             <file>file:/var/www/html/CI_SISNOC/assets/css/custom-css/m-principal.css</file>
-            <file>file:/var/www/html/CI_SISNOC/assets/css/custom-css/manager.css</file>
-            <file>file:/var/www/html/CI_SISNOC/application/views/filiais.php</file>
-            <file>file:/var/www/html/CI_SISNOC/assets/css/custom-css/filial.css</file>
             <file>file:/var/www/html/CI_SISNOC/assets/css/custom-css/chamado.css</file>
-            <file>file:/var/www/html/CI_SISNOC/assets/js/info-filiais.js</file>
+            <file>file:/var/www/html/CI_SISNOC/application/views/dashboard.php</file>
+            <file>file:/var/www/html/CI_SISNOC/assets/css/custom-css/dashboard.css</file>
+            <file>file:/var/www/html/CI_SISNOC/assets/css/custom-css/dashboard/home.css</file>
+            <file>file:/var/www/html/CI_SISNOC/application/controllers/DashBoard.php</file>
+            <file>file:/var/www/html/CI_SISNOC/application/views/dashboard/home.php</file>
         </group>
     </open-files>
 </project-private>

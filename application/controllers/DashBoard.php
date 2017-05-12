@@ -11,11 +11,6 @@ class DashBoard extends CI_Controller {
     }
 
     public function Inicio() {
-
-
-
-
-
         $this->load->view('dashboard');
     }
 
@@ -24,35 +19,35 @@ class DashBoard extends CI_Controller {
 
         $QR1 = "SELECT lj_num from tb_lojas WHERE lj_sit NOT LIKE 'Fechada'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR1);
-        $lojasCad = $this->Crud->Results['lines'];
+        $lojasCad = $this->Crud->Results['lines'] ?? 0;
 
         $QR2 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = 'MPLS' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR2);
-        $MPLS = $this->Crud->Results['lines'];
+        $MPLS = $this->Crud->Results['lines'] ?? 0;
 
         $QR3 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = 'ADSL' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR3);
-        $ADSL = $this->Crud->Results['lines'];
+        $ADSL = $this->Crud->Results['lines'] ?? 0;
 
         $QR4 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = 'XDSL' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR4);
-        $XDSL = $this->Crud->Results['lines'];
+        $XDSL = $this->Crud->Results['lines'] ?? 0;
 
         $QR5 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = 'IPConnect' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR5);
-        $IpCon = $this->Crud->Results['lines'];
+        $IpCon = $this->Crud->Results['lines'] ?? 0;
 
         $QR6 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = '4G' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR6);
-        $mb4g = $this->Crud->Results['lines'];
+        $mb4g = $this->Crud->Results['lines'] ?? 0;
 
         $QR7 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = 'Radio' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR7);
-        $radio = $this->Crud->Results['lines'];
+        $radio = $this->Crud->Results['lines'] ?? 0;
 
         $QR = "SELECT DISTINCT o_loja FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 7";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
-        $Inc = $this->Crud->Results['lines'];
+        $Inc = $this->Crud->Results['lines'] ?? 0;
 
 
 

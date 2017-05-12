@@ -49,13 +49,13 @@
                             <div class="card">
                                 <p><?=$IPCon?></p>
                                 <div class="cont">
-                                    <h4><b>IPConnect</b></h4>
+                                    <h4><b>Links IPConnect</b></h4>
                                 </div>
                             </div>
                             <div class="card">
                                 <p><?=$Radio?></p>
                                 <div class="cont">
-                                    <h4><b>Radio</b></h4>
+                                    <h4><b>Links de Radio</b></h4>
                                 </div>
                             </div>
                             <div class="card">
@@ -74,7 +74,7 @@
                         <h1>Top 10 - Lojas com mais incidentes</h1>
                         <select class="form-control control-date j-ctl-per">
                             <option value="">Informe um período</option>
-                            <option value="30">Ultimos 30 dias</option>
+                            <option value="30" selected>Ultimos 30 dias</option>
                             <option value="60">Ultimos 60 dias</option>
                             <option value="90">Ultimos 90 dias</option>
                             <option value="6">Ultimos 6 meses</option>
