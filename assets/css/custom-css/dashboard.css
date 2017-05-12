@@ -18,3 +18,54 @@ body{
 .logo-dash {
     margin-bottom: 12%;
 }
+
+.fa:before{
+    font-size: 3.2em;
+}
+
+.custom-ico{
+    font-size: 4em;
+    margin-bottom: 5%;
+    margin-left: 27%;
+}
+
+p{
+    margin-left: -11%;
+    text-align: center;
+}
+
+.area-painels {
+    background-color: #fcfbe0;
+    height: 94vh;
+    margin-left: 2%;
+    /* margin-bottom: 1%; */
+    margin-top: 2%;
+    width: 79%;
+}
+
+.obj-panel{
+    width: 162%;
+    height: 94vh;
+    margin-left: -5%; 
+}
+
+.img-dash-person{
+    width: 14%;
+    height: 23vh;
+    /* margin-left: -3%; */
+    position: relative;
+    left: -23%;
+    top: 33%;
+}
+
+
+@media (min-width:1370px){
+    .custom-sidedar{
+        height: 100vh;
+    }
+
+    .custom-ico{
+        margin-left: 33%;
+    }
+   
+}

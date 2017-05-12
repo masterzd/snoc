@@ -11,23 +11,25 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar custom-sidedar">
-                    <img class="img-responsive logo-dash" src="<?= base_url('assets/img/SNOC3.png')?>">
+                    <img class="img-responsive logo-dash" src="<?= base_url('assets/img/SNOC3.png') ?>">
                     <ul class="nav nav-sidebar">
-                        <li><a href="#"><i class="fa fa-home" aria-hidden="true"> </i> Home</a></li>
-                        <li><a href="#"><i class="fa fa-users" aria-hidden="true"></i> Operadora</a></li>
-                        <li><a href="#"><i class="fa fa-plug" aria-hidden="true"></i> Téc.Regionais</a></li>
-                        <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> SEMEP</a></li>
-                        <li><a href="#"><i class="fa fa-bolt" aria-hidden="true"></i> Falta de Energia</a></li>
+                        <li><a class="j-home" href="#"><i class="fa fa-home custom-ico" aria-hidden="true"> </i> <p>Home</p></a></li>
+                        <li><a class="j-oper" href="#"><i class="fa fa-users custom-ico" aria-hidden="true"></i> <p>Operadora</p></a></li>
+                        <li><a class="j-tec" href="#"><i class="fa fa-plug custom-ico" aria-hidden="true"></i> <p>Téc.Regionais</p></a></li>
+                        <li><a class="j-semep" href="#"><i class="fa fa-wrench custom-ico" aria-hidden="true"></i> <p>SEMEP</p></a></li>
+                        <li><a class="j-power" href="#"><i class="fa fa-bolt custom-ico" aria-hidden="true"></i> <p>Falta de Energia</p></a></li>
                     </ul>
-<!--                    <ul class="nav nav-sidebar">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Operadora</a></li>
-                        <li><a href="#">Infra-Estrutura</a></li>
-                        <li><a href="#">SEMEP</a></li>
-                        <li><a href="#">Falta de Energia</a></li>
-                    </ul>-->
                 </div>
-            </div>            
+                <div class="col-md-8 area-painels">
+                    <div class="col-md-8">
+                        <object class="obj-panel j-obj-panel" data="<?= base_url('home') ?>" type="text/html"></object>
+                    </div>
+                </div>
+
+            </div> 
+
+
+
         </div>
 
 

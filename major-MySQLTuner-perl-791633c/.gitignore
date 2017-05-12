@@ -1,5 +1,0 @@
-build/mysqltuner-*
-build/mysqltuner.spec
-build/build.log
-build/cve*
-build/vulnerabilities*
