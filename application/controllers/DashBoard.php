@@ -8,6 +8,7 @@ class DashBoard extends CI_Controller {
         parent::__construct();
         $this->load->model('Crud');
         $this->load->helper('url');
+        require APPPATH . 'third_party/Ultilitario.php';
     }
 
     public function Inicio() {
@@ -45,10 +46,10 @@ class DashBoard extends CI_Controller {
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR7);
         $radio = $this->Crud->Results['lines'] ?? 0;
 
-        $QR = "SELECT DISTINCT o_loja FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 7";
+        $QR = "SELECT DISTINCT o_loja,(SELECT COUNT(*) FROM tb_ocorrencias WHERE o_loja = tb.o_loja AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 7) as Chamados FROM tb_ocorrencias as tb WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 7";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Inc = $this->Crud->Results['lines'] ?? 0;
-
+        $IncArr = $this->Crud->Results['Dados'];
 
 
         $Dados = [
@@ -59,7 +60,8 @@ class DashBoard extends CI_Controller {
             'MB4G' => $mb4g,
             'Radio' => $radio,
             'LjInc' => $Inc,
-            'CadLj' => $lojasCad
+            'CadLj' => $lojasCad,
+            'LjIncArr' => $IncArr
         ];
 
 
@@ -70,21 +72,12 @@ class DashBoard extends CI_Controller {
 
         $Per = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-        if (!empty($Per) and !empty($Per['per'])):
-            
-            
-            if($Per['per'] == '30' or $Per['per'] == '60' or $Per['per'] == '90'):
-                $Data = date('Y-m-d', strtotime("-{$Per['per']} days"));
-            else:
-                $Data = date('Y-m-d', strtotime("-{$Per['per']} month"));
-            endif;
-            
-            
-            $CurrentDate = date("Y-m-d");
-            $QR = "select distinct o_loja,(select count(*) from tb_ocorrencias where o_loja = ch.o_loja) as count from tb_ocorrencias as ch where o_hr_ch between '{$Data} 00:00:00' and '{$CurrentDate} 23:59:59' order by count DESC LIMIT 10";
+        if (!empty($Per) and ! empty($Per['per'])):
+
+            $Data = $this->getPeriodo($Per['per']);
+            $QR = "select distinct o_loja,(select count(*) from tb_ocorrencias where o_loja = ch.o_loja and o_hr_ch between '{$Data[0]} 00:00:00' and '{$Data[1]} 23:59:59') as count from tb_ocorrencias as ch where o_hr_ch between '{$Data[0]} 00:00:00' and '{$Data[1]} 23:59:59' order by count DESC LIMIT 10";
             $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
-           
-            
+
             if ($this->Crud->Results['lines'] >= 1):
                 echo json_encode($this->Crud->Results['Dados']);
             else:
@@ -94,6 +87,73 @@ class DashBoard extends CI_Controller {
             echo "false";
 
         endif;
+    }
+
+    public function getOcorrenciasChart() {
+
+        $Dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+        if (!empty($Dados) and ! empty($Dados['o_loja'])):
+            $Util = new Ultilitario();
+
+            $Data = $this->getPeriodo($Dados['per']);
+
+            $QR = "SELECT * FROM tb_ocorrencias WHERE o_loja = {$Dados['o_loja']} AND o_hr_ch BETWEEN '{$Data[0]} 00:00:00' AND '{$Data[1]} 23:59:59'";
+            $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+
+            echo "
+                <div class=\"table-responsive\">
+                    <table class=\"table table-striped\">
+                                <thead class=\"table-custom\">
+                                    <tr class=\"tb-color\">
+                                        <th class=\"hidden-table\">Num. Ocor.</th>
+                                        <th>Situação</th>
+                                        <th>Aberto em:</th>
+                                        <th>Hora do Incidente</th>
+                                        <th>Causa do Problema</th>
+                                        <th>Fechado em:</th>                                 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ";
+
+            foreach ($this->Crud->Results['Dados'] as $Ch):
+
+                $Sit = ($Ch['o_sit_ch'] == 1 ? 'Fechado' : ($Ch['o_sit_ch'] == 8 ? 'Cancelado' : 'Aberto'));
+                $Ch['o_hr_ch'] = $Util->DataBR($Ch['o_hr_ch']);
+                $Ch['o_hr_fc'] = $Util->DataBR($Ch['o_hr_fc']);
+                $Ch['o_hr_dw'] = $Util->DataBR($Ch['o_hr_dw']);
+                echo "  <tr>
+                            <td>{$Ch['o_cod']}</td>
+                            <td>{$Sit}</td>
+                            <td>{$Ch['o_hr_ch']}</td>
+                            <td>{$Ch['o_hr_dw']}</td>
+                            <td>{$Ch['o_causa_prob']}</td>
+                            <td>{$Ch['o_hr_fc']}</td>
+                        </tr> ";
+            endforeach;
+        echo "
+                </tbody>
+            </table>
+         </div>";
+
+        endif;
+    }
+
+    private function getPeriodo($Days_Month) {
+
+        $Data = [];
+
+        if ($Days_Month == '30' or $Days_Month == '60' or $Days_Month == '90'):
+            $Data[] = date('Y-m-d', strtotime("-{$Days_Month} days"));
+        else:
+            $Data[] = date('Y-m-d', strtotime("-{$Days_Month} month"));
+        endif;
+
+        $Data[] = date("Y-m-d");
+
+
+        return $Data;
     }
 
 }

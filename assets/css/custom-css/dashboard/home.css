@@ -73,3 +73,11 @@ svg:after{
         margin-left: 23%;
     }
 }
+
+.modal-dialog.modal-sm {
+    width: 95%;
+}
+
+.lj-inc:hover{
+    cursor: pointer;
+}

@@ -306,18 +306,16 @@ $(function () {
             },
             success: function (dados) {
 
-                console.log(dados);
+             
 
                 if (dados == 'existe') {
                     $('#mdlinfo2').modal('show');
                 } else if (dados == 'pass') {
                     $('#mdlinfo3').modal('show');
                 } else if (dados == 'falha-01') {
-                    $('#mdlinfo4').modal('show');
-                    console.log(dados);
+                    $('#mdlinfo4').modal('show');                    
                 } else if (dados == 'falha-02') {
-                    $('#mdlinfo4').modal('show');
-                    console.log(dados);
+                    $('#mdlinfo4').modal('show');  
                 } else if (dados == 'done') {
                     $('#mdlinfo6').modal('show');
                 } else {
