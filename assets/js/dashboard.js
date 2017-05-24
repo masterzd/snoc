@@ -13,7 +13,7 @@ $(function () {
         changeScreen(UrlBase + 'home');
     });
     $('.j-oper').click(function () {
-        changeScreen(UrlBase + 'relatorios');
+        changeScreen(UrlBase + 'operadora');
     });
 
     
@@ -108,7 +108,6 @@ $(function () {
     $('.lj-inc').click(function () {
         $('#mdlinfo3').modal('show');
     });
-
 
 });
 

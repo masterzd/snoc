@@ -9,7 +9,7 @@ body{
     /* Add shadows to create the "card" effect */
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 20%;
+    width: 18%;
     display: inline-block;
     margin-left: 1%;
     margin-bottom: 2%;
@@ -50,8 +50,8 @@ h4{
 
 .ctl-card {
     position: relative;
-    left: 7%;
-    width: 94%;
+    left: 1%;
+    width: 100%;
 }
 
 .control-date {
@@ -85,4 +85,12 @@ svg:after{
 .custom{
     width: 35%;
     margin-left: 32%;
+}
+
+.nav-tabs {
+    margin-bottom: 3%;
+}
+
+p.total-style {
+    color: coral;
 }

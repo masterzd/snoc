@@ -14,7 +14,8 @@ class DashBoard extends CI_Controller {
     public function Inicio() {
         $this->load->view('dashboard');
     }
-
+    
+    /* Função que é responsável por gerar os dados que são apresentados na tela Home do dashboard */
     public function Home() {
 
 
@@ -139,11 +140,55 @@ class DashBoard extends CI_Controller {
 
         endif;
     }
+    
+    
+    public function operadora(){
+        
+        $Info = $this->getDadosChamadosOperadora(true);
+        
+        $this->load->view('dashboard/operadora', $Info);
+    }
+    
+    public function getDadosChamadosOperadora($Return = false){
+        
+        /* Verifica quantas ocorrências de cada link existe em aberto direcionado para a operadora */
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'MPLS'";
+        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
+        $MPLS = $this->Crud->Results;
+        
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'ADSL'";
+        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
+        $ADSL = $this->Crud->Results;
+
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'XDSL'";
+        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
+        $XDSL = $this->Crud->Results;
+        
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'Radio'";
+        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
+        $RD = $this->Crud->Results;
+        
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'IPConnect'";
+        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
+        $IPConn = $this->Crud->Results;
+        
+        $Results = [
+            'MPLS' => $MPLS,
+            'ADSL' => $ADSL,
+            'XDSL' => $XDSL,
+            'Radio' => $RD,
+            'IPConn' => $IPConn
+        ];
+        
+        if($Return == true):
+            return $Results;
+        else:
+            echo json_encode($Results);
+        endif;
+    }
 
     private function getPeriodo($Days_Month) {
-
         $Data = [];
-
         if ($Days_Month == '30' or $Days_Month == '60' or $Days_Month == '90'):
             $Data[] = date('Y-m-d', strtotime("-{$Days_Month} days"));
         else:
@@ -151,9 +196,6 @@ class DashBoard extends CI_Controller {
         endif;
 
         $Data[] = date("Y-m-d");
-
-
         return $Data;
     }
-
 }
