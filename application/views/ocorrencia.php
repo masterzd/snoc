@@ -160,7 +160,7 @@
 
                 </content>				
             </div>         
-            <form action="http://sisnoc.maquinadevendas.corp/CI_SISNOC/update" method="POST">
+            <form action="http://localhost/CI_SISNOC/update" method="POST">
                 <div class="row">					
                     <div class="col-md-11 col-xs-11 conteudo">
 
@@ -192,15 +192,15 @@
                             if (empty($InfoCallViewCh['DadosCh']['o_prot_op']) and $InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 and $_SESSION['user']['Nv'] <= 3):
                                 echo "<div class='form-group'>
                                         <label class='j_des'>Protocolo Operadora:</label>
-                                        <input type='text' class='form-control j_des' name='o_prot_op' required>
+                                        <input type='text' class='form-control j_des' name='o_prot_op' >
                                       </div>
                                       <div class='form-group'>
                                          <label class='j_des'>Prazo de Normalização</label>
-                                         <input type='text' class='form-control j_des j-date-picker' name='o_prazo' placeholder='Informe aqui' required>   
+                                         <input type='text' class='form-control j_des j-date-picker' name='o_prazo' placeholder='Informe aqui' >   
                                       </div>
                                        <div class='form-group'>
                                           <label class='j_des'>Horário Chamado Operadora</label>
-                                          <input type='text' class='form-control j_des j-date-picker' name='o_hr_ch_op' placeholder='Informe aqui' required>  
+                                          <input type='text' class='form-control j_des j-date-picker' name='o_hr_ch_op' placeholder='Informe aqui' >  
                                        </div>";
 
                                 if (!empty($InfoCallViewCh['DadosCh']['o_sisman']) or ! empty($InfoCallViewCh['DadosCh']['o_otrs'])):

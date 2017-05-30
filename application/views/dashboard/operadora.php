@@ -23,27 +23,33 @@
                         <div id="#Geral">
                             <div class="ctl-card">
                                 <div class="card">
-                                    <p><?= $MPLS['lines'] ?></p>
+                                    <p id="0"><?= $MPLS['lines'] ?></p>
                                     <div class="cont">
-                                        <h4><b>Abertos MPLS</b></h4>
+                                        <h4><b>MPLS</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p><?= $ADSL['lines'] ?></p>
+                                    <p id="1"><?= $ADSL['lines'] ?></p>
                                     <div class="cont">
-                                        <h4><b>Abertos ADSL</b></h4>
+                                        <h4><b>ADSL</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p><?= $XDSL['lines'] ?></p>
+                                    <p id="2"><?= $XDSL['lines'] ?></p>
                                     <div class="cont">
-                                        <h4><b>Abertos XDSL</b></h4>
+                                        <h4><b>XDSL</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p><?= $IPConn['lines'] ?></p>
+                                    <p id="3"><?= $Radio['lines'] ?? 0 ?></p>
                                     <div class="cont">
-                                        <h4><b>Abertos IPConnect</b></h4>
+                                        <h4><b>Radio</b></h4>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <p id="4"><?= $IPConn['lines'] ?></p>
+                                    <div class="cont">
+                                        <h4><b>IPConnect</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
@@ -53,13 +59,13 @@
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p>80</p>
+                                    <p id="5"><?= $Prev['lines'] ?></p>
                                     <div class="cont">
                                         <h4><b>Preventivas</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p>10</p>
+                                    <p id="6"><?= $Inad['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>Inadiplência</b></h4>
                                     </div>

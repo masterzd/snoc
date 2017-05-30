@@ -14,8 +14,9 @@ class DashBoard extends CI_Controller {
     public function Inicio() {
         $this->load->view('dashboard');
     }
-    
+
     /* Função que é responsável por gerar os dados que são apresentados na tela Home do dashboard */
+
     public function Home() {
 
 
@@ -133,54 +134,93 @@ class DashBoard extends CI_Controller {
                             <td>{$Ch['o_hr_fc']}</td>
                         </tr> ";
             endforeach;
-        echo "
+            echo "
                 </tbody>
             </table>
          </div>";
 
         endif;
     }
-    
-    
-    public function operadora(){
-        
+
+    public function operadora() {
+
         $Info = $this->getDadosChamadosOperadora(true);
-        
         $this->load->view('dashboard/operadora', $Info);
     }
-    
-    public function getDadosChamadosOperadora($Return = false){
-        
+
+    public function poolingOperadora() {
+        $In = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (!empty($In) and ! empty($In['info'])):
+            $Dados = explode('&', $In['info']);
+            unset($Dados[5]);
+            $Dados = array_values($Dados);
+            unset($Dados[7]);
+
+            while (true):
+                $Check = $this->getDadosChamadosOperadora(true);
+                foreach ($Check as $Info):
+                    $Lines[] = $Info['lines'] ?? '0';
+                endforeach;
+                $DIFF = array_values(array_diff_assoc($Lines, $Dados));
+                $Lines = null;
+
+                if (count($DIFF) > 0):                    
+                    $Keys = array_keys($DIFF);
+                    foreach ($Keys as $key):
+                        $Out[] = array($key,$DIFF[$key]);
+                    endforeach;
+                    echo json_encode($Out);
+                    break;                        
+                endif;                
+                sleep(2);
+            endwhile;
+        endif;
+    }
+
+    public function getDadosChamadosOperadora($Return = false) {
+
         /* Verifica quantas ocorrências de cada link existe em aberto direcionado para a operadora */
         $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'MPLS'";
-        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
-        $MPLS = $this->Crud->Results;
-        
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $MPLS = $this->Crud->Results ?? '0';
+
         $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'ADSL'";
-        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
-        $ADSL = $this->Crud->Results;
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $ADSL = $this->Crud->Results ?? '0';
 
         $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'XDSL'";
-        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
-        $XDSL = $this->Crud->Results;
-        
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $XDSL = $this->Crud->Results ?? '0';
+
         $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'Radio'";
-        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
-        $RD = $this->Crud->Results;
-        
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $RD = $this->Crud->Results ?? '0';
+
         $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'IPConnect'";
-        $this->Crud->calldb(0,'SELECT', 0,0,$QR);
-        $IPConn = $this->Crud->Results;
-        
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $IPConn = $this->Crud->Results ?? '0';
+
+        $QR = "SELECT tb_ocorrencias.o_cod FROM tb_ch_acao, tb_ocorrencias WHERE tb_ocorrencias.o_cod = tb_ch_acao.o_cod AND tb_ch_acao.ch_acao = 'Preventiva Aberta - Operadora' AND tb_ocorrencias.o_sit_ch NOT LIKE 1 AND tb_ocorrencias.o_sit_ch NOT LIKE 8";
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $Prev = $this->Crud->Results ?? '0';
+
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch = 7";
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $Inad = $this->Crud->Results ?? '0';
+
+//        var_dump($Inad);
+
         $Results = [
             'MPLS' => $MPLS,
             'ADSL' => $ADSL,
             'XDSL' => $XDSL,
             'Radio' => $RD,
-            'IPConn' => $IPConn
+            'IPConn' => $IPConn,
+            'Prev' => $Prev,
+            'Inad' => $Inad
         ];
-        
-        if($Return == true):
+
+        if ($Return == true):
             return $Results;
         else:
             echo json_encode($Results);
@@ -198,4 +238,5 @@ class DashBoard extends CI_Controller {
         $Data[] = date("Y-m-d");
         return $Data;
     }
+
 }

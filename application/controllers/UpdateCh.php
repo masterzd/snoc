@@ -34,6 +34,7 @@ class UpdateCh extends CI_Controller {
 
     public function update() {
         $Ch = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
         if (!empty($Ch) and ! empty($Ch['o_cod']) and ! empty($_SESSION['Ocorrência_' . $Ch['o_cod']]['InfoCallViewCh'])):
             $this->Chamado = $_SESSION['Ocorrência_' . $Ch['o_cod']]['InfoCallViewCh']['DadosCh'];
             $this->Loja = $_SESSION['Ocorrência_' . $Ch['o_cod']]['InfoCallViewCh']['DadosLoja']['Loja'];
@@ -118,6 +119,17 @@ class UpdateCh extends CI_Controller {
     /*     * *************************************************************************************************** */
 
     private function updateOperadora() {
+        if(!empty($this->DadosIn['link_prev']) and $this->DadosIn['link_prev'] == 'on'):
+            $action = array('o_cod' => $this->Chamado['o_cod'], 'ch_acao' => 'Preventiva Aberta - Operadora');
+            $this->Crud->calldb('tb_ch_acao', 'INSERT', $action);
+            unset($this->DadosIn['link_prev']);
+        endif;
+        
+        if(!empty($this->DadosIn['link_norm'])):
+           unset($this->DadosIn['link_norm']);
+        endif;
+        
+        
         $this->DadosIn['o_sit_ch'] = 6;
         $this->DadosIn['o_last_update'] = date('Y-m-d H:i:s');
         $this->DadosIn['o_opr_op'] = $_SESSION['user']['Nome'];
@@ -125,6 +137,9 @@ class UpdateCh extends CI_Controller {
         $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $this->DadosIn, $Where);
         $Result = $this->Crud->Results;
         $this->saveEventos('Alterou');
+        
+        
+        
         return $Result;
     }
 

@@ -252,5 +252,13 @@ $(function () {
 
         return fdate;
     }
+    
+    $('.j_norm').click(function () {
+        $('.j_des').toggle(function () {
+            $('.j_des').attr("disabled", true);
+        }, function () {
+            $('.j_des').attr("disabled", false);
+        });
+    });
 
 });
