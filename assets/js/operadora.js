@@ -16,7 +16,7 @@ $(function () {
             }
         });
 
-        $.post('http://localhost/CI_SISNOC/getUpdate', {info: dados}, function (retorno) {
+        $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/getUpdate', {info: dados}, function (retorno) {
             var json = jQuery.parseJSON(retorno);
             $.each(json, function (Key, value) {
                 $('#' + value[0]).html(value[1]);
@@ -30,7 +30,7 @@ $(function () {
     
     var GeraModal = function(link){
         
-      $.post('http://localhost/CI_SISNOC/geraModal', {link: link}, function(tabela){
+      $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/geraModal', {link: link}, function(tabela){
           
       });  
         

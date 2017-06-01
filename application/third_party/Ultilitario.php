@@ -111,6 +111,18 @@ class Ultilitario extends CI_Controller {
         $difftime = $this->CI->Crud->Results['Dados'][0]['o_difftime'];
         $this->Worktime($NumCh, $HrUP, $HrDW, $difftime);
     }
+    
+    public function TimeIndsNow($Oco){
+        $QR = "SELECT TIMEDIFF(now(), tb_ocorrencias.o_hr_dw)o_timeoff FROM tb_ocorrencias WHERE o_cod = {$Oco}";
+        $this->CI->Crud->calldb(0,'SELECT',0,0, $QR);
+        if(!empty($this->CI->Crud->Results['Dados'])):
+            return $this->CI->Crud->Results['Dados'][0]['o_timeoff'];
+        else:
+            return '00:00:00';
+        endif; 
+    }
+    
+    
 
     private function Worktime($NumCh, $HrUP, $HrDW, $DIF) {
         $worktime = $this->calc_data($HrUP, $HrDW, $DIF);
@@ -144,6 +156,14 @@ class Ultilitario extends CI_Controller {
 
         return $DataConv;
     }
+    
+    public function ConvHorasMin($Hora){
+        $BrokeHour = explode(":", $Hora);
+        $Min =  $BrokeHour[0] * 60;
+        $Min = $Min + $BrokeHour[1];
+        return $Min;
+    }
+    
 
     public function ChecaBandeira($numlj) {
       

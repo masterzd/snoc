@@ -171,9 +171,8 @@ class Relatorios extends CI_Controller {
             $recDados['dataFim'] = $Util->DataUsa($recDados['dataFim']);
             $this->Dados = $recDados;
 
-            $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59' AND o_sit_ch NOT LIKE 8";
+            $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59' AND o_sit_ch NOT LIKE 7";
             $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
-
             if ($this->Crud->Results == NULL):
                 $MS = "Não encontrei os dados para exibir. Verifique os informações e tente novamente.";
                 $this->Erro($MS);

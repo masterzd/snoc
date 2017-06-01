@@ -23,19 +23,19 @@
                         <div id="#Geral">
                             <div class="ctl-card">
                                 <div class="card">
-                                    <p id="0"><?= $MPLS['lines'] ?></p>
+                                    <p id="0"><?= $MPLS['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>MPLS</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="1"><?= $ADSL['lines'] ?></p>
+                                    <p id="1"><?= $ADSL['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>ADSL</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="2"><?= $XDSL['lines'] ?></p>
+                                    <p id="2"><?= $XDSL['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>XDSL</b></h4>
                                     </div>
@@ -47,7 +47,7 @@
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="4"><?= $IPConn['lines'] ?></p>
+                                    <p id="4"><?= $IPConn['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>IPConnect</b></h4>
                                     </div>
@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="5"><?= $Prev['lines'] ?></p>
+                                    <p id="5"><?= $Prev['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>Preventivas</b></h4>
                                     </div>

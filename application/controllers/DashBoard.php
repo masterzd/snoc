@@ -149,13 +149,14 @@ class DashBoard extends CI_Controller {
     }
 
     public function poolingOperadora() {
+        set_time_limit(0);
         $In = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($In) and ! empty($In['info'])):
             $Dados = explode('&', $In['info']);
             unset($Dados[5]);
             $Dados = array_values($Dados);
             unset($Dados[7]);
-
+            
             while (true):
                 $Check = $this->getDadosChamadosOperadora(true);
                 foreach ($Check as $Info):
@@ -172,7 +173,6 @@ class DashBoard extends CI_Controller {
                     echo json_encode($Out);
                     break;                        
                 endif;                
-                sleep(2);
             endwhile;
         endif;
     }
