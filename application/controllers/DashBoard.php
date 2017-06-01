@@ -161,7 +161,7 @@ class DashBoard extends CI_Controller {
                 foreach ($Check as $Info):
                     $Lines[] = $Info['lines'] ?? '0';
                 endforeach;
-                $DIFF = array_values(array_diff_assoc($Lines, $Dados));
+                $DIFF = array_diff_assoc($Lines, $Dados);
                 $Lines = null;
 
                 if (count($DIFF) > 0):                    
@@ -204,7 +204,7 @@ class DashBoard extends CI_Controller {
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Prev = $this->Crud->Results ?? '0';
 
-        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch = 7";
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_nece = 7 AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Inad = $this->Crud->Results ?? '0';
 
