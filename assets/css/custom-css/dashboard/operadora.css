@@ -98,3 +98,35 @@ svg:after{
 p.total-style {
     color: coral;
 }
+
+.Modal{
+    display: none;
+}
+
+.hidden{
+    display: none;
+}
+
+
+.custom {
+    width: 74%;
+    margin-left: 12%;
+}
+
+.card-large{
+   width: 48%;
+   height: 64vh;
+   background-color: white;
+}
+
+.title-filas {
+    font-size: 1em;
+    font-weight: 600;
+    margin-top: 2%;
+}
+
+.table-tam {
+    height: 27vh;
+    margin-top: 1%;
+    overflow: auto;
+}

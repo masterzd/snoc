@@ -49,31 +49,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+
+/* Rotas Principais */
 $route['default_controller'] = 'Start';
+$route['validacao'] = 'Start/validacao';
+
+/* Rotas relacionadas ao Menu Principal */
 $route['menuprincipal'] = 'Start/menu';
 $route['cad-link'] = 'Start/cadlink';
 $route['tec-cad'] = 'Start/tecCad';
 $route['manager'] = 'Start/manager';
 $route['checklink'] = 'Start/checklink';
-$route['validacao'] = 'Start/validacao';
+
+
+/* Rotas relacionadas ao Chamados */
 $route['chamado'] = 'Chamado/chamado';
 $route['busca'] = 'Search/search';
 $route['save'] = 'Save/SaveCh';
 $route['logoff'] = 'Start/sair';
 $route['update'] = 'UpdateCh/update';
 $route['verchamado'] = 'Ocorrencia/ConsultaCh';
+
+/* Rotas relacionadas aos Relatórios */
 $route['relatorios'] = 'Start/relatorios';
 $route['rel/Geral'] = 'Relatorios/Geral';
 $route['rel/Sms'] = 'Relatorios/relSms';
 $route['rel/Loja'] = 'Relatorios/relLoja';
 $route['rel/DispInter'] = 'Relatorios/relDispInter';
+
+/* Rotas relacionadas a tela de ocorrências diárias */
 $route['ocorrencias-diarias'] = 'Start/chToday';
+
+/* Rotas relacionadas a Tela de busca de informações */
 $route['consulta-loja'] = 'Start/consultaFilial';
+
+/* Rotas relacionadas ao Dashboard */
 $route['dashboard'] = 'DashBoard/Inicio';
 $route['home'] = 'DashBoard/Home';
 $route['operadora'] = 'DashBoard/operadora';
 $route['getUpdate'] = 'DashBoard/poolingOperadora';
 $route['per'] = 'DashBoard/periodoTopLojas';
 $route['getChChart'] = 'DashBoard/getOcorrenciasChart';
+$route['geraModal'] = 'DashBoard/geraModal';
+
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

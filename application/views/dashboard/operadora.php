@@ -16,11 +16,11 @@
                     </header>
                     <main>
                         <ul class="nav nav-tabs">
-                            <li class="nav-item"><a href="#">Geral</a></li>
-                            <li class="nav-item"><a href="#">Filas</a></li>
+                            <li class="nav-item"><a href="#" id="Geral">Geral</a></li>
+                            <li class="nav-item"><a href="#" id="Filas">Filas</a></li>
                         </ul>
 
-                        <div id="#Geral">
+                        <div class="Geral">
                             <div class="ctl-card">
                                 <div class="card">
                                     <p id="0"><?= $MPLS['lines'] ?? 0 ?></p>
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p class="total-style"><?= $IPConn['lines'] + $XDSL['lines'] + $ADSL['lines'] + $MPLS['lines'] ?></p>
+                                    <p id="7" class="total-style"><?= $IPConn['lines'] + $XDSL['lines'] + $ADSL['lines'] + $MPLS['lines'] ?></p>
                                     <div class="cont">
                                         <h4><b>Total</b></h4>
                                     </div>
@@ -73,17 +73,117 @@
 
                             </div>
                         </div>
-                        <div id="#Filas">
-                            
+                        <div class="Filas hidden">
+                            <div class="ctl-card">
+                                <div class="card card-large">
+                                    <div class="cont">
+                                        <h4><b>Direcionadas para a operadora</b></h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 table-tam">
+                                        <p class="title-filas">Ocorrências com mais de 15 Min (MPLS - XDSL - IPConnect)</p>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="table-custom">
+                                                    <tr class="tb-color">
+                                                        <th>Num. Ocor</th>
+                                                        <th>Loja</th>
+                                                        <th>Link</th>
+                                                        <th>Operadora</th>
+                                                        <th>Tempo Aberto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-md-12 col-xs-12 table-tam">
+                                        <p class="title-filas">ADSL - Acima de 1 Hora</p>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="table-custom">
+                                                    <tr class="tb-color">
+                                                        <th>Num. Ocor</th>
+                                                        <th>Loja</th>
+                                                        <th>Link</th>
+                                                        <th>Operadora</th>
+                                                        <th>Tempo Aberto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card card-large">                                    
+                                    <div class="cont">
+                                        <h4><b>Ocorrências com prazo de normalização expirado</b></h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 table-tam">
+                                        <p class="title-filas">MPLS - XDSL - IPConnect</p>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="table-custom">
+                                                    <tr class="tb-color">
+                                                        <th>Num. Ocor</th>
+                                                        <th>Loja</th>
+                                                        <th>Link</th>
+                                                        <th>Operadora</th>
+                                                        <th>Prazo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                                    <div class="col-md-12 col-xs-12 table-tam">
+                                        <p class="title-filas">Link de Backup</p>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="table-custom">
+                                                    <tr class="tb-color">
+                                                        <th>Num. Ocor</th>
+                                                        <th>Loja</th>
+                                                        <th>Link</th>
+                                                        <th>Operadora</th>
+                                                        <th>Prazo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                </div>
+                            </div>
                         </div>
-
-
-
                     </main>
                 </div>
             </div>
         </div>
-
+        <div id="Modal" class="modal fade" role="dialog"></div>
 
 
 

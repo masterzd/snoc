@@ -5,7 +5,20 @@ $(function () {
         Check();
     });
 
-//Função para disparar o loop pooling para fazer a atualização do dashboard em realtime. 
+    /* Função responsável pelas abas */
+    $('#Geral').click(function(){
+        $('.Geral').removeClass('hidden');
+        $('.Filas').addClass('hidden');
+    });
+    $('#Filas').click(function(){
+        $('.Filas').removeClass('hidden');
+        $('.Geral').addClass('hidden');
+    });
+    
+    
+
+
+    //Função para disparar o Long Polling para fazer a atualização do dashboard em realtime. 
     var Check = function () {
         var dados = '';
         $('.card p').each(function () {
@@ -15,6 +28,7 @@ $(function () {
                 dados += '&';
             }
         });
+        
 
         $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/getUpdate', {info: dados}, function (retorno) {
             var json = jQuery.parseJSON(retorno);
@@ -28,18 +42,24 @@ $(function () {
         });
     }
     
-    var GeraModal = function(link){
-        
-      $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/geraModal', {link: link}, function(tabela){
-          
-      });  
-        
-        
-    }
     
-    $('#0').click()
+    $('.card p').click(function () {
+        GeraModal($(this).attr('id'));
+    });
     
+    /* Função responsável por buscar os dados e monta o modal */
+    var GeraModal = function (id) {
+        console.log(id);
+        $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/geraModal', {id: id}, function (tabela) {
 
+            if (tabela == 'fail') {
+                alert("Sem resultados a serem exibidos");
+            } else {
+                $('#Modal').html(tabela);
+                $('#Modal').modal('show');
+            }
+        });
+    }
 
 });
 

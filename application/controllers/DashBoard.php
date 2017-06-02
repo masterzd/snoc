@@ -156,8 +156,9 @@ class DashBoard extends CI_Controller {
             unset($Dados[5]);
             $Dados = array_values($Dados);
             unset($Dados[7]);
-            
+
             while (true):
+                clearstatcache();
                 $Check = $this->getDadosChamadosOperadora(true);
                 foreach ($Check as $Info):
                     $Lines[] = $Info['lines'] ?? '0';
@@ -165,14 +166,15 @@ class DashBoard extends CI_Controller {
                 $DIFF = array_diff_assoc($Lines, $Dados);
                 $Lines = null;
 
-                if (count($DIFF) > 0):                    
+                if (count($DIFF) > 0):
                     $Keys = array_keys($DIFF);
                     foreach ($Keys as $key):
-                        $Out[] = array($key,$DIFF[$key]);
+                        $Out[] = array($key, $DIFF[$key]);
                     endforeach;
                     echo json_encode($Out);
-                    break;                        
-                endif;                
+                    break; 
+                endif;
+                sleep(2);
             endwhile;
         endif;
     }
@@ -224,6 +226,94 @@ class DashBoard extends CI_Controller {
             return $Results;
         else:
             echo json_encode($Results);
+        endif;
+    }
+
+    public function GeraModal() {
+        $In = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (!empty($In) and is_string($In['id'])):
+            $Util = new Ultilitario;
+            switch ($In['id']):
+                case '0':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'MPLS'";
+                    break;
+                case '1':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'ADSL'";
+                    break;
+                case '2':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'XDSL'";
+                    break;
+                case '3':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'Radio'";
+                    break;
+                case '4':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'IPConnect'";
+                    break;
+                case '7':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2";
+                    break;
+                case '5':
+                    $QR = "SELECT tb_ocorrencias.o_cod FROM tb_ch_acao, tb_ocorrencias WHERE tb_ocorrencias.o_cod = tb_ch_acao.o_cod AND tb_ch_acao.ch_acao = 'Preventiva Aberta - Operadora' AND tb_ocorrencias.o_sit_ch NOT LIKE 1 AND tb_ocorrencias.o_sit_ch NOT LIKE 8";
+                    break;
+                case '6':
+                    $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_nece = 7 AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
+                    break;
+                default :
+                    echo 'falha';
+                    die();
+                    break;
+            endswitch;
+            $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+            /* Gera Modal */
+
+            if (!empty($this->Crud->Results['Dados'])):
+                echo "
+            <div class=\"modal-content custom\">
+                    <div class=\"modal-header custom-modal\">
+                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>
+                        <h3 class=\"modal-title\">Lojas com Incidentes em aberto</h3>
+                    </div>
+                    <div class=\"modal-corpo\">        
+                            <div class=\"table-responsive\">
+                                    <table class=\"table table-striped\">
+                                                <thead class=\"table-custom\">
+                                                    <tr class=\"tb-color\">
+                                                        <th class=\"hidden-table\">Num. Ocor.</th>
+                                                        <th>Aberto em:</th>
+                                                        <th>Hora do Incidente</th>
+                                                        <th>Aberto por: </th>
+                                                        <th>Protocolo:</th>                                 
+                                                        <th>Prazo de Normalização:</th>                                 
+                                                    </tr>
+                                                </thead>
+                                          <tbody>";
+                foreach ($this->Crud->Results['Dados'] as $Ch):
+                    
+                    $Ch['o_hr_ch'] = $Util->DataBR($Ch['o_hr_ch']);
+                    $Ch['o_hr_dw'] = $Util->DataBR($Ch['o_hr_dw']);
+                    $Ch['o_prazo'] = $Util->DataBR($Ch['o_hr_fc']);
+                           echo "<tr>
+                                    <td>{$Ch['o_cod']}</td>
+                                    <td>{$Ch['o_hr_ch']}</td>
+                                    <td>{$Ch['o_hr_dw']}</td>
+                                    <td>{$Ch['o_opr_ab']}</td>
+                                    <td>{$Ch['o_prot_op']}</td>
+                                    <td>{$Ch['o_prazo']}</td>
+                                </tr> ";
+                endforeach;
+
+                echo "
+                            </tbody>
+                        </table>
+                    </div>
+                  </div>
+               </div>
+            </div>
+                ";
+            else:
+                echo 'fail';
+            endif;
+
         endif;
     }
 
