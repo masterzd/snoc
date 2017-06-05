@@ -3,6 +3,7 @@ $(function () {
     /*Funcao Responsável por manter atualizados os dados na tela de operadora*/
     $(document).ready(function () {
         Check();
+        CountTime();
     });
 
     /* Função responsável pelas abas */
@@ -60,6 +61,48 @@ $(function () {
             }
         });
     }
+    
+    var CountTime = function(){
+       $.each($('.j-timeab'), function(key, value){
+            IncrementTime($(this).html());
+       });
+        CountTime();
+    }
+    
+    var IncrementTime = function(time){
+        timeBroken = time.split(":");
+        var hora = parseInt(timeBroken[0]);
+        var min = parseInt(timeBroken[1]);
+        var seg = parseInt(timeBroken[2]);
+        
+        seg++;
+        
+        if(seg > 59){
+            min ++;
+            seg = 00;
+            if(min > 59){
+                hora++;
+                min = 00;
+            }
+        }
+        
+        if(hora <= 9){
+            hora = '0'+ hora;
+        }
+        
+        if(min <= 9){
+            min = '0'+ min;
+        }
+        
+        if(seg <= 9){
+            seg = '0' + seg;
+        }
+        
+        var tempo = hora + ':' + min + ':' + seg;
+        
+        $('.j-timeab').html(tempo);
+    }
+    
 
 });
 

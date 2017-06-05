@@ -130,3 +130,8 @@ p.total-style {
     margin-top: 1%;
     overflow: auto;
 }
+thead > tr > th,
+td{
+    text-align: center;
+}
+

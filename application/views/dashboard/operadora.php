@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/dashboard/operadora.css') ?>">
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <title>Dashboard - Operadora</title>
+
     </head>
     <body>
         <div class="container-fluid">
@@ -23,49 +24,49 @@
                         <div class="Geral">
                             <div class="ctl-card">
                                 <div class="card">
-                                    <p id="0"><?= $MPLS['lines'] ?? 0 ?></p>
+                                    <p id="0"><?= $CountOcorrencias['MPLS']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>MPLS</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="1"><?= $ADSL['lines'] ?? 0 ?></p>
+                                    <p id="1"><?= $CountOcorrencias['ADSL']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>ADSL</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="2"><?= $XDSL['lines'] ?? 0 ?></p>
+                                    <p id="2"><?= $CountOcorrencias['XDSL']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>XDSL</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="3"><?= $Radio['lines'] ?? 0 ?></p>
+                                    <p id="3"><?= $CountOcorrencias['Radio']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>Radio</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="4"><?= $IPConn['lines'] ?? 0 ?></p>
+                                    <p id="4"><?= $CountOcorrencias['IPConn']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>IPConnect</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="7" class="total-style"><?= $IPConn['lines'] + $XDSL['lines'] + $ADSL['lines'] + $MPLS['lines'] ?></p>
+                                    <p id="7" class="total-style"><?= $CountOcorrencias['IPConn']['lines'] + $CountOcorrencias['XDSL']['lines'] + $CountOcorrencias['ADSL']['lines'] + $CountOcorrencias['MPLS']['lines'] ?></p>
                                     <div class="cont">
                                         <h4><b>Total</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="5"><?= $Prev['lines'] ?? 0 ?></p>
+                                    <p id="5"><?= $CountOcorrencias['Prev']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>Preventivas</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="6"><?= $Inad['lines'] ?? 0 ?></p>
+                                    <p id="6"><?= $CountOcorrencias['Inad']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>Inadiplência</b></h4>
                                     </div>
@@ -93,16 +94,22 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <?php
+                                                    if (!empty($Filas['Oper_15min'])):
+                                                        foreach ($Filas['Oper_15min'] as $Oc):
+                                                            echo "<td>{$Oc['o_cod']}</td>";
+                                                            echo "<td>{$Oc['o_loja']}</td>";
+                                                            echo "<td>{$Oc['o_link']}</td>";
+                                                            echo "<td>{$Oc['o_op']}</td>";
+                                                            echo "<td class='j-timeab'>{$Oc['o_tempo']}</td>";
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="col-md-12 col-xs-12 table-tam">
                                         <p class="title-filas">ADSL - Acima de 1 Hora</p>
                                         <div class="table-responsive">
@@ -117,11 +124,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <?php
+                                                    if (!empty($Filas['Oper_1hora'])):
+                                                        foreach ($Filas['Oper_1hora'] as $Oc):
+                                                            echo "<td>{$Oc['o_cod']}</td>";
+                                                            echo "<td>{$Oc['o_loja']}</td>";
+                                                            echo "<td>{$Oc['o_link']}</td>";
+                                                            echo "<td>{$Oc['o_op']}</td>";
+                                                            echo "<td>{$Oc['o_tempo']}</td>";
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -132,7 +145,7 @@
                                         <h4><b>Ocorrências com prazo de normalização expirado</b></h4>
                                     </div>
                                     <div class="col-md-12 col-xs-12 table-tam">
-                                        <p class="title-filas">MPLS - XDSL - IPConnect</p>
+                                        <p class="title-filas">Link Principal</p>
                                         <div class="table-responsive">
                                             <table class="table table-striped">
                                                 <thead class="table-custom">
@@ -145,15 +158,21 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <?php
+                                                    if (!empty($Filas['Oper_Expirado_Prin'])):
+                                                        foreach ($Filas['Oper_Expirado_Prin'] as $Oc):
+                                                            echo "<td>{$Oc['o_cod']}</td>";
+                                                            echo "<td>{$Oc['o_loja']}</td>";
+                                                            echo "<td>{$Oc['o_link']}</td>";
+                                                            echo "<td>{$Oc['o_op']}</td>";
+                                                            echo "<td>{$Oc['o_prazo']}</td>";
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
-                                </div>
+                                    </div>
                                     <div class="col-md-12 col-xs-12 table-tam">
                                         <p class="title-filas">Link de Backup</p>
                                         <div class="table-responsive">
@@ -168,17 +187,23 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <?php
+                                                    if (!empty($Filas['Oper_Expirado_Back'])):
+                                                        foreach ($Filas['Oper_Expirado_Back'] as $Oc):
+                                                            echo "<td>{$Oc['o_cod']}</td>";
+                                                            echo "<td>{$Oc['o_loja']}</td>";
+                                                            echo "<td>{$Oc['o_link']}</td>";
+                                                            echo "<td>{$Oc['o_op']}</td>";
+                                                            echo "<td>{$Oc['o_prazo']}</td>";
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
                                                 </tbody>
                                             </table>
                                         </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </main>
                 </div>
             </div>

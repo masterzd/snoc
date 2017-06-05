@@ -143,8 +143,34 @@ class DashBoard extends CI_Controller {
     }
 
     public function operadora() {
+        /* Recuperando a quantidade de chamados de cada link que são direcionados para a operadora */
+        $Info['CountOcorrencias'] = $this->getDadosChamadosOperadora(true);
 
-        $Info = $this->getDadosChamadosOperadora(true);
+        /* Recuperando os dados que vão ser exibidos da tela de filas */
+
+        /* Consulta Ocorrências da Fila Direcionadas para operadora - 15 min aberto */
+        $LinkFila1 = array('MPLS', 'XDSL', 'IPConnect');
+        $Fila1 = $this->timeOpenCh('PT15M', $LinkFila1, 'o_last_update', 2, 2);
+        
+        /* Consulta de Ocorrencias da Fila de Direcionadas para operadora - ADSL acima 1 Hora */
+        $LinkFila2 = 'ADSL';
+        $Fila2 = $this->timeOpenCh('PT1H', $LinkFila2, 'o_last_update', 2, 2);
+        
+        /* Consulta de Ocorrencias da Fila Ocorrencias com  prazo de normalização Expirado - MPLS */
+        $LinkFila3 = 'MPLS';
+        $Fila3 = $this->timeOpenCh(0, $LinkFila3, 'o_prazo', 2, 6);
+        
+        /* Consulta de Ocorrencias da Fila de Ocorrencias com prazo de normalização expirado - Link backup */
+        $LinkFila4 = array('ADSL', 'XDSL', 'IPConnect');
+        $Fila4 = $this->timeOpenCh(0, $LinkFila4, 'o_prazo', 2, 6);
+         
+        $Info['Filas'] = array(
+            'Oper_15min' => $Fila1,
+            'Oper_1hora' => $Fila2,
+            'Oper_Expirado_Prin' => $Fila3,
+            'Oper_Expirado_Back' => $Fila4,
+        );
+
         $this->load->view('dashboard/operadora', $Info);
     }
 
@@ -172,7 +198,7 @@ class DashBoard extends CI_Controller {
                         $Out[] = array($key, $DIFF[$key]);
                     endforeach;
                     echo json_encode($Out);
-                    break; 
+                    break;
                 endif;
                 sleep(2);
             endwhile;
@@ -209,8 +235,6 @@ class DashBoard extends CI_Controller {
         $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_nece = 7 AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Inad = $this->Crud->Results ?? '0';
-
-//        var_dump($Inad);
 
         $Results = [
             'MPLS' => $MPLS,
@@ -288,11 +312,11 @@ class DashBoard extends CI_Controller {
                                                 </thead>
                                           <tbody>";
                 foreach ($this->Crud->Results['Dados'] as $Ch):
-                    
+
                     $Ch['o_hr_ch'] = $Util->DataBR($Ch['o_hr_ch']);
                     $Ch['o_hr_dw'] = $Util->DataBR($Ch['o_hr_dw']);
                     $Ch['o_prazo'] = $Util->DataBR($Ch['o_hr_fc']);
-                           echo "<tr>
+                    echo "<tr>
                                     <td>{$Ch['o_cod']}</td>
                                     <td>{$Ch['o_hr_ch']}</td>
                                     <td>{$Ch['o_hr_dw']}</td>
@@ -302,8 +326,7 @@ class DashBoard extends CI_Controller {
                                 </tr> ";
                 endforeach;
 
-                echo "
-                            </tbody>
+                echo "    </tbody>
                         </table>
                     </div>
                   </div>
@@ -327,6 +350,110 @@ class DashBoard extends CI_Controller {
 
         $Data[] = date("Y-m-d");
         return $Data;
+    }
+
+    /* Função responsável para calcular quanto tempo o chamado está aberto */
+
+    private function timeOpenCh($DiffTime, $Links, $Field, $Nece, $Sit) {
+
+        $Util = new Ultilitario();
+
+        if (count($Links) > 1):
+            $QR = "SELECT TIMEDIFF(NOW(), {$Field})o_tempo, o_loja, o_band, o_link, o_cod, o_hr_ch, o_last_update, o_akl, o_prazo, o_sit_ch,"
+                    . " o_op  FROM tb_ocorrencias WHERE o_sit_ch = '{$Sit}' AND  o_nece = '{$Nece}' AND (o_link = '{$Links[0]}' or o_link = '{$Links[1]}' or o_link = '{$Links[2]}')";
+        else:
+            $QR = "SELECT TIMEDIFF(NOW(), {$Field})o_tempo, o_loja, o_band, o_link, o_prazo ,o_cod, o_akl, o_op, o_last_update "
+                    . "FROM tb_ocorrencias WHERE o_sit_ch ='{$Sit}' AND o_nece ='{$Nece}' AND o_link = '{$Links}'";
+        endif;
+
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $Results = null;
+        $Count = 0;
+
+        if (!empty($this->Crud->Results['Dados'])):
+
+            foreach ($this->Crud->Results['Dados'] as $Out):
+
+                if ($Sit == 2 and $Nece == 2):                    
+                    $Tempo = new DateTime($Out["{$Field}"]);
+                    $Tempo->add(new DateInterval($DiffTime));
+                    $ConvArr = (array) $Tempo;
+                    $TempoParaFila =  $ConvArr['date'];
+                else:
+                    $TempoParaFila = $Out['o_prazo'];
+                endif;
+
+                $TimeOpenSec = date('Y-m-d H:i:s');
+
+                if (strtotime($TimeOpenSec) > strtotime($TempoParaFila)):
+                    $Fila = $this->ChecaFilaDashboard($Nece, $Out['o_link']);
+                    $this->TimeDashCh($Fila, $Out);
+                    $Results[$Count]['o_tempo'] = $Out['o_tempo'];
+                    $Results[$Count]['o_loja'] = $Out['o_loja'];
+                    $Results[$Count]['o_band'] = $Out['o_band'];
+                    $Results[$Count]['o_link'] = $Out['o_link'];
+                    $Results[$Count]['o_prazo'] = $Out['o_prazo'];
+                    $Results[$Count]['o_cod'] = $Out['o_cod'];
+                    $Results[$Count]['o_akl'] = $Out['o_akl'];
+                    $Results[$Count]['o_op'] = $Out['o_op'];
+                endif;
+
+                $Count ++;
+            endforeach;
+            return $Results;
+        endif;
+    }
+
+    /* Função para Calcular quanto tempo a ocorrência ficou no dashboard */
+
+    private function TimeDashCh($Fila, array $Chamado) {
+
+        $Where = array(
+            'ctl_ch' => $Chamado['o_cod'],
+            'ctl_fila' => $Fila
+        );
+        $this->Crud->calldb('tb_control_painel', 'SELECT', $Where);
+
+        if ($this->Crud->Results['lines'] == 0):
+
+            $Dados = [
+                'ctl_ch' => $Chamado['o_cod'],
+                'ctl_fila' => $Fila,
+                'ctl_loja' => $Chamado['o_loja'],
+                'ctl_band' => $Chamado['o_band'],
+                'ctl_hora_reg' => date('Y-m-d H:i:s'),
+                'ctl_time_painel' => '00:00:01'
+            ];
+
+            $this->Crud->calldb('tb_control_painel', 'INSERT', $Dados);
+
+
+        else:
+
+            $QR = "SELECT TIMEDIFF(NOW(), ctl_hora_reg)ctl_diff FROM tb_control_painel WHERE ctl_ch = {$Chamado['o_cod']}";
+            $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+
+            $UpdateTime = array(
+                'ctl_time_painel' => $this->Crud->Results['Dados'][0]['ctl_diff']
+            );
+
+            $Whre = array('ctl_ch' => $Chamado['o_cod']);
+            $this->Crud->calldb('tb_control_painel', 'UPDATE', $UpdateTime, $Whre);
+
+        endif;
+    }
+
+    /* Extensão da função timeOpenCh, que define para qual fila do dashboard a ocorrência foi salva */
+
+    private function ChecaFilaDashboard($Nece, $Link) {
+
+        if ($Nece == 2 and ( $Link == 'MPLS' or $Link == 'XDSL' or $Link == 'IPConnect')):
+            $Msg = "Direcionado para o Residente - MPLS / XDSL / IPC";
+        elseif ($Nece == 2 and $Link == 'ADSL'):
+            $Msg = "Direcionado para o Residente - ADSL";
+        endif;
+
+        return $Msg;
     }
 
 }
