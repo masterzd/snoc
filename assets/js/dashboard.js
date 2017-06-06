@@ -1,6 +1,6 @@
 $(function () {
     /* Script reposável por fazer as interatividades no dashboard */
-    var UrlBase = 'http://localhost/CI_SISNOC/';
+    var UrlBase = 'http://sisnoc.maquinadevendas.corp/CI_SISNOC/';
     
     /* Função gerada automaticamente para gerar o gráfico com a opção default de 30 dias */
     $(document).ready(function () {

@@ -101,15 +101,37 @@ $(function () {
         $('#'+ id).html(tempo);
     }
     
+    var CheckFilasOperadoras = function(){
+        var ch = ''; 
+        $.each($('tr'), function(key, value){
+           
+           if($(this).attr('id') != undefined){               
+               ch += $(this).attr('id');
+               ch += '&';
+           } 
+        });
+        
+        $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/listenFilas', {info:ch}, function(res){
+            var json = jQuery.parseJSON(res);
+            
+            $.each(json, function(key, value){
+                $('#'+ value).remove();
+            })
+            CheckFilasOperadoras();
+        });
+        
+    
+    } 
+    
     
     $(document).ready(function () {
         Check();
+        CheckFilasOperadoras();
         setInterval(function(){
             CountTime('j-timeab');
         }, 1000);
         
         setInterval(function(){
-            console.log("ok");
             CountTime('j-timeabAdsl');
         }, 1000);
     });

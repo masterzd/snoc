@@ -142,7 +142,7 @@ class DashBoard extends CI_Controller {
         endif;
     }
 
-    public function operadora() {
+    public function operadora($Return = false) {
         /* Recuperando a quantidade de chamados de cada link que são direcionados para a operadora */
         $Info['CountOcorrencias'] = $this->getDadosChamadosOperadora(true);
 
@@ -151,19 +151,19 @@ class DashBoard extends CI_Controller {
         /* Consulta Ocorrências da Fila Direcionadas para operadora - 15 min aberto */
         $LinkFila1 = array('MPLS', 'XDSL', 'IPConnect');
         $Fila1 = $this->timeOpenCh('PT15M', $LinkFila1, 'o_last_update', 2, 2);
-        
+
         /* Consulta de Ocorrencias da Fila de Direcionadas para operadora - ADSL acima 1 Hora */
         $LinkFila2 = 'ADSL';
         $Fila2 = $this->timeOpenCh('PT1H', $LinkFila2, 'o_last_update', 2, 2);
-        
+
         /* Consulta de Ocorrencias da Fila Ocorrencias com  prazo de normalização Expirado - MPLS */
         $LinkFila3 = 'MPLS';
         $Fila3 = $this->timeOpenCh(0, $LinkFila3, 'o_prazo', 2, 6);
-        
+
         /* Consulta de Ocorrencias da Fila de Ocorrencias com prazo de normalização expirado - Link backup */
         $LinkFila4 = array('ADSL', 'XDSL', 'IPConnect');
         $Fila4 = $this->timeOpenCh(0, $LinkFila4, 'o_prazo', 2, 6);
-         
+
         $Info['Filas'] = array(
             'Oper_15min' => $Fila1,
             'Oper_1hora' => $Fila2,
@@ -171,8 +171,14 @@ class DashBoard extends CI_Controller {
             'Oper_Expirado_Back' => $Fila4,
         );
 
-        $this->load->view('dashboard/operadora', $Info);
+        if ($Return == false):
+            $this->load->view('dashboard/operadora', $Info);
+        else:
+            return $Info;
+        endif;
     }
+
+    /* Função responsável por fazer o long pooling para contabilizar novas ocorrências relacionadas a operadora */
 
     public function poolingOperadora() {
         set_time_limit(0);
@@ -204,6 +210,52 @@ class DashBoard extends CI_Controller {
             endwhile;
         endif;
     }
+
+    /* Função long pooling para checar os chamados na fila da operadora */
+
+    public function poolingOperadoraFilas() {
+        $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (!empty($IN) and ! empty($IN['info'])):
+            $BrokeString = array_filter(explode('&', $IN['info']));
+            $filasBanco = array();
+            $NomeDasFilas = array();
+            $A = 1;
+            while ($A <= 20):
+                $GetOperadora = $this->operadora(true);
+                foreach ($GetOperadora['Filas'] as $Key => $Filas):
+                    
+                    if (!empty($Filas)):
+                        foreach ($Filas as $Ch):
+                            $filasBanco[] = $Ch['o_cod'];
+                            $NomeDasFilas = array('Fila' => $Key, 'o_cod' => $Ch['o_cod'], 
+                                'o_link' => $Ch['o_link'],'o_op'=> $Ch['o_op'],'o_tempo' => $Ch['o_tempo'], 'o_prazo' => $Ch['o_prazo']); 
+                        endforeach;
+                    endif;
+                    
+                endforeach;
+                var_dump($NomeDasFilas);
+                
+                $DIFF = array_diff($BrokeString, $filasBanco);
+                $filasBanco = NULL;
+                $NomeDasFilas = NULL;
+                
+                
+                if (count($DIFF) > 0):
+                    
+                    
+                    
+                    
+//                    echo json_encode($DIFF);
+                    break;
+                endif;
+                
+                sleep(2);
+                $A++;
+            endwhile;
+        endif;
+    }
+
+    /* Função responsável por consultar as quantidades de ocorrências que estão associadas a operadora */
 
     public function getDadosChamadosOperadora($Return = false) {
 
@@ -252,6 +304,8 @@ class DashBoard extends CI_Controller {
             echo json_encode($Results);
         endif;
     }
+
+    /* Função responsável por rendererizar os modals na tela de ocorrência */
 
     public function GeraModal() {
         $In = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -340,6 +394,8 @@ class DashBoard extends CI_Controller {
         endif;
     }
 
+    /* Função responsável por analisar o periodo para gerar o gráfico na tela home */
+
     private function getPeriodo($Days_Month) {
         $Data = [];
         if ($Days_Month == '30' or $Days_Month == '60' or $Days_Month == '90'):
@@ -374,11 +430,11 @@ class DashBoard extends CI_Controller {
 
             foreach ($this->Crud->Results['Dados'] as $Out):
 
-                if ($Sit == 2 and $Nece == 2):                    
+                if ($Sit == 2 and $Nece == 2):
                     $Tempo = new DateTime($Out["{$Field}"]);
                     $Tempo->add(new DateInterval($DiffTime));
                     $ConvArr = (array) $Tempo;
-                    $TempoParaFila =  $ConvArr['date'];
+                    $TempoParaFila = $ConvArr['date'];
                 else:
                     $TempoParaFila = $Out['o_prazo'];
                 endif;

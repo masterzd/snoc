@@ -98,7 +98,7 @@
                                                     if (!empty($Filas['Oper_15min'])):
                                                         $n = 1000;
                                                         foreach ($Filas['Oper_15min'] as $Oc):
-                                                            echo '<tr>';
+                                                            echo "<tr id='{$Oc['o_cod']}'>";
                                                                     echo "<td>{$Oc['o_cod']}</td>";
                                                                     echo "<td>{$Oc['o_loja']}</td>";
                                                                     echo "<td>{$Oc['o_link']}</td>";
@@ -132,7 +132,7 @@
                                                     if (!empty($Filas['Oper_1hora'])):
                                                         $x = 4000;
                                                         foreach ($Filas['Oper_1hora'] as $Oc):
-                                                            echo '<tr>';
+                                                            echo "<tr id='{$Oc['o_cod']}'>";
                                                                 echo "<td>{$Oc['o_cod']}</td>";
                                                                 echo "<td>{$Oc['o_loja']}</td>";
                                                                 echo "<td>{$Oc['o_link']}</td>";
@@ -169,7 +169,7 @@
                                                     <?php
                                                     if (!empty($Filas['Oper_Expirado_Prin'])):
                                                         foreach ($Filas['Oper_Expirado_Prin'] as $Oc):
-                                                            echo '<tr>';
+                                                            echo "<tr id='{$Oc['o_cod']}'>";
                                                                 echo "<td>{$Oc['o_cod']}</td>";
                                                                 echo "<td>{$Oc['o_loja']}</td>";
                                                                 echo "<td>{$Oc['o_link']}</td>";
@@ -200,7 +200,7 @@
                                                     <?php
                                                     if (!empty($Filas['Oper_Expirado_Back'])):
                                                         foreach ($Filas['Oper_Expirado_Back'] as $Oc):
-                                                            echo '<tr>';
+                                                             echo "<tr id='{$Oc['o_cod']}'>";
                                                                 echo "<td>{$Oc['o_cod']}</td>";
                                                                 echo "<td>{$Oc['o_loja']}</td>";
                                                                 echo "<td>{$Oc['o_link']}</td>";
