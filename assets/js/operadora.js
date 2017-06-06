@@ -1,11 +1,7 @@
 $(function () {
-    var UrlBase = 'http://localhost/CI_SISNOC/';
+    var UrlBase = 'http://sisnoc.maquinadevendas.corp/CI_SISNOC/';
     /*Funcao Responsável por manter atualizados os dados na tela de operadora*/
-    $(document).ready(function () {
-        Check();
-        CountTime();
-    });
-
+  
     /* Função responsável pelas abas */
     $('#Geral').click(function(){
         $('.Geral').removeClass('hidden');
@@ -62,14 +58,16 @@ $(function () {
         });
     }
     
-    var CountTime = function(){
-       $.each($('.j-timeab'), function(key, value){
-            IncrementTime($(this).html());
+    var CountTime = function(classe){
+       $.each($('.'+ classe), function(key, value){
+           if($(this).html() != '+ de 35 dias'){
+              IncrementTime($(this).html(), $(this).attr('id'));
+           }
        });
-        CountTime();
     }
     
-    var IncrementTime = function(time){
+    var IncrementTime = function(time, id){
+       
         timeBroken = time.split(":");
         var hora = parseInt(timeBroken[0]);
         var min = parseInt(timeBroken[1]);
@@ -100,9 +98,21 @@ $(function () {
         
         var tempo = hora + ':' + min + ':' + seg;
         
-        $('.j-timeab').html(tempo);
+        $('#'+ id).html(tempo);
     }
     
+    
+    $(document).ready(function () {
+        Check();
+        setInterval(function(){
+            CountTime('j-timeab');
+        }, 1000);
+        
+        setInterval(function(){
+            console.log("ok");
+            CountTime('j-timeabAdsl');
+        }, 1000);
+    });
 
 });
 

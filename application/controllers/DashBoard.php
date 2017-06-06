@@ -388,7 +388,7 @@ class DashBoard extends CI_Controller {
                 if (strtotime($TimeOpenSec) > strtotime($TempoParaFila)):
                     $Fila = $this->ChecaFilaDashboard($Nece, $Out['o_link']);
                     $this->TimeDashCh($Fila, $Out);
-                    $Results[$Count]['o_tempo'] = $Out['o_tempo'];
+                    $Results[$Count]['o_tempo'] = ($Out['o_tempo'] == '838:59:59' ? '+ de 35 dias' : $Out['o_tempo']);
                     $Results[$Count]['o_loja'] = $Out['o_loja'];
                     $Results[$Count]['o_band'] = $Out['o_band'];
                     $Results[$Count]['o_link'] = $Out['o_link'];

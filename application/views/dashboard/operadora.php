@@ -96,12 +96,16 @@
                                                 <tbody>
                                                     <?php
                                                     if (!empty($Filas['Oper_15min'])):
+                                                        $n = 1000;
                                                         foreach ($Filas['Oper_15min'] as $Oc):
-                                                            echo "<td>{$Oc['o_cod']}</td>";
-                                                            echo "<td>{$Oc['o_loja']}</td>";
-                                                            echo "<td>{$Oc['o_link']}</td>";
-                                                            echo "<td>{$Oc['o_op']}</td>";
-                                                            echo "<td class='j-timeab'>{$Oc['o_tempo']}</td>";
+                                                            echo '<tr>';
+                                                                    echo "<td>{$Oc['o_cod']}</td>";
+                                                                    echo "<td>{$Oc['o_loja']}</td>";
+                                                                    echo "<td>{$Oc['o_link']}</td>";
+                                                                    echo "<td>{$Oc['o_op']}</td>";
+                                                                    echo "<td class='j-timeab' id='{$n}'>{$Oc['o_tempo']}</td>";
+                                                            echo '</tr>';
+                                                            $n++;
                                                         endforeach;
                                                     endif;
                                                     ?>
@@ -126,12 +130,16 @@
                                                 <tbody>
                                                     <?php
                                                     if (!empty($Filas['Oper_1hora'])):
+                                                        $x = 4000;
                                                         foreach ($Filas['Oper_1hora'] as $Oc):
-                                                            echo "<td>{$Oc['o_cod']}</td>";
-                                                            echo "<td>{$Oc['o_loja']}</td>";
-                                                            echo "<td>{$Oc['o_link']}</td>";
-                                                            echo "<td>{$Oc['o_op']}</td>";
-                                                            echo "<td>{$Oc['o_tempo']}</td>";
+                                                            echo '<tr>';
+                                                                echo "<td>{$Oc['o_cod']}</td>";
+                                                                echo "<td>{$Oc['o_loja']}</td>";
+                                                                echo "<td>{$Oc['o_link']}</td>";
+                                                                echo "<td>{$Oc['o_op']}</td>";
+                                                                echo "<td class='j-timeabAdsl' id='{$x}'>{$Oc['o_tempo']}</td>";
+                                                            echo '</tr>';
+                                                            $x++;
                                                         endforeach;
                                                     endif;
                                                     ?>
@@ -161,11 +169,13 @@
                                                     <?php
                                                     if (!empty($Filas['Oper_Expirado_Prin'])):
                                                         foreach ($Filas['Oper_Expirado_Prin'] as $Oc):
-                                                            echo "<td>{$Oc['o_cod']}</td>";
-                                                            echo "<td>{$Oc['o_loja']}</td>";
-                                                            echo "<td>{$Oc['o_link']}</td>";
-                                                            echo "<td>{$Oc['o_op']}</td>";
-                                                            echo "<td>{$Oc['o_prazo']}</td>";
+                                                            echo '<tr>';
+                                                                echo "<td>{$Oc['o_cod']}</td>";
+                                                                echo "<td>{$Oc['o_loja']}</td>";
+                                                                echo "<td>{$Oc['o_link']}</td>";
+                                                                echo "<td>{$Oc['o_op']}</td>";
+                                                                echo "<td>{$Oc['o_prazo']}</td>";
+                                                            echo '</tr>';
                                                         endforeach;
                                                     endif;
                                                     ?>
@@ -190,11 +200,13 @@
                                                     <?php
                                                     if (!empty($Filas['Oper_Expirado_Back'])):
                                                         foreach ($Filas['Oper_Expirado_Back'] as $Oc):
-                                                            echo "<td>{$Oc['o_cod']}</td>";
-                                                            echo "<td>{$Oc['o_loja']}</td>";
-                                                            echo "<td>{$Oc['o_link']}</td>";
-                                                            echo "<td>{$Oc['o_op']}</td>";
-                                                            echo "<td>{$Oc['o_prazo']}</td>";
+                                                            echo '<tr>';
+                                                                echo "<td>{$Oc['o_cod']}</td>";
+                                                                echo "<td>{$Oc['o_loja']}</td>";
+                                                                echo "<td>{$Oc['o_link']}</td>";
+                                                                echo "<td>{$Oc['o_op']}</td>";
+                                                                echo "<td>{$Oc['o_prazo']}</td>";
+                                                            echo '</tr>';
                                                         endforeach;
                                                     endif;
                                                     ?>
