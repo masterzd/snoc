@@ -92,6 +92,7 @@ $route['per'] = 'DashBoard/periodoTopLojas';
 $route['getChChart'] = 'DashBoard/getOcorrenciasChart';
 $route['geraModal'] = 'DashBoard/geraModal';
 $route['listenFilas'] = 'DashBoard/poolingOperadoraFilas';
+$route['tecSemep'] = 'DashBoard/tecSemep';
 
 
 

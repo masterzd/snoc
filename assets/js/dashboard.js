@@ -15,6 +15,9 @@ $(function () {
     $('.j-oper').click(function () {
         changeScreen(UrlBase + 'operadora');
     });
+    $('.j-tec').click(function () {
+        changeScreen(UrlBase + 'tecSemep');
+    });
 
     
 
@@ -73,14 +76,10 @@ $(function () {
                             var selectedItem = chart.getSelection()[0];
                             if (selectedItem) {
                                 var value = data.getValue(selectedItem.row, 0);
-
                                 getChamadosChart(value, vl);
-
                             }
                         }
-
                         google.visualization.events.addListener(chart, 'select', selectHandler);
-
                         chart.draw(data, options);
 
                     }

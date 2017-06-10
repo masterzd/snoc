@@ -160,7 +160,7 @@
 
                 </content>				
             </div>         
-            <form action="http://localhost/CI_SISNOC/update" method="POST">
+            <form action="http://sisnoc.maquinadevendas.corp/CI_SISNOC/update" method="POST">
                 <div class="row">					
                     <div class="col-md-11 col-xs-11 conteudo">
 

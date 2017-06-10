@@ -23,6 +23,18 @@
                                 </div>
                             </div>
                             <div class="card">
+                                <p><?= $OfflineQT ?></p>
+                                <div class="cont">
+                                    <h4><b>Lojas Offline</b></h4>
+                                </div>
+                            </div>
+                            <div class="card lj-inc">
+                                <p><?= $LjInc ?></p>
+                                <div class="cont">
+                                    <h4><b>Lojas com Incidentes</b></h4>
+                                </div>
+                            </div>
+                            <div class="card">
                                 <p><?= $MPLS ?></p>
                                 <div class="cont">
                                     <h4><b>Links MPLS</b></h4>
@@ -47,23 +59,12 @@
                                 </div>
                             </div>
                             <div class="card">
-                                <p><?= $IPCon ?></p>
-                                <div class="cont">
-                                    <h4><b>Links IPConnect</b></h4>
-                                </div>
-                            </div>
-                            <div class="card">
                                 <p><?= $Radio ?></p>
                                 <div class="cont">
                                     <h4><b>Links de Radio</b></h4>
                                 </div>
                             </div>
-                            <div class="card lj-inc">
-                                <p><?= $LjInc ?></p>
-                                <div class="cont">
-                                    <h4><b>Lojas com Incidentes</b></h4>
-                                </div>
-                            </div>
+                            
                         </div>
                     </main>
                 </div> 
@@ -131,7 +132,7 @@
                     </div>
                 </div>
             </div>
-
+        </div>
             <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
             <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
             <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>

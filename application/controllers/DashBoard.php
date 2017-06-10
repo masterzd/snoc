@@ -47,8 +47,16 @@ class DashBoard extends CI_Controller {
         $QR7 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = 'Radio' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR7);
         $radio = $this->Crud->Results['lines'] ?? 0;
+        
+        $QR8 = "select * from tb_ocorrencias where o_sit_ch not like 1 and o_sit_ch not like 8 and o_status_temp = 'Loja Offline'";
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR8);
+        $Offline = $this->Crud->Results['lines'] ?? 0;
+        
+        $QR9 = "select distinct o_loja from tb_ocorrencias where o_sit_ch not like 1 and o_sit_ch not like 8 and o_status_temp = 'Loja Offline'";
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR9);
+        $OfflineQT = $this->Crud->Results['lines'] ?? 0;
 
-        $QR = "SELECT DISTINCT o_loja,(SELECT COUNT(*) FROM tb_ocorrencias WHERE o_loja = tb.o_loja AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 7) as Chamados FROM tb_ocorrencias as tb WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 7";
+        $QR = "SELECT DISTINCT o_loja,(SELECT COUNT(*) FROM tb_ocorrencias WHERE o_loja = tb.o_loja AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8) as Chamados FROM tb_ocorrencias as tb WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Inc = $this->Crud->Results['lines'] ?? 0;
         $IncArr = $this->Crud->Results['Dados'];
@@ -63,7 +71,9 @@ class DashBoard extends CI_Controller {
             'Radio' => $radio,
             'LjInc' => $Inc,
             'CadLj' => $lojasCad,
-            'LjIncArr' => $IncArr
+            'LjIncArr' => $IncArr,
+            'Offline' => $Offline,
+            'OfflineQT' => $OfflineQT
         ];
 
 
@@ -185,9 +195,9 @@ class DashBoard extends CI_Controller {
         $In = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($In) and ! empty($In['info'])):
             $Dados = explode('&', $In['info']);
-            unset($Dados[5]);
+            unset($Dados[4]);
             $Dados = array_values($Dados);
-            unset($Dados[7]);
+            unset($Dados[6]);
 
             while (true):
                 clearstatcache();
@@ -197,7 +207,6 @@ class DashBoard extends CI_Controller {
                 endforeach;
                 $DIFF = array_diff_assoc($Lines, $Dados);
                 $Lines = null;
-
                 if (count($DIFF) > 0):
                     $Keys = array_keys($DIFF);
                     foreach ($Keys as $key):
@@ -214,43 +223,40 @@ class DashBoard extends CI_Controller {
     /* Função long pooling para checar os chamados na fila da operadora */
 
     public function poolingOperadoraFilas() {
+        set_time_limit(0);
         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($IN) and ! empty($IN['info'])):
             $BrokeString = array_filter(explode('&', $IN['info']));
             $filasBanco = array();
-            $NomeDasFilas = array();
-            $A = 1;
-            while ($A <= 20):
+            $a = 1;
+            while (true):
+                clearstatcache();
                 $GetOperadora = $this->operadora(true);
-                foreach ($GetOperadora['Filas'] as $Key => $Filas):
-                    
+                foreach ($GetOperadora['Filas'] as $Filas):
                     if (!empty($Filas)):
                         foreach ($Filas as $Ch):
                             $filasBanco[] = $Ch['o_cod'];
-                            $NomeDasFilas = array('Fila' => $Key, 'o_cod' => $Ch['o_cod'], 
-                                'o_link' => $Ch['o_link'],'o_op'=> $Ch['o_op'],'o_tempo' => $Ch['o_tempo'], 'o_prazo' => $Ch['o_prazo']); 
                         endforeach;
                     endif;
-                    
                 endforeach;
-                var_dump($NomeDasFilas);
-                
-                $DIFF = array_diff($BrokeString, $filasBanco);
-                $filasBanco = NULL;
-                $NomeDasFilas = NULL;
-                
-                
-                if (count($DIFF) > 0):
-                    
-                    
-                    
-                    
-//                    echo json_encode($DIFF);
+                if (is_array($BrokeString) and is_array($filasBanco)):
+                    $DIFF_Ida = array_diff($BrokeString, $filasBanco);
+                    $DIFF_Volta = array_diff($filasBanco, $BrokeString);
+
+                    $filasBanco = NULL;
+                    if ((count($DIFF_Ida) > 0) or ( count($DIFF_Volta) > 0)):
+                        $Tabelas = $this->renderTableRow($GetOperadora['Filas']);
+                        echo json_encode($Tabelas);
+                        break;
+                    endif;
+                else:
+                    $Tabelas = $this->renderTableRow($GetOperadora['Filas'], true);
+                    echo json_encode($Tabelas);
                     break;
                 endif;
-                
+
                 sleep(2);
-                $A++;
+                $a++;
             endwhile;
         endif;
     }
@@ -260,25 +266,21 @@ class DashBoard extends CI_Controller {
     public function getDadosChamadosOperadora($Return = false) {
 
         /* Verifica quantas ocorrências de cada link existe em aberto direcionado para a operadora */
-        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'MPLS'";
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7) AND o_link = 'MPLS'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $MPLS = $this->Crud->Results ?? '0';
 
-        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'ADSL'";
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7) AND o_link = 'ADSL'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $ADSL = $this->Crud->Results ?? '0';
 
-        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'XDSL'";
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7) AND o_link = 'XDSL'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $XDSL = $this->Crud->Results ?? '0';
 
-        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'Radio'";
+        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7) AND o_link = 'Radio'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $RD = $this->Crud->Results ?? '0';
-
-        $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'IPConnect'";
-        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
-        $IPConn = $this->Crud->Results ?? '0';
 
         $QR = "SELECT tb_ocorrencias.o_cod FROM tb_ch_acao, tb_ocorrencias WHERE tb_ocorrencias.o_cod = tb_ch_acao.o_cod AND tb_ch_acao.ch_acao = 'Preventiva Aberta - Operadora' AND tb_ocorrencias.o_sit_ch NOT LIKE 1 AND tb_ocorrencias.o_sit_ch NOT LIKE 8";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
@@ -293,7 +295,6 @@ class DashBoard extends CI_Controller {
             'ADSL' => $ADSL,
             'XDSL' => $XDSL,
             'Radio' => $RD,
-            'IPConn' => $IPConn,
             'Prev' => $Prev,
             'Inad' => $Inad
         ];
@@ -313,28 +314,25 @@ class DashBoard extends CI_Controller {
             $Util = new Ultilitario;
             switch ($In['id']):
                 case '0':
-                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'MPLS'";
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7) AND o_link = 'MPLS'";
                     break;
                 case '1':
-                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'ADSL'";
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7) AND o_link = 'ADSL'";
                     break;
                 case '2':
-                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'XDSL'";
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7) AND o_link = 'XDSL'";
                     break;
                 case '3':
-                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'Radio'";
-                    break;
-                case '4':
-                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2 AND o_link = 'IPConnect'";
-                    break;
-                case '7':
-                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 2";
-                    break;
-                case '5':
-                    $QR = "SELECT tb_ocorrencias.o_cod FROM tb_ch_acao, tb_ocorrencias WHERE tb_ocorrencias.o_cod = tb_ch_acao.o_cod AND tb_ch_acao.ch_acao = 'Preventiva Aberta - Operadora' AND tb_ocorrencias.o_sit_ch NOT LIKE 1 AND tb_ocorrencias.o_sit_ch NOT LIKE 8";
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7) AND o_link = 'Radio'";
                     break;
                 case '6':
-                    $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_nece = 7 AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND (o_nece = 2 OR o_nece = 7)";
+                    break;
+                case '4':
+                    $QR = "SELECT tb_ocorrencias.* FROM tb_ch_acao, tb_ocorrencias WHERE tb_ocorrencias.o_cod = tb_ch_acao.o_cod AND tb_ch_acao.ch_acao = 'Preventiva Aberta - Operadora' AND tb_ocorrencias.o_sit_ch NOT LIKE 1 AND tb_ocorrencias.o_sit_ch NOT LIKE 8";
+                    break;
+                case '5':
+                    $QR = "SELECT * FROM tb_ocorrencias WHERE o_nece = 7 AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
                     break;
                 default :
                     echo 'falha';
@@ -342,8 +340,8 @@ class DashBoard extends CI_Controller {
                     break;
             endswitch;
             $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
-            /* Gera Modal */
 
+            /* Gera Modal */
             if (!empty($this->Crud->Results['Dados'])):
                 echo "
             <div class=\"modal-content custom\">
@@ -366,7 +364,6 @@ class DashBoard extends CI_Controller {
                                                 </thead>
                                           <tbody>";
                 foreach ($this->Crud->Results['Dados'] as $Ch):
-
                     $Ch['o_hr_ch'] = $Util->DataBR($Ch['o_hr_ch']);
                     $Ch['o_hr_dw'] = $Util->DataBR($Ch['o_hr_dw']);
                     $Ch['o_prazo'] = $Util->DataBR($Ch['o_hr_fc']);
@@ -392,6 +389,35 @@ class DashBoard extends CI_Controller {
             endif;
 
         endif;
+    }
+
+    public function tecSemep() {
+        $Dados = $this->getChamadosTecSemep();
+        $Util = new Ultilitario();
+        $this->load->view('dashboard/tecSemep', $Dados);
+    }
+
+    public function getChamadosTecSemep() {
+
+        $QR = "SELECT * FROM tb_ocorrencias where o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 3";
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+        $Res00 = $this->Crud->Results ?? 0;
+        $Links = array('MPLS', 'XDSL', 'ADSL');
+        $GetTimeOpenTec = $this->timeOpenCh('PT24H', $Links, 'o_hr_ch', 3, 3);
+
+        $QR2 = "SELECT * FROM tb_ocorrencias where o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_nece = 4";
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR2);
+        $Res01 = $this->Crud->Results ?? 0;
+        $Links = array('MPLS', 'XDSL', 'ADSL');
+        $GetTimeOpenSemep = $this->timeOpenCh('PT72H', $Links, 'o_hr_ch', 4, 4);
+
+
+        $Retorno = [
+            'Tec' => array('QtCh' => $Res00['lines'], 'ChTimeAB' => $GetTimeOpenTec, 'ChAll' => $Res00['Dados']),
+            'Semep' => array('QtCh' => $Res01['lines'], 'ChTimeAB' => $GetTimeOpenSemep, 'ChAll' => $Res01['Dados'])
+        ];
+        
+        return $Retorno;
     }
 
     /* Função responsável por analisar o periodo para gerar o gráfico na tela home */
@@ -430,7 +456,7 @@ class DashBoard extends CI_Controller {
 
             foreach ($this->Crud->Results['Dados'] as $Out):
 
-                if ($Sit == 2 and $Nece == 2):
+                if (($Sit == 2 and $Nece == 2) or ($Sit == 3 and $Nece == 3) or ($Sit == 4 and $Nece == 4)):
                     $Tempo = new DateTime($Out["{$Field}"]);
                     $Tempo->add(new DateInterval($DiffTime));
                     $ConvArr = (array) $Tempo;
@@ -503,13 +529,162 @@ class DashBoard extends CI_Controller {
 
     private function ChecaFilaDashboard($Nece, $Link) {
 
-        if ($Nece == 2 and ( $Link == 'MPLS' or $Link == 'XDSL' or $Link == 'IPConnect')):
-            $Msg = "Direcionado para o Residente - MPLS / XDSL / IPC";
+        if ($Nece == 2 and ( $Link == 'MPLS' or $Link == 'XDSL')):
+            $Msg = "Direcionado para o Residente - MPLS / XDSL";
         elseif ($Nece == 2 and $Link == 'ADSL'):
             $Msg = "Direcionado para o Residente - ADSL";
+        elseif ($Nece == 3):
+            $Msg = "Emcaminhadas para o Técnico - Mais de 24 Horas";
+        elseif ($Nece == 4):
+            $Msg = "Ocorrência SEMEP - Mais de 72 Horas";
         endif;
 
         return $Msg;
+    }
+
+    private function renderTableRow($FilasBD, $ArrEmpty = false) {
+
+        if ($ArrEmpty == true):
+            $Resultado = [
+                'Oper_15min' => NULL,
+                'Oper_1hora' => NULL,
+                'Oper_Expirado_Prin' => NULL,
+                'Oper_Expirado_Back' => NULL
+            ];
+
+            return $Resultado;
+        endif;
+
+        if (!empty($FilasBD['Oper_15min'])):
+            $Oper_15min = "    
+                <table class=\"table table-striped\">
+                    <thead class=\"table-custom\">
+                        <tr class=\"tb-color\">
+                            <th>Num. Ocor</th>
+                            <th>Loja</th>
+                            <th>Link</th>
+                            <th>Operadora</th>
+                            <th>Tempo Aberto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                ";
+            $n = 1000;
+            foreach ($FilasBD['Oper_15min'] as $Oc):
+                $Oper_15min .= "<tr id='{$Oc['o_cod']}'>
+                            <td>{$Oc['o_cod']}</td>
+                            <td>{$Oc['o_loja']}</td>
+                            <td>{$Oc['o_link']}</td>
+                            <td>{$Oc['o_op']}</td>
+                            <td class='j-timeab' id='{$n}'>{$Oc['o_tempo']}</td>
+                    </tr>";
+                $n++;
+            endforeach;
+            $Oper_15min .= "
+                     </tbody>
+                </table>
+                     ";
+        endif;
+
+        if (!empty($FilasBD['Oper_1hora'])):
+            $Oper_1hora = "    
+                <table class=\"table table-striped\">
+                    <thead class=\"table-custom\">
+                        <tr class=\"tb-color\">
+                            <th>Num. Ocor</th>
+                            <th>Loja</th>
+                            <th>Link</th>
+                            <th>Operadora</th>
+                            <th>Tempo Aberto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                ";
+            $x = 7000;
+            foreach ($FilasBD['Oper_1hora'] as $Oc):
+                $Oper_1hora .= "<tr id='{$Oc['o_cod']}'>
+                            <td>{$Oc['o_cod']}</td>
+                            <td>{$Oc['o_loja']}</td>
+                            <td>{$Oc['o_link']}</td>
+                            <td>{$Oc['o_op']}</td>
+                            <td class='j-timeab' id='{$x}'>{$Oc['o_tempo']}</td>
+                    </tr>";
+                $x++;
+            endforeach;
+            $Oper_1hora .= "
+                     </tbody>
+                </table>
+                     ";
+        endif;
+
+        if (!empty($FilasBD['Oper_Expirado_Prin'])):
+
+            $Oper_Expirado_Prin = "    
+                <table class=\"table table-striped\">
+                    <thead class=\"table-custom\">
+                        <tr class=\"tb-color\">
+                            <th>Num. Ocor</th>
+                            <th>Loja</th>
+                            <th>Link</th>
+                            <th>Operadora</th>
+                            <th>Prazo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                ";
+            foreach ($FilasBD['Oper_Expirado_Prin'] as $Oc):
+                $Oper_Expirado_Prin .= "<tr id='{$Oc['o_cod']}'>
+                            <td>{$Oc['o_cod']}</td>
+                            <td>{$Oc['o_loja']}</td>
+                            <td>{$Oc['o_link']}</td>
+                            <td>{$Oc['o_op']}</td>
+                            <td class='j-timeab'>{$Oc['o_prazo']}</td>
+                    </tr>";
+            endforeach;
+            $Oper_Expirado_Prin .= "
+                     </tbody>
+                </table>
+                     ";
+        endif;
+        if (!empty($FilasBD['Oper_Expirado_Back'])):
+
+            $Oper_Expirado_Back = "    
+                <table class=\"table table-striped\">
+                    <thead class=\"table-custom\">
+                        <tr class=\"tb-color\">
+                            <th>Num. Ocor</th>
+                            <th>Loja</th>
+                            <th>Link</th>
+                            <th>Operadora</th>
+                            <th>Prazo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                ";
+            foreach ($FilasBD['Oper_Expirado_Back'] as $Oc):
+                $Oper_Expirado_Back .= "<tr id='{$Oc['o_cod']}'>
+                            <td>{$Oc['o_cod']}</td>
+                            <td>{$Oc['o_loja']}</td>
+                            <td>{$Oc['o_link']}</td>
+                            <td>{$Oc['o_op']}</td>
+                            <td class='j-timeab'>{$Oc['o_prazo']}</td>
+                    </tr>";
+            endforeach;
+            $Oper_Expirado_Back .= "
+                     </tbody>
+                </table>
+                     ";
+        endif;
+
+
+        $Resultado = [
+            'Oper_15min' => $Oper_15min ?? NULL,
+            'Oper_1hora' => $Oper_1hora ?? NULL,
+            'Oper_Expirado_Prin' => $Oper_Expirado_Prin ?? NULL,
+            'Oper_Expirado_Back' => $Oper_Expirado_Back ?? NULL
+        ];
+
+        return $Resultado;
     }
 
 }

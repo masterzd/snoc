@@ -46,7 +46,7 @@
                                 foreach ($Lojas as $L):
                                     echo "   
                                      <tr>
-                                        <td><a href=". base_url("consulta-loja/?Lj={$L['lj_num']}").">{$L['lj_num']}</a></td>
+                                        <td><a href=" . base_url("consulta-loja/?Lj={$L['lj_num']}") . ">{$L['lj_num']}</a></td>
                                         <td class=\"hidden-table\">{$L['lj_end']}</td>
                                         <td>{$L['lj_bairro']}</td>
                                         <td>{$L['lj_cidade']}</td>
@@ -102,50 +102,51 @@
                                 <?php
                                 $ChamadosCount = $Chamados['CountOcorrencias'];
                                 unset($Chamados['CountOcorrencias']);
-                                foreach ($Chamados as $C):
-                                    if ($C != NULL):
-                                        foreach ($C as $Ch):
-                                            switch ($Ch['o_nece']):
-                                                case '2':
-                                                    $Sit = 'Operadora';
-                                                    break;
-                                                case '3':
-                                                    $Sit = 'Técnico';
-                                                    break;
-                                                case '4':
-                                                    $Sit = 'SEMEP';
-                                                    break;
-                                                case '5':
-                                                    $Sit = 'Falta de Energia';
-                                                    break;
-                                                default:
-                                                    $Sit = 'Sem informações';
-                                                    break;
-                                            endswitch;
+                                if (!empty($Chamados)):
+                                    foreach ($Chamados as $C):
+                                        if ($C != NULL):
+                                            foreach ($C as $Ch):
+                                                switch ($Ch['o_nece']):
+                                                    case '2':
+                                                        $Sit = 'Operadora';
+                                                        break;
+                                                    case '3':
+                                                        $Sit = 'Técnico';
+                                                        break;
+                                                    case '4':
+                                                        $Sit = 'SEMEP';
+                                                        break;
+                                                    case '5':
+                                                        $Sit = 'Falta de Energia';
+                                                        break;
+                                                    default:
+                                                        $Sit = 'Sem informações';
+                                                        break;
+                                                endswitch;
 
-                                            switch ($Ch['o_sit_ch']):
-                                                case '0':
-                                                case '2':
-                                                case '3':
-                                                case '4':
-                                                case '5':
-                                                case '6':
-                                                case '7':
-                                                    $SitCh = 'Aberto';
-                                                    break;
-                                                case '8':
-                                                    $SitCh = 'Cancelado';
-                                                    break;
-                                                case '1':
-                                                    $SitCh = 'Fechado';
-                                                    break;
-                                                default :
-                                                    $SitCh = 'Sem informações';
-                                            endswitch;
+                                                switch ($Ch['o_sit_ch']):
+                                                    case '0':
+                                                    case '2':
+                                                    case '3':
+                                                    case '4':
+                                                    case '5':
+                                                    case '6':
+                                                    case '7':
+                                                        $SitCh = 'Aberto';
+                                                        break;
+                                                    case '8':
+                                                        $SitCh = 'Cancelado';
+                                                        break;
+                                                    case '1':
+                                                        $SitCh = 'Fechado';
+                                                        break;
+                                                    default :
+                                                        $SitCh = 'Sem informações';
+                                                endswitch;
 
-                                            echo"
+                                                echo"
                                         <tr>
-                                            <td><a href=". base_url("verchamado/?Ch={$Ch['o_cod']}").">{$Ch['o_cod']}</a></td>
+                                            <td><a href=" . base_url("verchamado/?Ch={$Ch['o_cod']}") . ">{$Ch['o_cod']}</a></td>
                                             <td>{$Ch['o_loja']}</td>
                                             <td>{$Ch['o_link']}</td>
                                             <td class=\"hidden-table\">{$Ch['o_prazo']}</td>
@@ -153,14 +154,15 @@
                                             <td class=\"hidden-table\">{$Sit}</td>
                                             <td>{$SitCh}</td>
                                         </tr>";
-                                        endforeach;
-                                    endif;
-                                endforeach;
+                                            endforeach;
+                                        endif;
+                                    endforeach;
+                                endif;
                                 ?>
                             </tbody>
                         </table>
                     </div>
-                     <?php
+                    <?php
                     if ($ChamadosCount > 2):
                         ?>
                         <nav aria-label="Page navigation" class="j-remove-ctl c-pg">
@@ -186,8 +188,8 @@
             </div>
         </div>
         <input type="hidden" class="termo" value="<?= $Termo ?>">
-        <input type="hidden" class="totalpag" value="<?=$Lojas['Count']?>">
-        <input type="hidden" class="totalpag-ch" value="<?=$ChamadosCount?>">
+        <input type="hidden" class="totalpag" value="<?= $Lojas['Count'] ?>">
+        <input type="hidden" class="totalpag-ch" value="<?= $ChamadosCount ?>">
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>

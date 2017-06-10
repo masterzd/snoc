@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/dashboard/operadora.css') ?>">
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <title>Dashboard - Operadora</title>
 
     </head>
@@ -24,49 +23,43 @@
                         <div class="Geral">
                             <div class="ctl-card">
                                 <div class="card">
-                                    <p id="0"><?= $CountOcorrencias['MPLS']['lines'] ?? 0 ?></p>
+                                    <p id="0" class="count"><?= $CountOcorrencias['MPLS']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>MPLS</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="1"><?= $CountOcorrencias['ADSL']['lines'] ?? 0 ?></p>
+                                    <p id="1" class="count"><?= $CountOcorrencias['ADSL']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>ADSL</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="2"><?= $CountOcorrencias['XDSL']['lines'] ?? 0 ?></p>
+                                    <p id="2" class="count"><?= $CountOcorrencias['XDSL']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>XDSL</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="3"><?= $CountOcorrencias['Radio']['lines'] ?? 0 ?></p>
+                                    <p id="3" class="count"><?= $CountOcorrencias['Radio']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>Radio</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="4"><?= $CountOcorrencias['IPConn']['lines'] ?? 0 ?></p>
-                                    <div class="cont">
-                                        <h4><b>IPConnect</b></h4>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <p id="7" class="total-style"><?= $CountOcorrencias['IPConn']['lines'] + $CountOcorrencias['XDSL']['lines'] + $CountOcorrencias['ADSL']['lines'] + $CountOcorrencias['MPLS']['lines'] ?></p>
+                                    <p id="6" class="total-style count"><?= $CountOcorrencias['XDSL']['lines'] + $CountOcorrencias['ADSL']['lines'] + $CountOcorrencias['MPLS']['lines'] ?></p>
                                     <div class="cont">
                                         <h4><b>Total</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="5"><?= $CountOcorrencias['Prev']['lines'] ?? 0 ?></p>
+                                    <p id="4" class="count"><?= $CountOcorrencias['Prev']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>Preventivas</b></h4>
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <p id="6"><?= $CountOcorrencias['Inad']['lines'] ?? 0 ?></p>
+                                    <p id="5" class="count"><?= $CountOcorrencias['Inad']['lines'] ?? 0 ?></p>
                                     <div class="cont">
                                         <h4><b>Inadiplência</b></h4>
                                     </div>
@@ -81,8 +74,8 @@
                                         <h4><b>Direcionadas para a operadora</b></h4>
                                     </div>
                                     <div class="col-md-12 col-xs-12 table-tam">
-                                        <p class="title-filas">Ocorrências com mais de 15 Min (MPLS - XDSL - IPConnect)</p>
-                                        <div class="table-responsive">
+                                        <p class="title-filas">Ocorrências com mais de 15 Min (MPLS - XDSL)</p>
+                                        <div class="table-responsive Oper_15min">
                                             <table class="table table-striped">
                                                 <thead class="table-custom">
                                                     <tr class="tb-color">
@@ -116,7 +109,7 @@
 
                                     <div class="col-md-12 col-xs-12 table-tam">
                                         <p class="title-filas">ADSL - Acima de 1 Hora</p>
-                                        <div class="table-responsive">
+                                        <div class="table-responsive Oper_1hora">
                                             <table class="table table-striped">
                                                 <thead class="table-custom">
                                                     <tr class="tb-color">
@@ -154,7 +147,7 @@
                                     </div>
                                     <div class="col-md-12 col-xs-12 table-tam">
                                         <p class="title-filas">Link Principal</p>
-                                        <div class="table-responsive">
+                                        <div class="table-responsive Oper_Expirado_Prin">
                                             <table class="table table-striped">
                                                 <thead class="table-custom">
                                                     <tr class="tb-color">
@@ -185,7 +178,7 @@
                                     </div>
                                     <div class="col-md-12 col-xs-12 table-tam">
                                         <p class="title-filas">Link de Backup</p>
-                                        <div class="table-responsive">
+                                        <div class="table-responsive Oper_Expirado_Back">
                                             <table class="table table-striped">
                                                 <thead class="table-custom">
                                                     <tr class="tb-color">

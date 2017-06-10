@@ -9,7 +9,7 @@ body{
     /* Add shadows to create the "card" effect */
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 18%;
+    width: 24%;
     display: inline-block;
     margin-left: 1%;
     margin-bottom: 2%;
@@ -54,8 +54,8 @@ h4{
 
 .ctl-card {
     position: relative;
-    left: 1%;
-    width: 100%;
+    left: 29%;
+    width: 72%;
 }
 
 .control-date {
@@ -114,9 +114,10 @@ p.total-style {
 }
 
 .card-large{
-   width: 48%;
-   height: 64vh;
-   background-color: white;
+    width: 44%;
+    height: 64vh;
+    background-color: white;
+    margin-left: 4%;
 }
 
 .title-filas {
@@ -126,7 +127,7 @@ p.total-style {
 }
 
 .table-tam {
-    height: 27vh;
+    height: 54vh;
     margin-top: 1%;
     overflow: auto;
 }
@@ -135,3 +136,10 @@ td{
     text-align: center;
 }
 
+
+h5, .h5 {
+    font-size: 1.2em;
+    padding: 1%;
+    margin-left: 26%;
+    font-weight: bold;
+}
