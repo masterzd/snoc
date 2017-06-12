@@ -13,7 +13,7 @@
                 <div class="col-sm-3 col-md-2 sidebar custom-sidedar">
                     <img class="img-responsive logo-dash" src="<?= base_url('assets/img/SNOC3.png') ?>">
                     <ul class="nav nav-sidebar">
-                        <li><a class="j-home" href="#"><i class="fa fa-home custom-ico" aria-hidden="true"> </i> <p>Home</p></a></li>
+                        <li><a class="j-home" href="#"><i class="fa fa-home custom-ico" aria-hidden="true"> </i> <p>Inicio</p></a></li>
                         <li><a class="j-oper" href="#"><i class="fa fa-users custom-ico" aria-hidden="true"></i> <p>Operadora</p></a></li>
                         <li><a class="j-tec" href="#"><i class="fa fa-wrench custom-ico" aria-hidden="true"></i><p>Téc.Regionais/SEMEP</p></a></li>                        
                         <li><a class="j-power" href="#"><i class="fa fa-bolt custom-ico" aria-hidden="true"></i> <p>Falta de Energia</p></a></li>
@@ -27,12 +27,7 @@
                 </div>
 
             </div> 
-
-
-
         </div>
-
-
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>

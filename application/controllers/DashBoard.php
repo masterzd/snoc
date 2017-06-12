@@ -17,7 +17,7 @@ class DashBoard extends CI_Controller {
 
     /* Função que é responsável por gerar os dados que são apresentados na tela Home do dashboard */
 
-    public function Home() {
+    public function Home($Return = false) {
 
 
         $QR1 = "SELECT lj_num from tb_lojas WHERE lj_sit NOT LIKE 'Fechada'";
@@ -36,10 +36,6 @@ class DashBoard extends CI_Controller {
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR4);
         $XDSL = $this->Crud->Results['lines'] ?? 0;
 
-        $QR5 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = 'IPConnect' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
-        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR5);
-        $IpCon = $this->Crud->Results['lines'] ?? 0;
-
         $QR6 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = '4G' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR6);
         $mb4g = $this->Crud->Results['lines'] ?? 0;
@@ -47,11 +43,11 @@ class DashBoard extends CI_Controller {
         $QR7 = "select cir_link FROM tb_lojas, tb_circuitos where cir_link = 'Radio' AND lj_sit NOT LIKE 'Fechada' AND lj_num = cir_loja";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR7);
         $radio = $this->Crud->Results['lines'] ?? 0;
-        
+
         $QR8 = "select * from tb_ocorrencias where o_sit_ch not like 1 and o_sit_ch not like 8 and o_status_temp = 'Loja Offline'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR8);
-        $Offline = $this->Crud->Results['lines'] ?? 0;
-        
+        $Offline = $this->Crud->Results['Dados'] ?? 0;
+
         $QR9 = "select distinct o_loja from tb_ocorrencias where o_sit_ch not like 1 and o_sit_ch not like 8 and o_status_temp = 'Loja Offline'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR9);
         $OfflineQT = $this->Crud->Results['lines'] ?? 0;
@@ -66,18 +62,20 @@ class DashBoard extends CI_Controller {
             'MPLS' => $MPLS,
             'ADSL' => $ADSL,
             'XDSL' => $XDSL,
-            'IPCon' => $IpCon,
             'MB4G' => $mb4g,
             'Radio' => $radio,
             'LjInc' => $Inc,
             'CadLj' => $lojasCad,
             'LjIncArr' => $IncArr,
-            'Offline' => $Offline,
+            'OfflineArr' => $Offline,
             'OfflineQT' => $OfflineQT
         ];
 
-
-        $this->load->view('dashboard/home', $Dados);
+        if ($Return == true):
+            return $Dados;
+        else:
+            $this->load->view('dashboard/home', $Dados);
+        endif;
     }
 
     public function periodoTopLojas() {
@@ -261,6 +259,30 @@ class DashBoard extends CI_Controller {
         endif;
     }
 
+    public function PoolingHome() {
+        set_time_limit(0);
+        $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+        if (!empty($IN) and ! empty($IN['dados'])):
+            $BrokeString = explode('&', $IN['dados']);
+            while (true):
+                clearstatcache();
+                $GetBD = $this->Home(true);
+                unset($BrokeString[8]);
+                unset($GetBD['LjIncArr']);
+                unset($GetBD['OfflineArr']);
+
+                $DIFF1 = array_diff($BrokeString, $GetBD);
+                $DIFF2 = array_diff($GetBD, $BrokeString);
+
+                if (count($DIFF1) > 0 or count($DIFF2) > 0):
+                    echo json_encode($this->Home(true));
+                    break;
+                endif;
+            endwhile;
+        endif;
+    }
+
     /* Função responsável por consultar as quantidades de ocorrências que estão associadas a operadora */
 
     public function getDadosChamadosOperadora($Return = false) {
@@ -416,7 +438,7 @@ class DashBoard extends CI_Controller {
             'Tec' => array('QtCh' => $Res00['lines'], 'ChTimeAB' => $GetTimeOpenTec, 'ChAll' => $Res00['Dados']),
             'Semep' => array('QtCh' => $Res01['lines'], 'ChTimeAB' => $GetTimeOpenSemep, 'ChAll' => $Res01['Dados'])
         ];
-        
+
         return $Retorno;
     }
 
@@ -456,7 +478,7 @@ class DashBoard extends CI_Controller {
 
             foreach ($this->Crud->Results['Dados'] as $Out):
 
-                if (($Sit == 2 and $Nece == 2) or ($Sit == 3 and $Nece == 3) or ($Sit == 4 and $Nece == 4)):
+                if (($Sit == 2 and $Nece == 2) or ( $Sit == 3 and $Nece == 3) or ( $Sit == 4 and $Nece == 4)):
                     $Tempo = new DateTime($Out["{$Field}"]);
                     $Tempo->add(new DateInterval($DiffTime));
                     $ConvArr = (array) $Tempo;

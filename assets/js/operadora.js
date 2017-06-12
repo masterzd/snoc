@@ -25,8 +25,6 @@ $(function () {
                 dados += '&';
             }
         });
-
-        console.log(dados);
         $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/getUpdate', {info: dados}, function (retorno) {
             var json = jQuery.parseJSON(retorno);
             $.each(json, function (Key, value) {
@@ -46,7 +44,6 @@ $(function () {
 
     /* Função responsável por buscar os dados e monta o modal */
     var GeraModal = function (id) {
-        console.log(id);
         $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/geraModal', {id: id}, function (tabela) {
 
             if (tabela == 'fail') {

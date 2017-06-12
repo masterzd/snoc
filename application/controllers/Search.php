@@ -18,6 +18,7 @@ class Search extends CI_Controller {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
         $this->load->Model('Crud');
+        $this->load->library('infolojas');
     }
 
     public function search() {
@@ -80,7 +81,24 @@ class Search extends CI_Controller {
                 $this->load->view('errors/Erro', $Erro);
         endif;
     }
-
+    
+    public function GetInfoLojasUrl(){ 
+        if (!empty($this->input->get('loja'))):
+           $Num = (int)$this->input->get('loja');
+           if($Num > 0):
+            $this->infolojas->CheckDadosLoja($Num);
+            $Busca['Loja'] = $this->infolojas->DadosLoja;
+            unset($Busca['Loja']['Link']);
+           $Busca['Contato'] = $this->infolojas->ContatosSms;
+                echo json_encode($Busca);
+            else:   
+               die("Parametro Inválido");
+           endif;
+        else:
+            die("Parametro Inválido");
+        endif;        
+    }
+   
     private function searchLojas($Termo) {
         
         /* Consulta a quantidade total de registros na tabela */

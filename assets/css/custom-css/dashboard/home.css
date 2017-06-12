@@ -86,3 +86,22 @@ svg:after{
     width: 35%;
     margin-left: 32%;
 }
+
+.custom-offlineModal{
+    width: 71%;
+    margin-left: 14%;
+}
+
+.danger{
+    background-color: red;
+    color: white;
+}
+
+.normal{
+    background-color: white;
+    color: black;
+}
+
+.j-offline:hover{
+    cursor: pointer;
+}
