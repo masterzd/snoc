@@ -20,6 +20,15 @@ $(function () {
     $('.j-tec').click(function () {
         changeScreen(UrlBase + 'tecSemep');
     });
+    $('.j-power').click(function () {
+        changeScreen(UrlBase + 'energia');
+    }); 
+    $('.j-charts').click(function () {
+        changeScreen(UrlBase + 'charts');
+    });
+    
+
+
     $('.j-offline').click(function () {
         $('#mdlinfo4').modal('show');
     });

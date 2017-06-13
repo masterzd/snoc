@@ -94,6 +94,9 @@ $route['geraModal'] = 'DashBoard/geraModal';
 $route['listenFilas'] = 'DashBoard/poolingOperadoraFilas';
 $route['tecSemep'] = 'DashBoard/tecSemep';
 $route['homepooling'] = 'DashBoard/PoolingHome';
+$route['energia'] = 'DashBoard/energia';
+$route['charts'] = 'DashBoard/Geracharts';
+$route['anaFalhaLoja'] = 'DashBoard/falhasLojas';
 
 /* Consulta Lojas via URL */
 $route['buscaUrlLojas'] = 'Search/GetInfoLojasUrl';

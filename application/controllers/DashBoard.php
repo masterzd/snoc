@@ -413,6 +413,9 @@ class DashBoard extends CI_Controller {
         endif;
     }
 
+
+    /* Funções responsáveis pela consulta de Ocorrências direcionadas para Técnicos e SEMEP  */
+
     public function tecSemep() {
         $Dados = $this->getChamadosTecSemep();
         $Util = new Ultilitario();
@@ -441,6 +444,59 @@ class DashBoard extends CI_Controller {
 
         return $Retorno;
     }
+
+    /* função responsável pelas consultas das ocorrências geradas por falta de energia*/
+    public function energia(){
+
+        $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 and o_nece = 5";
+        $this->Crud->calldb(0,'SELECT', 0,0, $QR);
+        $QT = $this->Crud->Results;
+        $Links = array('MPLS', 'XDSL', 'ADSL');
+        $TempoAberto = $this->timeOpenCh('PT2H',$Links, 'o_hr_ch', 5, 6);
+
+        $Retorno = [
+            'OcorTotal' => $QT,
+            'OcorAberta' => $TempoAberto
+        ];
+
+        $this->load->view('dashboard/energia', $Retorno);
+    }
+
+
+
+    /* Funções relacionadas a tela de estatíticas do dashboard */
+
+    public function Geracharts(){
+        $this->load->view('dashboard/Charts');
+    }
+
+    /* Função que vai gerar o analitico Falhas x Lojas */
+    public function falhasLojas(){
+
+         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+         if(!empty($IN['detalhes'])):
+
+
+
+         elseif(!empty($IN['dataIni']) and !empty($IN['dataFim'])):               
+             $QR = "select distinct o_loja, (select count(o_causa_prob) from tb_ocorrencias where o_loja = tb.o_loja and o_sit_ch = 1 and o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59') as quantidade from tb_ocorrencias as tb where o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59' and o_sit_ch = 1";
+                $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+                var_dump($this->Crud->Results['Dados']);
+               // echo json_encode($this->Crud->Results['Dados']);  
+         else:
+                echo "Falha";       
+         endif;   
+
+    }
+
+
+
+    /**************************************************************************************************************************************/
+    /**************************************************************************************************************************************/
+    /******************************************************FUNÇÔES PRIVADAS****************************************************************/
+    /**************************************************************************************************************************************/
+    /**************************************************************************************************************************************/
 
     /* Função responsável por analisar o periodo para gerar o gráfico na tela home */
 
@@ -559,6 +615,8 @@ class DashBoard extends CI_Controller {
             $Msg = "Emcaminhadas para o Técnico - Mais de 24 Horas";
         elseif ($Nece == 4):
             $Msg = "Ocorrência SEMEP - Mais de 72 Horas";
+        elseif($Nece == 5):
+            $Msg = "Ocorrência Falta de Energia - Mais de 2 Horas";
         endif;
 
         return $Msg;
