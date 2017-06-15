@@ -1,5 +1,12 @@
-<?php $Priv = $_SESSION['user']['Nv'] == 1 ? 'Administrador' : 'Operador Noc'; 
-      $Img =   $_SESSION['user']['Img'] ? $_SESSION['user']['Img'] :'assets/img/Userdefault.png';
+<?php 
+    if (empty($_SESSION['user'])):
+        $Validation['erro'] = "Sessão Expirada. Fazer login novamente.";
+        $this->load->view('login', $Validation);
+        die();
+    endif;
+
+    $Priv = $_SESSION['user']['Nv'] == 1 ? 'Administrador' : 'Operador Noc'; 
+    $Img =  $_SESSION['user']['Img'] ? $_SESSION['user']['Img'] :'assets/img/Userdefault.png';
 ?>
 <div class="container-fluid menu-fixed">
     
@@ -32,7 +39,7 @@
                 <li role="presentation" class="custom-ancor"><a href="<?= base_url('menuprincipal') ?>">Home</a></li>
                <li role="presentation" class="custom-ancor"><a href="<?= base_url('manager') ?>">Gerenciamento</a></li>
                 <li role="presentation" class="custom-ancor"><a href="<?= base_url('relatorios') ?>">Relatórios</a></li>
-                <li role="presentation" class="custom-ancor"><a href="<?= base_url('dashboard') ?>">DashBoard</a></li>
+                <li role="presentation" class="custom-ancor"><a target="_blank" href="<?= base_url('dashboard') ?>">DashBoard</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">ADM</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">Sobre</a></li>
                 <li class="custom-ancor"><a href="logoff">Sair</a></li>

@@ -82,10 +82,9 @@ class DashBoard extends CI_Controller {
 
         $Per = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-        if (!empty($Per) and ! empty($Per['per'])):
+        if (!empty($Per['dataIni']) and ! empty($Per['dataFim'])):
 
-            $Data = $this->getPeriodo($Per['per']);
-            $QR = "select distinct o_loja,(select count(*) from tb_ocorrencias where o_loja = ch.o_loja and o_hr_ch between '{$Data[0]} 00:00:00' and '{$Data[1]} 23:59:59') as count from tb_ocorrencias as ch where o_hr_ch between '{$Data[0]} 00:00:00' and '{$Data[1]} 23:59:59' order by count DESC LIMIT 10";
+            $QR = "select distinct o_loja,(select count(*) from tb_ocorrencias where o_loja = ch.o_loja and o_hr_ch between '{$Per['dataIni']} 00:00:00' and '{$Per['dataFim']} 23:59:59') as count from tb_ocorrencias as ch where o_hr_ch between '{$Per['dataIni']} 00:00:00' and '{$Per['dataFim']} 23:59:59' order by count asc LIMIT 10";
             $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
 
             if ($this->Crud->Results['lines'] >= 1):
@@ -470,26 +469,60 @@ class DashBoard extends CI_Controller {
         $this->load->view('dashboard/Charts');
     }
 
-    /* Função que vai gerar o analitico Falhas x Lojas */
-    public function falhasLojas(){
-
+    /* Função que vai gerar o dados para o gráfico Falhas operadora */
+    public function falhaOperadora(){
          $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-
          if(!empty($IN['detalhes'])):
-
-
-
          elseif(!empty($IN['dataIni']) and !empty($IN['dataFim'])):               
-             $QR = "select distinct o_loja, (select count(o_causa_prob) from tb_ocorrencias where o_loja = tb.o_loja and o_sit_ch = 1 and o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59') as quantidade from tb_ocorrencias as tb where o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59' and o_sit_ch = 1";
+             $QR = "select distinct o_causa_prob, (select count(o_causa_prob) from tb_ocorrencias where o_sit_ch = 1
+            and o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59' and o_causa_prob like tb.o_causa_prob)as  quantidade from tb_ocorrencias as tb
+            where o_sit_ch = 1 and o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59' and o_causa_prob like 'OP_%';";
                 $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
-                var_dump($this->Crud->Results['Dados']);
-               // echo json_encode($this->Crud->Results['Dados']);  
+                echo json_encode($this->Crud->Results['Dados']);  
          else:
                 echo "Falha";       
-         endif;   
-
+         endif;
     }
 
+    /* Função que vai gerar o dados para o gráfico Falhas internas */
+    public function falhaInterna(){
+
+         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+         if(!empty($IN['detalhes'])):
+         elseif(!empty($IN['dataIni']) and !empty($IN['dataFim'])):               
+             $QR = "select distinct o_causa_prob, (select count(o_causa_prob) from tb_ocorrencias where o_sit_ch = 1
+            and o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59' and o_causa_prob like tb.o_causa_prob)as  quantidade from tb_ocorrencias as tb
+            where o_sit_ch = 1 and o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59' and o_causa_prob like 'INT_%';";
+                $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+                echo json_encode($this->Crud->Results['Dados']);  
+         else:
+                echo "Falha";       
+         endif;
+    }
+
+
+    /* Função que vai contar quantas ocorrências fechadas foram causadas pela operadora e cliente */
+    public function falhaResp(){
+
+         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+         if(!empty($IN['dataIni']) and !empty($IN['dataFim'])):
+
+              $QR1 = "select count(o_causa_prob) as Operadora from tb_ocorrencias where o_sit_ch = 1 and o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59' and o_causa_prob like 'OP_%'";  
+              $this->Crud->calldb(0, 'SELECT', 0, 0, $QR1);
+              $Retorno['Operadora'] = $this->Crud->Results['Dados'][0]['Operadora'] ?? 0;
+
+              $QR2 = "select count(o_causa_prob) as Interno from tb_ocorrencias where o_sit_ch = 1 and o_hr_ch between '{$IN['dataIni']} 00:00:00' and '{$IN['dataFim']} 23:59:59' and o_causa_prob like 'INT_%'";
+              $this->Crud->calldb(0, 'SELECT', 0, 0, $QR2);
+              $Retorno['Cliente'] = $this->Crud->Results['Dados'][0]['Interno'] ?? 0;
+
+              if(!empty($Retorno['Operadora']) or !empty($Retorno['Cliente'])):
+                echo json_encode($Retorno);
+              else:
+                 echo 'fail';     
+              endif;  
+
+         endif;   
+    }
 
 
     /**************************************************************************************************************************************/

@@ -96,7 +96,10 @@ $route['tecSemep'] = 'DashBoard/tecSemep';
 $route['homepooling'] = 'DashBoard/PoolingHome';
 $route['energia'] = 'DashBoard/energia';
 $route['charts'] = 'DashBoard/Geracharts';
-$route['anaFalhaLoja'] = 'DashBoard/falhasLojas';
+$route['falhaOperadora'] = 'DashBoard/falhaOperadora';
+$route['falhaInterna'] = 'DashBoard/falhaInterna';
+$route['falhaResp'] = 'DashBoard/falhaResp';
+$route['topLojas'] = 'DashBoard/periodoTopLojas';
 
 /* Consulta Lojas via URL */
 $route['buscaUrlLojas'] = 'Search/GetInfoLojasUrl';

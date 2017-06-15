@@ -26,7 +26,6 @@ class Search extends CI_Controller {
         if (!empty($Termo) and ! empty($Termo['termo'])):
             $this->Termo = $Termo['termo'];
             $this->searchLojas($this->Termo);
-
             if (is_array($this->ResultLojas)):
                 foreach ($this->ResultLojas as $lojas):
                     if ($lojas['lj_num'] == '0' or $lojas['lj_num'] == false):
@@ -42,8 +41,7 @@ class Search extends CI_Controller {
                 else:
                     $this->searchOcorrencias($this->Termo);
                     if (is_array($this->ResultOcorrencias) and $this->ResultOcorrencias[0] != NULL):
-                        $this->searchLojas($this->ResultOcorrencias[0][0]['o_loja']);
-                        
+                        $this->searchLojas($this->ResultOcorrencias[0][0]['o_loja']);                        
                     else:
                         if (empty($_SESSION)):
                             session_start();
@@ -107,9 +105,9 @@ class Search extends CI_Controller {
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Count = $this->Crud->Results['lines'];
         
-        /* Consulta com a condição */
+        /* Consulta com o limite de registros */
         $QR = "select lj_num, lj_end, lj_bairro, lj_cidade, lj_uf from tb_lojas "
-                . "where lj_num = '{$Termo}' or lj_end = '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";       
+                . "where lj_num = '{$Termo}' or lj_end like '%{$Termo}%' or lj_bairro like '%{$Termo}%' or lj_cidade like '%{$Termo}%' or lj_ip_loja = '{$Termo}' LIMIT 6 OFFSET 0";       
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $this->ResultLojas = $this->Crud->Results['Dados'];
         if($Count >= 1):

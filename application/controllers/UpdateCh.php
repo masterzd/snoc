@@ -78,6 +78,8 @@ class UpdateCh extends CI_Controller {
                     $SMS = $this->enviaSms(7);
                 elseif($this->DadosIn['direcionar'] == 5):
                     $SMS = $this->enviaSms(6);
+                elseif($this->DadosIn['direcionar'] == 7):
+                    $SMS = TRUE;
                 else:
                     $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
                     $Erro['Msg'] = 'Consegui salvar o chamado. Mas não consegui determinar se envio SMS ou Email. Contate o suporte';
