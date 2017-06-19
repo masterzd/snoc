@@ -8,10 +8,11 @@
         <?php
           require APPPATH."third_party/mpdf60/mpdf.php";
           $PDF = new mPDF();
+          $PDF->debug = false;
           
           $RenderReport = "
            <header>
-             <img src='". base_url('assets/img/SNOC3.png')."' class='rel-img'>
+            
              <h3>Relatório do Período: {$Periodo['dataIni']} a {$Periodo['dataFim']}</h3> 
              <h4>Dados Gerais:</h4>
              <p>{$Geral['chGerPer']} ocorrência(s) realizadas durante o período.</p>
@@ -52,7 +53,7 @@
         $CSS = file_get_contents(base_url('assets/css/custom-css/relatorios/relGeral.css'));
         $PDF->WriteHTML($CSS,1);
         $PDF->WriteHTML($RenderReport);
-        $PDF->Output();
+        $PDF->Output('RelatorioGeral.pdf', 'D');
         ?>
     </body>
 </html>

@@ -163,7 +163,6 @@ class Relatorios extends CI_Controller {
 
     public function relDispInter() {
         $recDados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-
         if (!empty($recDados) and ! empty($recDados['dataIni'])):
 
             $Util = new Ultilitario();
@@ -181,7 +180,6 @@ class Relatorios extends CI_Controller {
 
             $this->Retorno['Periodo'] = $this->Dados;
             $this->Retorno['Resultado'] = $this->Crud->Results['Dados'];
-
             $this->load->view('relatorios/relDisp', $this->Retorno);
         else:
             $MS = "Houve uma falha ao consultar os dados";

@@ -54,8 +54,7 @@
         $CSS = file_get_contents(base_url('assets/css/custom-css/relatorios/relGeral.css'));
         $PDF->WriteHTML($CSS, 1);
         $PDF->WriteHTML($RenderReport);
-        $PDF->Output();
-//        echo $RenderReport;
+        $PDF->Output('RelatorioSMS.pdf', 'D');
         ?>
     </body>
 </html>

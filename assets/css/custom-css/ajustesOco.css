@@ -1,0 +1,16 @@
+body{
+    background-image: url('../../img/wallblack.jpeg');
+}
+
+.conteudo{
+    background-color: #FFB900;
+}
+
+.uppercase{
+    text-transform: uppercase;
+}
+
+.btn-submit-custom {
+    margin-left: 40%;
+    margin-top: 4%;
+}

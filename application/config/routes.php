@@ -60,7 +60,13 @@ $route['cad-link'] = 'Start/cadlink';
 $route['tec-cad'] = 'Start/tecCad';
 $route['manager'] = 'Start/manager';
 $route['checklink'] = 'Start/checklink';
+$route['adm'] = 'Admin/admin';
+$route['admSmsEmail'] = 'Admin/adminSmsEmail';
 
+
+/* Rotas relacionadas ao painel de ajustes */
+$route['ajustesOcorrencias'] = 'Admin/buscaOcorrencia';
+$route['ajustesOcorrenciasAltera'] = 'Admin/UpdateOc';
 
 /* Rotas relacionadas ao Chamados */
 $route['chamado'] = 'Chamado/chamado';

@@ -47,7 +47,7 @@
         $CSS = file_get_contents(base_url('assets/css/custom-css/relatorios/relGeral.css'));
         $PDF->WriteHTML($CSS,1);
         $PDF->WriteHTML($RenderReport);
-        $PDF->Output();
+        $PDF->Output('RelatorioLoja.pdf', 'D');
         ?>
     </body>
 </html>

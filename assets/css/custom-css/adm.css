@@ -1,0 +1,62 @@
+body{
+    background-image: url('../../img/wallblack.jpeg');
+}
+
+.conteudo{
+    background-color: #FFB900;
+    margin-top: 8%;
+    margin-left: 8%;
+}
+
+h1, .h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 18%;
+    display: inline-block;
+    margin-left: 7%;
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;    
+}
+
+/* Add some padding inside the card container */
+.cont {
+    padding: 2px 16px;
+    color: white;
+    background-color: red;
+}
+
+.area-buttons {
+    padding: 6%;
+    background-color: wheat;
+}
+
+.card-large-p{
+    width: 22%;
+}
+
+.area-buttons-ajust {
+    width: 100%;
+    padding: 3%;
+}
+
+.ctl-card {
+    position: relative;
+    left: 7%;
+    width: 94%;
+}
+
+.btn{
+    margin-top: 3%;
+    margin-left: 38%;
+}

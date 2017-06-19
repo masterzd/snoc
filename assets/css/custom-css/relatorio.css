@@ -36,7 +36,7 @@ p {
 }
 
 .j-date{
-   margin-left: 68%; 
+    margin-left: 68%; 
 }
 
 div#datepicker {
@@ -60,4 +60,41 @@ input.form-control.input-sm.margin-left {
 
 .j-sit-ch{
     margin-left: 41%;
+}
+
+
+@media(max-width: 500px){
+    .block-rel {
+        margin-top: 29%;
+        padding: 3%;
+        margin-left: 9%;
+        width: 85%;
+    }
+
+    div#datepicker {
+        margin-left: -32%;
+        left: 2%;
+        width: 101%;
+    }
+
+    .j-sel-rel {
+        margin-left: 26%;
+        margin-bottom: 7%;
+        margin-top: 6%;
+    }
+
+    .btn {
+        margin-bottom: 2%;
+        margin-top: 18%;
+        margin-left: 41%;
+        font-size: 14px;
+    }
+
+    .j-sit-ch {
+        margin-left: 27%;
+    }
+
+    input.form-control.input-sm.margin-left {
+        margin-left: 26%;
+    }
 }

@@ -7,8 +7,7 @@ $Excel = new PHPExcel();
 $Loja = new Infolojas();
 $Util = new Ultilitario();
 
-ini_set('display_errors', 0);
-
+ini_set('display_errors', 1);
 $Excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 
 /* Mesclando celulas */
@@ -67,7 +66,6 @@ foreach ($Resultado as $Chamados):
     $Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $Line, $Hora[1]);
     $Excel->getActiveSheet()->setCellValueByColumnAndRow(2, $Line, $Band);
     $Excel->getActiveSheet()->setCellValueByColumnAndRow(3, $Line, $Chamados['o_loja']);
-
     $CkeckMainLink = $Util->ChecklinkExistis('MPLS', $Loja->DadosLoja['Links']);
     $StatusMainLink = ( $CkeckMainLink == true ? ($Chamados['o_link'] == 'MPLS' ? 'OFF' : 'ON') : 'NAO POSSUI');
     $QTDLNK = count($Loja->DadosLoja['Links']) - 1;
