@@ -56,18 +56,16 @@
     </head>
     <body>
         <?php
-//        var_dump($_SESSION);
         if (empty($_SESSION['user'])):
             header('Location:' . base_url('Start/?erro=1'));
             return false;
         endif;
         require APPPATH . 'third_party/Ultilitario.php';
         $Util = new Ultilitario();
-//        var_dump($InfoCallViewCh);
         $this->load->view('commom/menu.php');
 
         $Necessidade = ($InfoCallViewCh['DadosCh']['o_nece'] == 2 ? 'Abertura Operadora' : ($InfoCallViewCh['DadosCh']['o_nece'] == 3 ? 'Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_nece'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_nece'] == 4 ? 'SEMEP' : ($InfoCallViewCh['DadosCh']['o_nece'] == 7 ? 'Inadiplência' : 'Outros')))));
-        $SiT = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 7 ? 'Falta de Pagamento (Inadiplência)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'Fechado' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 8 ? 'Cancelado' : 'Pré-Fechamento')))))));
+        $SiT = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 2 ? 'Emcaminhado Operadora' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 3 ? 'Emcaminhado Técnico Regional' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 5 ? 'Normalização Local(Falta de Energia)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 4 ? 'Pendente SEMEP' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 7 ? 'Falta de Pagamento (Inadiplência)' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'Fechado' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 8 ? 'Cancelado' : ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 6 ? 'Pré-Fechamento' : 'Bloqueado'))))))));
         $Disabled = ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1 ? 'disabled' : '');
         ;
         ?>
@@ -178,12 +176,13 @@
                                 <label for="St">Tipo de Problema:</label>
                                 <ul>
                                     <?php
-                                    foreach ($InfoCallViewCh['TPAC']['prob'] as $TP):
-                                        echo "<li>{$TP['ch_prob']}</li>";
-                                    endforeach;
+                                    if (!empty($InfoCallViewCh['TPAC']['prob'])):
+                                        foreach ($InfoCallViewCh['TPAC']['prob'] as $TP):
+                                            echo "<li>{$TP['ch_prob']}</li>";
+                                        endforeach;
+                                    endif;
                                     ?>
                                 </ul>
-<!--                                <button class="btn btn-danger btn-sm btn-add j_btn"><i class="fa fa-plus" aria-hidden="true"></i></button>-->
                             </div>
 
 
@@ -358,10 +357,11 @@
                                 <label for="AC">Ação Tomada:</label>
                                 <ul>
                                     <?php
-                                    foreach ($InfoCallViewCh['TPAC']['acao'] as $AC):
-                                        echo "<li>{$AC['ch_acao']}</li>";
-                                    endforeach;
-
+                                    if (!empty($InfoCallViewCh['TPAC']['acao'])):
+                                        foreach ($InfoCallViewCh['TPAC']['acao'] as $AC):
+                                            echo "<li>{$AC['ch_acao']}</li>";
+                                        endforeach;
+                                    endif;
                                     if ($InfoCallViewCh['DadosCh']['o_sit_ch'] == 1):
                                         $Result = 'SIM';
                                     else:
@@ -435,15 +435,17 @@
                                 <div class="notas-carregadas col-md-8">
                                     <div class="ref"></div>
                                     <?php
-                                    foreach ($InfoCallViewCh['Notas'] as $N):
-                                        $Dta = $Util->DataBR($N['ch_time']);
-                                        echo "
+                                    if (!empty($InfoCallViewCh['Notas'])):
+                                        foreach ($InfoCallViewCh['Notas'] as $N):
+                                            $Dta = $Util->DataBR($N['ch_time']);
+                                            echo "
                                                 <div class='col-md-5 nota'>
                                                     <p>{$N['ch_user']}, no dia {$Dta} disse:</p>
                                                     <p>{$N['ch_nota']}</p>
                                                 </div>
                                             ";
-                                    endforeach;
+                                        endforeach;
+                                    endif;
                                     ?> 
                                 </div>
 

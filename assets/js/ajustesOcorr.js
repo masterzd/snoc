@@ -43,9 +43,16 @@ $(function(){
            var info = $('.j-field').val();
            if(info == ""){
                alert("Preencha o campo com as informações a ser salvas!");
-           }else{
-                $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/UpdateOc', {o_cod: $('.ocorrencia').val(), $(".field").attr('')});
-           }
+           }else{               
+                $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/ajustesOcorrenciasAltera', {o_cod: $('.ocorrencia').val(), campo: $('.j-field').attr('name'), valor: $('.j-field').val()}, function(retorno){
+                    if(retorno == 1){
+                        alert("Dados alterados com sucesso!!");
+                        window.close();
+                    }else{
+                        alert("Falha ao atualizar os dados. Informe ao suporte");
+                    }
+                });
+           }    
        }else{
            alert("Escolha uma opção antes de salvar!!");
        }
@@ -55,7 +62,7 @@ $(function(){
     
     
     var link = "<div class=\"form-group col-md-3 col-xs-11\">\
-                    <select required name=\"o_link\" id=\"link\" class=\"form-control j-field\" name='o_link' >\
+                    <select  id=\"link\" class=\"form-control j-field\" name='o_link' >\
                         <option value=\"\">Informe o link...</option>\
                         <option value=\"MPLS\">MPLS</option>\
                         <option value=\"ADSL\">ADSL</option>\
@@ -73,17 +80,18 @@ $(function(){
                     </div>";
     
     var status = "<div class=\"form-group col-md-3 col-xs-11\">\
-                    <select required name=\"o_link\" id=\"link\" class=\"form-control j-field\" name='o_status'>\
+                    <select  id=\"link\" class=\"form-control j-field\" name='o_status'>\
                         <option value=\"\">Selecione...</option>\
                         <option value=\"Funcionando MPLS\">Funcionando MPLS</option>\
                         <option value=\"Funcionando ADSL\">Funcionando ADSL</option>\
                         <option value=\"Funcionando XDSL\">Funcionando XDSL</option>\
                         <option value=\"Funcionando 4G\">Funcionando 4G</option>\
+                        <option value=\"Loja Offline\">Loja Offline</option>\
                     </select>\
                 </div>";
     
     var situacao = "<div class=\"form-group col-md-3 col-xs-11\">\
-                    <select required name=\"o_link\" id=\"link\" class=\"form-control j-field\" name='o_sit_ch'>\
+                    <select   id=\"link\" class=\"form-control j-field\" name='o_sit_ch'>\
                         <option value=\"\">Selecione...</option>\
                         <option value=\"1\">Fechado</option>\
                         <option value=\"2\">Abertura Operadora</option>\
@@ -93,7 +101,7 @@ $(function(){
                 </div>";
     
     var necessidade = "<div class=\"form-group col-md-3 col-xs-11\">\
-                    <select required name=\"o_link\" id=\"link\" class=\"form-control j-field\" name='o_nece'>\
+                    <select  id=\"link\" class=\"form-control j-field\" name='o_nece'>\
                         <option value=\"\">Selecione...</option>\
                         <option value=\"2\">2 - Abertura Operadora</option>\
                         <option value=\"3\">3 - Técnico Regional</option>\

@@ -48,11 +48,15 @@ class Admin extends CI_Controller{
     }
     
     public function UpdateOc(){
-        
-        
-        
-        
-        
+        $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if(!empty($IN) and !empty($IN['o_cod'])):
+            $Dados = array("{$IN['campo']}" => $IN['valor']);
+            $Where = array('o_cod' => $IN['o_cod']);
+            $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Dados, $Where);
+            echo $this->Crud->Results;
+        else:
+            echo false;
+        endif;
     }
     
 }

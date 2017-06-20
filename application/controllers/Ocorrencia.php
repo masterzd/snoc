@@ -22,11 +22,11 @@ class Ocorrencia extends CI_Controller {
         if ($Ch == NULL):
             die('Parametro inválido');
         endif;
-        
+
         /* Pesquisando Ocorrência */
         $this->SearchOcorrencia($Ch);
         if ($this->Chamado != NULL):
-            $this->SearchLoja();            
+            $this->SearchLoja();
             $this->CallView();
         else:
             $this->Fail();
@@ -34,24 +34,23 @@ class Ocorrencia extends CI_Controller {
     }
 
     private function SearchOcorrencia($Ch) {
-        /*Consultando ocorrência*/
+        /* Consultando ocorrência */
         $Chamado = array('o_cod' => $Ch);
         $this->Crud->calldb('tb_ocorrencias', 'SELECT', $Chamado);
         $this->Chamado = $this->Crud->Results['Dados'][0];
-        
+
         /* Consultando Tipo de Problema e ação tomada */
         $this->Crud->calldb('tb_ch_acao', 'SELECT', $Chamado);
         $this->TpAc['acao'] = $this->Crud->Results['Dados'];
-        
+
         /* Consultando tipo de problema */
         $this->Crud->calldb('tb_ch_prob', 'SELECT', $Chamado);
         $this->TpAc['prob'] = $this->Crud->Results['Dados'];
-        
+
         /* Consulta notas da ocorrência */
         $Qr = "SELECT * FROM tb_ch_notas WHERE o_cod = {$Chamado['o_cod']} ORDER BY ch_time DESC";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $Qr);
         $this->Notas = $this->Crud->Results['Dados'];
-               
     }
 
     private function SearchLoja() {
@@ -68,19 +67,18 @@ class Ocorrencia extends CI_Controller {
         $Erro['Msg'] = "A Ocorrência informada não foi encontrada.";
         $this->load->view('errors/Erro', $Erro);
     }
-    
-    private function CallView(){       
+
+    private function CallView() {
         session_start();
-        
-         $_SESSION['Ocorrência_'.$this->Chamado['o_cod']]['InfoCallViewCh'] = [
+
+        $_SESSION['Ocorrência_' . $this->Chamado['o_cod']]['InfoCallViewCh'] = [
             'DadosCh' => $this->Chamado,
             'DadosLoja' => $this->Loja,
             'Contatos' => $this->ContatosSms,
             'Notas' => $this->Notas,
             'TPAC' => $this->TpAc
         ];
-        
-        $this->load->view('ocorrencia', $_SESSION['Ocorrência_'.$this->Chamado['o_cod']]);
-         
+
+        $this->load->view('ocorrencia', $_SESSION['Ocorrência_' . $this->Chamado['o_cod']]);
     }
 }

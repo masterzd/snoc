@@ -7,12 +7,14 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/menu.css') ?>"> 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/filial.css') ?>"> 
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
     </head>
     <body>
         <?php
         session_start();
         $this->load->view('commom/menu.php');
-        require APPPATH.'third_party/Ultilitario.php';
+        require APPPATH . 'third_party/Ultilitario.php';
         $util = new Ultilitario();
         ?>
 
@@ -21,9 +23,11 @@
                 <div class="col-md-8 topo">
                     <header>
                         <h1>Loja <?= $Loja['lj_num'] ?></h1>
-                        <?php if($Loja['lj_sit'] == 'Fechada'):
+                        <?php
+                        if ($Loja['lj_sit'] == 'Fechada'):
                             echo "<p class='lj-closed'>Loja com as atividades encerradas</p>";
-                        endif; ?>
+                        endif;
+                        ?>
                     </header>
                     <content>
                         <div class="table-responsive" id="edit-table">
@@ -162,12 +166,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
-                                      <?php 
-                                      if(!empty($Ocorrencias)):
-                                          foreach($Ocorrencias as $Ch): 
-                                          
-                                          switch ($Ch['o_nece']):
+
+                                    <?php
+                                    if (!empty($Ocorrencias)):
+                                        foreach ($Ocorrencias as $Ch):
+
+                                            switch ($Ch['o_nece']):
                                                 case '2':
                                                     $Sit = 'Operadora';
                                                     break;
@@ -204,19 +208,18 @@
                                                 default :
                                                     $SitCh = 'Sem informações';
                                             endswitch;
-                                          
-                                          
-                                          ?>
+                                            ?>
                                             <tr>
-                                                <td><a href=<?= base_url("verchamado/?Ch={$Ch['o_cod']}")?>"><?= $Ch['o_cod'] ?></a></td>
-                                                <td><?= $Ch['o_link'] ?></td>
-                                                <td class="hidden-table"><?= $util->DataBR($Ch['o_prazo']) ?></td>
+                                                <td><a href=<?= base_url("verchamado/?Ch={$Ch['o_cod']}") ?>"><?= $Ch['o_cod'] ?></a></td>
+                                                       <td><?= $Ch['o_link'] ?></td>
+                                                       <td class="hidden-table"><?= $util->DataBR($Ch['o_prazo']) ?></td>
                                                 <td class="hidden-table"><?= $Ch['o_opr_ab'] ?></td>    
                                                 <td class="hidden-table"><?= $Sit ?></td>    
                                                 <td><?= $SitCh ?></td> 
                                             </tr>
-                                      <?php endforeach;
-                                      endif;?>
+                                        <?php endforeach;
+                                    endif;
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -225,7 +228,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-3 col-md-3 col-lg-3 num-loja-help">
-                    <p>Loja <?= $Loja['lj_num']?></p>
+                    <p>Loja <?= $Loja['lj_num'] ?></p>
                 </div>
             </div>
         </div>
