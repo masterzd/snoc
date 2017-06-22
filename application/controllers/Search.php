@@ -126,7 +126,7 @@ class Search extends CI_Controller {
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $CountOcorrencia = $this->Crud->Results['lines'];
         
-        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%') ORDER BY o_sit_ch DESC LIMIT 6 OFFSET 0 ";;
+        $QR = "select o_cod, o_loja, o_desig, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch from tb_ocorrencias where (o_cod = '{$Termo}' or o_loja = '{$Termo}' or o_desig like '{$Termo}%') ORDER BY 1 DESC LIMIT 6 OFFSET 0 ";;
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $this->ResultOcorrencias[] = $this->Crud->Results['Dados'];
         $this->ResultOcorrencias['CountOcorrencias'] = ceil($CountOcorrencia / 6);

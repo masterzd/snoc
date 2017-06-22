@@ -1,29 +1,30 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /* Classe responsável por levantar os dados completos das lojas 
-    @autor: Henrique Rocha de Souza
+  @autor: Henrique Rocha de Souza
  *  Data: 3/04/2017
  *  */
 
-class Infolojas extends CI_Controller{
-    
+class Infolojas extends CI_Controller {
+
     private $CI;
     public $DadosLoja;
     public $ContatosSms;
-    
+
     function __construct() {
         $this->CI = & get_instance();
         $this->CI->load->model('Crud');
     }
-    
-     public  function CheckDadosLoja($Loja, $Link = 'MPLS') {
+
+    public function CheckDadosLoja($Loja, $Link = 'MPLS', $Alllinks = true) {
 
         $L = array('lj_num' => $Loja);
         $this->CI->Crud->calldb('tb_lojas', 'SELECT', $L);
 
         if (is_array($this->CI->Crud->Results)):
-            if ($this->CI->Crud->Results['Dados'][0]['lj_sit' ] == 'Fechada' and $this->CI->uri->uri_string != 'consulta-loja'):
+            if ($this->CI->Crud->Results['Dados'][0]['lj_sit'] == 'Fechada' and $this->CI->uri->uri_string != 'consulta-loja'):
                 $this->DadosLoja = array('mensagem' => 'Não é possível abrir uma ocorrência para a Loja informada. A loja encerrou as atividades', 'result' => false);
                 return false;
             elseif ($this->CI->Crud->Results['Dados'][0]['r_cod'] == '0' and $this->CI->uri->uri_string != 'consulta-loja'):
@@ -37,15 +38,18 @@ class Infolojas extends CI_Controller{
             return false;
         endif;
 
-        /* Consultando os  Links da loja informada */
-        $L = array('cir_loja' => $Loja, 'cir_link' => $Link);
-        $this->CI->Crud->calldb('tb_circuitos', 'SELECT', $L);
-        if (is_array($this->CI->Crud->Results)):
-            $this->DadosLoja['Link'] = $this->CI->Crud->Results['Dados'][0];
-        else:
-            $this->DadosLoja = array('mensagem' => 'Não é possível abrir uma ocorrência para a Loja informada. A loja não possui o link cadastrado', 'result' => false);
-            return false;
+        if ($Alllinks == true):
+            /* Consultando os  Links da loja informada */
+            $L = array('cir_loja' => $Loja, 'cir_link' => $Link);
+            $this->CI->Crud->calldb('tb_circuitos', 'SELECT', $L);
+            if (is_array($this->CI->Crud->Results)):
+                $this->DadosLoja['Link'] = $this->CI->Crud->Results['Dados'][0];
+            else:
+                $this->DadosLoja = array('mensagem' => 'Não é possível abrir uma ocorrência para a Loja informada. A loja não possui o link cadastrado', 'result' => false);
+                return false;
+            endif;
         endif;
+
         /* Consultando todos os links da loja */
         $L = array('cir_loja' => $Loja);
         $this->CI->Crud->calldb('tb_circuitos', 'SELECT', $L);
@@ -112,10 +116,5 @@ class Infolojas extends CI_Controller{
 
         $_SESSION['CtlCh']['ChETP1'] = true;
     }
-    
-    
-    
-    
-    
-    
+
 }

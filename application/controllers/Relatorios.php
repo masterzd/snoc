@@ -170,7 +170,7 @@ class Relatorios extends CI_Controller {
             $recDados['dataFim'] = $Util->DataUsa($recDados['dataFim']);
             $this->Dados = $recDados;
 
-            $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59' AND o_sit_ch NOT LIKE 7";
+            $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$this->Dados['dataIni']} 00:00:00' AND '{$this->Dados['dataFim']} 23:59:59' AND o_sit_ch NOT LIKE 8";
             $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
             if ($this->Crud->Results == NULL):
                 $MS = "Não encontrei os dados para exibir. Verifique os informações e tente novamente.";
@@ -187,7 +187,34 @@ class Relatorios extends CI_Controller {
             return;
         endif;
     }
+    
+    
+    public function prodNoc(){
+        
+        $recDados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+        if (!empty($recDados) and ! empty($recDados['dataIni'])):
+            $Util = new Ultilitario();
+            $recDados['dataIni'] = $Util->DataUsa($recDados['dataIni']);
+            $recDados['dataFim'] = $Util->DataUsa($recDados['dataFim']);
+            $QR = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '{$recDados['dataIni']} 00:00:00' AND '{$recDados['dataFim']} 23:59:59' AND o_sit_ch NOT LIKE 8";
+            $this->Crud->calldb(0,'SELECT', 0,0, $QR);
+            if($this->Crud->Results['lines'] == 0):
+                $Msg = "Não Houve registros para o período informado";
+                $this->Erro($Msg);
+                return;
+            else:
+                
+                $Dados = [
+                  'data_Ini' => $recDados['dataIni'],
+                  'data_Fim' => $recDados['dataFim'],
+                  'Ocorrências' =>  $this->Crud->Results['Dados'] 
+                ];
 
+                $this->load->view('relatorios/relNoc', $Dados);
+            endif; 
+        endif;
+    }
+    
     private function Erro($Messagem) {
         if (empty($_SESSION)):
             session_start();

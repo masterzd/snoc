@@ -52,7 +52,7 @@ class DashBoard extends CI_Controller {
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR9);
         $OfflineQT = $this->Crud->Results['lines'] ?? 0;
 
-        $QR = "SELECT DISTINCT o_loja,(SELECT COUNT(*) FROM tb_ocorrencias WHERE o_loja = tb.o_loja AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8) as Chamados FROM tb_ocorrencias as tb WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
+        $QR = "SELECT DISTINCT o_loja,(SELECT COUNT(*) FROM tb_ocorrencias WHERE o_loja = tb.o_loja AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8) as Chamados FROM tb_ocorrencias as tb WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 ORDER BY Chamados";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Inc = $this->Crud->Results['lines'] ?? 0;
         $IncArr = $this->Crud->Results['Dados'];

@@ -37,7 +37,7 @@ $Img = $_SESSION['user']['Img'] ? $_SESSION['user']['Img'] : 'assets/img/Userdef
 
             <ul class="nav nav-pills custom-nav custom-opc">
                 <li role="presentation" class="custom-ancor"><a href="<?= base_url('menuprincipal') ?>">Home</a></li>
-                <li role="presentation" class="custom-ancor"><a href="<?= base_url('manager') ?>">Gerenciamento</a></li>
+                <li role="presentation" class="custom-ancor"><a href="<?= base_url('manager') ?>">Cadastros</a></li>
                 <li role="presentation" class="custom-ancor"><a href="<?= base_url('relatorios') ?>">Relatórios</a></li>
                 <li role="presentation" class="custom-ancor"><a target="_blank" href="<?= base_url('dashboard') ?>">DashBoard</a></li>
                 <li role="presentation" class="custom-ancor"><a href="<?= base_url('adm') ?>">ADM</a></li>

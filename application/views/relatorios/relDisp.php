@@ -57,7 +57,7 @@ $Excel->getActiveSheet()->setCellValueByColumnAndRow(9, 10, "Tempo Indisponível
 $Line = 11;
 foreach ($Resultado as $Chamados):
 
-    $Loja->CheckDadosLoja($Chamados['o_loja']);
+    $Loja->CheckDadosLoja($Chamados['o_loja'],0, false);
     $Chamados['o_hr_ch'] = $Util->DataBR($Chamados['o_hr_ch']);
     $Hora = explode('  ', $Chamados['o_hr_ch']);
     $Band = $Util->ChecaBandeira($Chamados['o_loja']);
@@ -66,14 +66,22 @@ foreach ($Resultado as $Chamados):
     $Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $Line, $Hora[1]);
     $Excel->getActiveSheet()->setCellValueByColumnAndRow(2, $Line, $Band);
     $Excel->getActiveSheet()->setCellValueByColumnAndRow(3, $Line, $Chamados['o_loja']);
+    
+ 
     $CkeckMainLink = $Util->ChecklinkExistis('MPLS', $Loja->DadosLoja['Links']);
     $StatusMainLink = ( $CkeckMainLink == true ? ($Chamados['o_link'] == 'MPLS' ? 'OFF' : 'ON') : 'NAO POSSUI');
-    $QTDLNK = count($Loja->DadosLoja['Links']) - 1;
-    $StatusSecondLink = ($QTDLNK >= 1 ? ($Chamados['o_status'] != 'Loja Offline' ? 'ON' : 'OFF') : 'NAO POSSUI');
+    $QTDLNK = count($Loja->DadosLoja['Links']);
+    
+    if($StatusMainLink == 'NAO POSSUI' and $QTDLNK >= 1):
+        $StatusSecondLink = ($Chamados['o_status'] != 'Loja Offline' ? 'ON' : 'OFF');
+    else:
+        $StatusSecondLink = ($QTDLNK > 1 ? ($Chamados['o_status'] != 'Loja Offline' ? 'ON' : 'OFF') : 'NAO POSSUI');
+    endif;
+    
 
     if (($StatusMainLink == 'ON' and $StatusSecondLink == 'ON') or ( $StatusMainLink == 'OFF' and $StatusSecondLink == 'ON') or ( $StatusMainLink == 'ON' and $StatusSecondLink == 'OFF') or ( $StatusMainLink == 'NAO POSSUI' and $StatusSecondLink == 'ON') or ( $StatusMainLink == 'ON' and $StatusSecondLink == 'NAO POSSUI')):
         $Operacional = 'SIM';
-    elseif ($StatusMainLink == 'OFF' and $StatusSecondLink == 'OFF' or ( $StatusMainLink == 'NAO POSSUI' and $StatusSecondLink == 'NAO POSSUI')):
+    elseif (($StatusMainLink == 'OFF' and $StatusSecondLink == 'OFF') or ( $StatusMainLink == 'NAO POSSUI' and $StatusSecondLink == 'NAO POSSUI') or ( $StatusMainLink == 'NAO POSSUI' and $StatusSecondLink == 'OFF') or ( $StatusMainLink == 'OFF' and $StatusSecondLink == 'NAO POSSUI')):
         $Operacional = 'NAO';
     else:
         $Operacional = 'NInfo';

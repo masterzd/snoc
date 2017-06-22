@@ -82,6 +82,7 @@ $route['rel/Geral'] = 'Relatorios/Geral';
 $route['rel/Sms'] = 'Relatorios/relSms';
 $route['rel/Loja'] = 'Relatorios/relLoja';
 $route['rel/DispInter'] = 'Relatorios/relDispInter';
+$route['rel/ProdNoc'] = 'Relatorios/prodNoc';
 
 /* Rotas relacionadas a tela de ocorrências diárias */
 $route['ocorrencias-diarias'] = 'Start/chToday';

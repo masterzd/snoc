@@ -92,6 +92,7 @@ class Save extends CI_Controller {
         $Arr['o_sit_ch'] = 2;
         $Arr['o_op'] = $this->DadosLoja['Link']['cir_oper'];
         $Arr['o_nece'] = 2;
+        $Arr['o_status_temp'] = $this->Chamado['o_status'];
         $Where['o_cod'] = $this->Chamado['o_cod'];
 
         $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
@@ -141,6 +142,7 @@ class Save extends CI_Controller {
         $Arr['o_nece'] = 4;
         $Arr['o_prazo'] = $this->Ultilitarios->prazoFaltadeEnergia();
         $Arr['o_sisman'] = $this->Chamado['o_sisman'];
+        $Arr['o_status_temp'] = $this->Chamado['o_status'];
         $Where['o_cod'] = $this->Chamado['o_cod'];
 
         $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
@@ -189,6 +191,7 @@ class Save extends CI_Controller {
         $Arr['o_op'] = $this->DadosLoja['Link']['cir_oper'];
         $Arr['o_nece'] = 5;
         $Arr['o_prazo'] = $this->Ultilitarios->prazoFaltadeEnergia();
+        $Arr['o_status_temp'] = $this->Chamado['o_status'];
         $Where['o_cod'] = $this->Chamado['o_cod'];
 
         $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
@@ -196,17 +199,18 @@ class Save extends CI_Controller {
             $Messagem = "Falha ao salvar a ocorrência: Erro na atualização dos dados. Contate o suporte para verificar os dados";
             return $Messagem;
         endif;
-        
-        //
-        
+
+        /* Gerar Ocorrência automáticamente */
+        $this->ocorrenciaAutomatica($Arr);
+
         /* Salvando notas da ocorrência */
-        $Notas = $this->saveNotas();
+        $Notas = $this->saveNotas($this->Chamado['o_cod']);
 
         /* Salvando Tipo de problema e ação tomada */
-        $this->saveTpAc();
+        $this->saveTpAc($this->Chamado['o_cod']);
 
         /* Savando na Tabela de Eventos */
-        $this->saveEventos();
+        $this->saveEventos($this->Chamado['o_cod']);
 
         /* Envio de Email */
         /* Assunto */
@@ -240,6 +244,7 @@ class Save extends CI_Controller {
         $Arr['o_nece'] = 3;
         $Arr['o_otrs'] = $this->Chamado['o_otrs'];
         $Arr['o_prazo'] = $this->Ultilitarios->prazoTecnico();
+        $Arr['o_status_temp'] = $this->Chamado['o_status'];
         $Where['o_cod'] = $this->Chamado['o_cod'];
 
         $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
@@ -249,13 +254,13 @@ class Save extends CI_Controller {
         endif;
 
         /* Salvando notas da ocorrência */
-        $Notas = $this->saveNotas();
+        $Notas = $this->saveNotas($this->Chamado['o_cod']);
 
         /* Salvando Tipo de problema e ação tomada */
-        $this->saveTpAc();
+        $this->saveTpAc($this->Chamado['o_cod']);
 
         /* Savando na Tabela de Eventos */
-        $this->saveEventos();
+        $this->saveEventos($this->Chamado['o_cod']);
 
         /* Envio de Email */
         /* Assunto */
@@ -286,6 +291,7 @@ class Save extends CI_Controller {
         $Arr['o_op'] = $this->DadosLoja['Link']['cir_oper'];
         $Arr['o_nece'] = 7;
         $Arr['o_prazo'] = $this->Ultilitarios->prazoTecnico();
+        $Arr['o_status_temp'] = $this->Chamado['o_status'];
         $Where['o_cod'] = $this->Chamado['o_cod'];
 
         $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
@@ -296,13 +302,13 @@ class Save extends CI_Controller {
 
 
         /* Salvando notas da ocorrência */
-        $Notas = $this->saveNotas();
+        $Notas = $this->saveNotas($this->Chamado['o_cod']);
 
         /* Salvando Tipo de problema e ação tomada */
-        $this->saveTpAc();
+        $this->saveTpAc($this->Chamado['o_cod']);
 
         /* Savando na Tabela de Eventos */
-        $this->saveEventos();
+        $this->saveEventos($this->Chamado['o_cod']);
 
         return true;
     }
@@ -317,6 +323,7 @@ class Save extends CI_Controller {
         $Arr['o_opr_fc'] = $_SESSION['user']['Nome'];
         $Arr['o_hr_fc'] = date('Y-m-d H:i:s');
         $Arr['o_hr_up'] = date('Y-m-d H:i:s');
+        $Arr['o_status_temp'] = $this->Chamado['o_status'];
         $Where['o_cod'] = $this->Chamado['o_cod'];
 
         $this->Crud->calldb('tb_ocorrencias', 'UPDATE', $Arr, $Where);
@@ -328,13 +335,13 @@ class Save extends CI_Controller {
         $this->Ultilitarios->TimeInds($this->Chamado['o_cod'], $Arr['o_hr_up'], $this->Chamado['o_hr_dw']);
 
         /* Salvando notas da ocorrência */
-        $Notas = $this->saveNotas();
+        $Notas = $this->saveNotas($this->Chamado['o_cod']);
 
         /* Salvando Tipo de problema e ação tomada */
-        $this->saveTpAc();
+        $this->saveTpAc($this->Chamado['o_cod']);
 
         /* Savando na Tabela de Eventos */
-        $this->saveEventos();
+        $this->saveEventos($this->Chamado['o_cod']);
 
         /* Enviando SMS */
         $SMS = $this->sendsms->sms($this->Contatos, $this->Chamado, $this->DadosLoja, 4);
@@ -377,8 +384,8 @@ class Save extends CI_Controller {
 
     /* Função com as rotinas para salvar a nota da ocorrência */
 
-    private function saveNotas() {
-        $Nota = array('ch_nota' => $this->Chamado['obs'], 'ch_user' => $this->Chamado['o_opr_ab'], 'o_cod' => $this->Chamado['o_cod'], 'ch_time' => date('Y-m-d H:i:s'));
+    private function saveNotas($Ch) {
+        $Nota = array('ch_nota' => $this->Chamado['obs'], 'ch_user' => $this->Chamado['o_opr_ab'], 'o_cod' => $Ch, 'ch_time' => date('Y-m-d H:i:s'));
         $this->Crud->calldb('tb_ch_notas', 'INSERT', $Nota);
 
         if ($this->Crud->Results == false):
@@ -391,23 +398,23 @@ class Save extends CI_Controller {
 
     /* Funcao para salvar as informações em Tipo de problema e ação tomada */
 
-    private function saveTpAc() {
+    private function saveTpAc($Ch) {
 
         /* Tipo de problema */
         foreach ($this->Chamado['tp_desc'] as $TP):
-            $tipoProb = array('o_cod' => $this->Chamado['o_cod'], 'ch_prob' => $TP);
+            $tipoProb = array('o_cod' => $Ch, 'ch_prob' => $TP);
             $this->Crud->calldb('tb_ch_prob', 'INSERT', $tipoProb);
         endforeach;
 
         /* Ação tomada */
         foreach ($this->Chamado['ac_desc'] as $AC):
-            $acaoTomada = array('o_cod' => $this->Chamado['o_cod'], 'ch_acao' => $AC);
+            $acaoTomada = array('o_cod' => $Ch, 'ch_acao' => $AC);
             $this->Crud->calldb('tb_ch_acao', 'INSERT', $acaoTomada);
         endforeach;
     }
 
-    private function saveEventos() {
-        $Eventos = array('e_nome' => $this->Chamado['o_opr_ab'], 'e_data' => date('Y-m-d H:i:s'), 'e_chamado' => $this->Chamado['o_cod'], 'e_acao' => 'Abriu');
+    private function saveEventos($Ch) {
+        $Eventos = array('e_nome' => $this->Chamado['o_opr_ab'], 'e_data' => date('Y-m-d H:i:s'), 'e_chamado' => $Ch, 'e_acao' => 'Abriu');
         $this->Crud->calldb('tb_eventos', 'INSERT', $Eventos);
     }
 
@@ -431,24 +438,28 @@ class Save extends CI_Controller {
     private function ocorrenciaAutomatica($Ocorrencia) {
 
         foreach ($this->DadosLoja['Links'] as $Link):
-            if ($Link['cir_link'] != $this->Chamado['o_link'] or $Link['cir_link'] != '4G'):
-                $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_link = {$Link['cir_link']} AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
-                $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
-                if ($this->Crud->Results['lines'] == 0):
-                    $Ocorrencia['o_link'] = $Link['cir_link'];
-                    $Ocorrencia['o_loja'] = $this->Chamado['o_loja'];
-                    $Ocorrencia['o_uf'] = $this->Chamado['o_uf'];
-                    $Ocorrencia['o_band'] = $this->Chamado['o_band'];
-                    $Ocorrencia['o_reg'] = $this->Chamado['o_reg'];
-                    $Ocorrencia['o_desig'] = $this->Chamado['o_desig'];
-                    $Ocorrencia['o_opr_ab'] = $this->Chamado['o_desig'];
-                    $Ocorrencia['o_hr_ch'] = date("Y-m-d H:i:s");
-                    $Ocorrencia['o_ip_prob'] = $this->Chamado['o_ip_prob'];
-                    $this->Crud->calldb('tb_ocorrencias', 'INSERT', $Ocorrencia);
-                    $this->saveNotas();
-                    $this->saveTpAc();
-                    $this->saveEventos();
-                    
+            if ($Link['cir_link'] != $this->Chamado['o_link']):
+                if ($Link['cir_link'] != '4G'):
+                    $QR = "SELECT o_cod FROM tb_ocorrencias WHERE o_link = '{$Link['cir_link']}' AND o_loja = '{$Link['cir_loja']}' AND o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
+                    $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
+                    if ($this->Crud->Results['lines'] == 0):
+                        $Ocorrencia['o_link'] = $Link['cir_link'];
+                        $Ocorrencia['o_loja'] = $this->Chamado['o_loja'];
+                        $Ocorrencia['o_uf'] = $this->Chamado['o_uf'];
+                        $Ocorrencia['o_band'] = $this->Chamado['o_band'];
+                        $Ocorrencia['o_reg'] = $this->Chamado['o_reg'];
+                        $Ocorrencia['o_desig'] = $Link['cir_desig'];
+                        $Ocorrencia['o_opr_ab'] = $this->Chamado['o_opr_ab'];
+                        $Ocorrencia['o_hr_ch'] = date("Y-m-d H:i:s");
+                        $Ocorrencia['o_ip_prob'] = $Link['cir_ip_link'];
+                        $Ocorrencia['o_hr_dw'] = $this->Chamado['o_hr_dw'];
+                        $Ocorrencia['o_status'] = $this->Chamado['o_status'];
+                        $this->Crud->calldb('tb_ocorrencias', 'INSERT', $Ocorrencia);
+                        $LastId = $this->Crud->LastInsertID;
+                        $this->saveNotas($LastId);
+                        $this->saveTpAc($LastId);
+                        $this->saveEventos($LastId);
+                    endif;
                 endif;
             endif;
         endforeach;
