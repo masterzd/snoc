@@ -14,8 +14,7 @@ class Start extends CI_Controller {
 
     public function index() {
         if (empty($_POST['u_user']) and empty($_SESSION['user'])):
-            $Validation['erro'] = "Sessão Expirada. Fazer login novamente.";
-            $this->load->view('login', $Validation);
+            $this->load->view('login');
         else:
             $this->menu();
         endif;
@@ -47,7 +46,7 @@ class Start extends CI_Controller {
     
     public function sair(){
         session_destroy();
-        header('Location:' . base_url('Start/?erro=1'));
+        header('Location:' . base_url('Start'));
         return false;
     }
 

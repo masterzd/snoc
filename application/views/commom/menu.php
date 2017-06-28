@@ -1,18 +1,19 @@
 <?php
+if(empty($_SESSION)):
+  session_start();  
+endif;
 if (empty($_SESSION['user'])):
     $Validation['erro'] = "Sessão Expirada. Fazer login novamente.";
     $this->load->view('login', $Validation);
     die();
 endif;
-
 $Priv = $_SESSION['user']['Nv'] == 1 ? 'Administrador' : 'Operador Noc';
-$Img = $_SESSION['user']['Img'] ? $_SESSION['user']['Img'] : 'assets/img/Userdefault.png';
 ?>
 <div class="container-fluid menu-fixed">
 
     <div class="left col-xs-8 hide menucanvas">				
         <div class="sidebar-nav">
-            <img src="<?php echo base_url($Img) ?>" title="<?= $_SESSION['user']['Nome'] ?>" class="custom-nav-offcanvas offcanvas-img-user j_img">
+
 
             <div class="custom-nav-offcanvas offcanvas-info-user">
                 <p><?= $_SESSION['user']['Nome'] ?></p>

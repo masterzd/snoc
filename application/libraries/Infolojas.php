@@ -42,10 +42,10 @@ class Infolojas extends CI_Controller {
             /* Consultando os  Links da loja informada */
             $L = array('cir_loja' => $Loja, 'cir_link' => $Link);
             $this->CI->Crud->calldb('tb_circuitos', 'SELECT', $L);
-            if (is_array($this->CI->Crud->Results)):
+            if ($this->CI->Crud->Results['lines'] >= 1 and in_array('', $this->CI->Crud->Results['Dados'][0]) == false):
                 $this->DadosLoja['Link'] = $this->CI->Crud->Results['Dados'][0];
             else:
-                $this->DadosLoja = array('mensagem' => 'Não é possível abrir uma ocorrência para a Loja informada. A loja não possui o link cadastrado', 'result' => false);
+                $this->DadosLoja = array('mensagem' => 'Não é possível abrir uma ocorrência para a Loja informada. A loja não possui o link cadastrado ou o cadastro da loja está incompleto.', 'result' => false);
                 return false;
             endif;
         endif;
