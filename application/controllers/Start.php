@@ -20,19 +20,32 @@ class Start extends CI_Controller {
         endif;
     }
 
+    public function tecCad() {
+        $IdResp = (int) $this->input->get('cod');
+        if ($IdResp == NULL):
+            $this->load->view('tec-cad');
+        else:
+            $this->load->Model('Crud');
+            $Where = array('resp_cod' => $IdResp);
+            $this->Crud->calldb('tb_resp_tec', 'SELECT', $Where);
+            $ArrTec = $this->Crud->Results;
+            $this->load->view('tec-cad', $ArrTec);
+        endif;
+    }
+
     /* Funções */
 
     public function menu() {
- 
+
         $this->load->Model('Crud');
         $QR = "SELECT * FROM tb_eventos  ORDER BY e_cod DESC LIMIT 4";
-        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR); 
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $Info['eventos'] = $this->Crud->Results['Dados'];
-        
+
         $QR2 = "SELECT o_cod FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR2);
         $Info['abChamados'] = $this->Crud->Results['lines'];
-        
+
         $this->load->view('menuprincipal', $Info);
     }
 
@@ -43,8 +56,8 @@ class Start extends CI_Controller {
     public function chamado() {
         $this->load->view('nova-ocorrencia');
     }
-    
-    public function sair(){
+
+    public function sair() {
         session_destroy();
         header('Location:' . base_url('Start'));
         return false;
@@ -90,11 +103,8 @@ class Start extends CI_Controller {
                         'Funcao' => $this->Crud->Results['Dados'][0]['u_funcao'],
                         'data' => date("Y-m-d H:i:s")
                     ];
-                  
+
                     $this->Crud->calldb('tb_conf', 'SELECT', 0);
-                    
-                    
-                    
                     unset($_POST['u_user'], $_POST['u_senha']);
                     header("Location:" . base_url('menuprincipal'));
                 else:
@@ -121,10 +131,8 @@ class Start extends CI_Controller {
     }
 
     public function manager() {
-
         $this->load->Model('Shorthand_model');
         $Regional = $this->Shorthand_model->getRegionais();
-
         if (is_array($Regional)):
             $ViewReg['regional'] = $Regional;
             $this->load->view('manager', $ViewReg);
@@ -132,13 +140,12 @@ class Start extends CI_Controller {
             die("Falha ao Carregar os dados - ARR_REG");
         endif;
     }
-    
-    public function consultaFilial(){
+
+    public function consultaFilial() {
         $LJ = (int) $this->input->get('Lj');
         if ($LJ == NULL):
             die('Parametro inválido');
         endif;
-        
         $this->load->library('infolojas');
         $this->load->Model('Crud');
         $this->infolojas->CheckDadosLoja($LJ);
@@ -147,24 +154,22 @@ class Start extends CI_Controller {
         $LojasInfo = $this->infolojas->DadosLoja;
         $LojasInfo['Resp'] = $this->infolojas->ContatosSms;
         $LojasInfo['Ocorrencias'] = $this->Crud->Results['Dados'];
-        $this->load->view('filiais', $LojasInfo);        
+        $this->load->view('filiais', $LojasInfo);
     }
-    
-    public function chToday(){
+
+    public function chToday() {
         $this->load->Model('Crud');
-        $QR1 = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '".date('Y-m-d')." 00:00:00' AND '".date('Y-m-d')." 23:59:59'";
-        $QR2 = "SELECT * FROM tb_ocorrencias WHERE o_hr_fc BETWEEN '".date('Y-m-d')." 00:00:00' AND '".date('Y-m-d')." 23:59:59'";
+        $QR1 = "SELECT * FROM tb_ocorrencias WHERE o_hr_ch BETWEEN '" . date('Y-m-d') . " 00:00:00' AND '" . date('Y-m-d') . " 23:59:59'";
+        $QR2 = "SELECT * FROM tb_ocorrencias WHERE o_hr_fc BETWEEN '" . date('Y-m-d') . " 00:00:00' AND '" . date('Y-m-d') . " 23:59:59'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR1);
         $DadosToday['abHoje'] = $this->Crud->Results['Dados'];
-        $this->Crud->calldb(0, 'SELECT',0, 0, $QR2);
+        $this->Crud->calldb(0, 'SELECT', 0, 0, $QR2);
         $DadosToday['fcHoje'] = $this->Crud->Results['Dados'];
         $this->load->view('chamadoDia', $DadosToday);
     }
-    
-    public function relatorios(){
-        
+
+    public function relatorios() {
         $this->load->view('relatorios');
-        
     }
 
 }

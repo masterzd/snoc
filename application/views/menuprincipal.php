@@ -19,7 +19,13 @@
     <body>
         <?php
         $this->load->view('commom/menu.php');
-
+        
+        $AbOC = 'btn-menu-custom';
+        $D = '';
+        if ($_SESSION['user']['Nv'] > 1):
+            $AbOC = '';
+            $D = 'disabled';
+        endif;
 //        if (empty($_SESSION['user'])):
 //            $Validation['erro'] = "Sessão Expirada. Fazer login novamente.";
 //            $this->load->view('login', $Validation);
@@ -32,15 +38,15 @@
         <div class="conta iner-fluid j-area-remove-offcanvas">
             <div class="row">			
                 <div class="box-1 col-md-8 col-xs-8 col-lg-8">				
-                    <button class="btn btn-danger btn-menu-custom-2 btn-menu-custom j_btn-menu-custom">Abrir Ocorrência</button>
+                    <button class="btn btn-danger btn-menu-custom-2 <?=$AbOC?> j_btn-menu-custom <?=$D?>">Abrir Ocorrência</button>
 
                     <div class="ab_ch">
                         <p>Abertura de Ocorrência</p>
-<?php
-if (!empty($erro)):
-    echo "<script>Erro('{$erro}')</script>";
-endif;
-?>					
+                        <?php
+                        if (!empty($erro)):
+                            echo "<script>Erro('{$erro}')</script>";
+                        endif;
+                        ?>					
                         <form action="chamado" method="POST" class="j_newOcorr">
 
                             <div class="form-group col-md-2 col-xs-11 ">
@@ -128,14 +134,14 @@ endif;
                         <p>Ocorrências Abertas: <?= $abChamados ?></p>
                         <a href="ocorrencias-diarias"><button class="btn btn-danger btn-ver-oc-ab">Atividades Diárias</button></a>
                         <P>Ultimas Atualizações:</P>
-<?php
-if (!empty($eventos)):
-    foreach ($eventos as $Eventos):
-        echo "<p class='eventos'><a href=" . base_url("verchamado/?Ch={$Eventos['e_chamado']}") . ">{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
-        echo "a ocorrência nº {$Eventos['e_chamado']} as {$Eventos['e_data']}</a></p><br>";
-    endforeach;
-endif;
-?>
+                        <?php
+                        if (!empty($eventos)):
+                            foreach ($eventos as $Eventos):
+                                echo "<p class='eventos'><a href=" . base_url("verchamado/?Ch={$Eventos['e_chamado']}") . ">{$Eventos['e_nome']} {$Eventos['e_acao']}<br>";
+                                echo "a ocorrência nº {$Eventos['e_chamado']} as {$Eventos['e_data']}</a></p><br>";
+                            endforeach;
+                        endif;
+                        ?>
 
                     </aside>					
                 </div>

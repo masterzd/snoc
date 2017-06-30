@@ -33,8 +33,6 @@ $(function () {
             var altura = "240px";
         }
 
-        console.log(altura);
-
         $('.box-1').animate({height: altura}, 600, function () {
             $('.btn-menu-custom').addClass('largo');
             $('.btn-menu-custom').html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recolher&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");

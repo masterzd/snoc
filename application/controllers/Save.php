@@ -102,13 +102,13 @@ class Save extends CI_Controller {
         endif;
 
         /* Salvando notas da ocorrência */
-        $Notas = $this->saveNotas();
+        $Notas = $this->saveNotas($this->Chamado['o_cod']);
 
         /* Salvando Tipo de problema e ação tomada */
-        $this->saveTpAc();
+        $this->saveTpAc($this->Chamado['o_cod']);
 
         /* Savando na Tabela de Eventos */
-        $this->saveEventos();
+        $this->saveEventos($this->Chamado['o_cod']);
 
         /* Envio de Email */
         /* Assunto */
@@ -152,13 +152,13 @@ class Save extends CI_Controller {
         endif;
 
         /* Salvando notas da ocorrência */
-        $Notas = $this->saveNotas();
+        $Notas = $this->saveNotas($this->Chamado['o_cod']);
 
         /* Salvando Tipo de problema e ação tomada */
-        $this->saveTpAc();
+        $this->saveTpAc($this->Chamado['o_cod']);
 
         /* Savando na Tabela de Eventos */
-        $this->saveEventos();
+        $this->saveEventos($this->Chamado['o_cod']);
 
         /* Envio de Email */
         /* Assunto */

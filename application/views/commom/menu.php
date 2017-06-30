@@ -1,13 +1,26 @@
 <?php
-if(empty($_SESSION)):
-  session_start();  
+if (empty($_SESSION)):
+    session_start();
 endif;
 if (empty($_SESSION['user'])):
     $Validation['erro'] = "Sessão Expirada. Fazer login novamente.";
     $this->load->view('login', $Validation);
     die();
 endif;
-$Priv = $_SESSION['user']['Nv'] == 1 ? 'Administrador' : 'Operador Noc';
+$Priv = $_SESSION['user']['Nv'] == 1 ? 'Operador TI' : 'Técnico Regional';
+
+/* Permissão no Menu */
+$Cadastros = "href=".base_url('manager')."";
+$ADM = "href=".base_url('adm')."";
+$Relatorios = "href=".base_url('relatorios')."";
+$desativo = '';
+
+if ($_SESSION['user']['Nv'] > 1):
+    $Cadastros = "href='#'";
+    $ADM = "href='#'";
+    $Relatorios = "href='#'";
+    $desativo = 'disabled';
+endif;
 ?>
 <div class="container-fluid menu-fixed">
 
@@ -22,9 +35,9 @@ $Priv = $_SESSION['user']['Nv'] == 1 ? 'Administrador' : 'Operador Noc';
 
             <ul class="nav nav-pills nav-stacked custom-nav-offcanvas offcanvas-menu">
                 <li class="custom-ancor"><a href="<?= base_url('menuprincipal') ?>">Home</a></li>
-                <li class="custom-ancor"><a href="<?= base_url('relatorios') ?>">Relatórios</a></li>
+                <li class="custom-ancor <?=$desativo?>"><a <?=$Relatorios?>>Relatórios</a></li>
                 <li class="custom-ancor"><a target="_blank" href="<?= base_url('dashboard') ?>">DashBoard</a></li>
-                <li class="custom-ancor"><a href="<?= base_url('adm') ?>">ADM</a ></li>
+                <li class="custom-ancor <?=$desativo?>"><a <?=$ADM?>>ADM</a ></li>
                 <li class="custom-ancor"><a href="#">Sobre</a></li>
                 <li class="custom-ancor"><a href="logoff">Sair</a></li>
             </ul>
@@ -37,11 +50,11 @@ $Priv = $_SESSION['user']['Nv'] == 1 ? 'Administrador' : 'Operador Noc';
             <a  href="<?= base_url('menuprincipal') ?>"><img src="<?php echo base_url('assets/img/SNOC3.png') ?>" alt="SISNOC LOGO" class="img-responsive custom-nav custom-img"></a>
 
             <ul class="nav nav-pills custom-nav custom-opc">
-                <li role="presentation" class="custom-ancor"><a href="<?= base_url('menuprincipal') ?>">Home</a></li>
-                <li role="presentation" class="custom-ancor"><a href="<?= base_url('manager') ?>">Cadastros</a></li>
-                <li role="presentation" class="custom-ancor"><a href="<?= base_url('relatorios') ?>">Relatórios</a></li>
-                <li role="presentation" class="custom-ancor"><a target="_blank" href="<?= base_url('dashboard') ?>">DashBoard</a></li>
-                <li role="presentation" class="custom-ancor"><a href="<?= base_url('adm') ?>">ADM</a></li>
+                <li role="presentation" class="custom-ancor"><a href="<?= base_url('menuprincipal') ?>">Inicio</a></li>
+                <li role="presentation" class="custom-ancor <?=$desativo?>"><a <?=$Cadastros?>>Cadastros</a></li>
+                <li role="presentation" class="custom-ancor <?=$desativo?>"><a <?=$Relatorios?>>Relatórios</a></li>
+                <li role="presentation" class="custom-ancor"><a target="_blank" href="<?= base_url('dashboard') ?>">Painel</a></li>
+                <li role="presentation" class="custom-ancor <?=$desativo?>"><a <?=$ADM?>>ADM</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">Sobre</a></li>
                 <li class="custom-ancor"><a href="logoff">Sair</a></li>
             </ul>

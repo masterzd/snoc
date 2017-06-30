@@ -149,7 +149,7 @@
         margin-left: 1%;
         position: absolute;
     }
-    
+
     .hide-mobo{
         display: none
     }
@@ -212,6 +212,8 @@
 }
 
 form.custom-nav {
+    position: relative;
     width: 16%;
     display: inline-flex;
+    top: 17%;
 }

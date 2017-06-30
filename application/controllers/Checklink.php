@@ -9,9 +9,6 @@ class Checklink extends CI_Controller {
         $this->load->Model('Crud');
     }
 
-    
-    
-    
     public function ConsultaOcorrenciaAB() {
         $QR = "SELECT * FROM tb_ocorrencias WHERE o_sit_ch NOT LIKE 1 AND o_sit_ch NOT LIKE 8 AND o_status = 'Loja Offline'";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
@@ -33,7 +30,7 @@ class Checklink extends CI_Controller {
 
         foreach ($Result as $Chamado => $Valor):
             $where = array('o_cod' => $Chamado);
-        
+
             if (in_array('true', $Valor)):
                 $Dados = array('o_status_temp' => 'Loja Online');
             else:

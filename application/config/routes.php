@@ -54,6 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Start';
 //$route['validacao'] = 'Start/validacao';
 $route['validacao'] = 'LdapConnect/Connect';
+$route['cisco'] = 'TesteCisco/Conecta';
 
 /* Rotas relacionadas ao Menu Principal */
 $route['menuprincipal'] = 'Start/menu';

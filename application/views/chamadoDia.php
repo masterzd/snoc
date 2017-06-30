@@ -7,6 +7,8 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/menu.css') ?>"> 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/ocorrenciasDiarias.css') ?>"> 
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
     </head>
     <body>
         <?php
@@ -43,10 +45,12 @@
                                     <?php
                                     if (!empty($abHoje)):
                                         foreach ($abHoje as $Day):
+                                            $Status = ($Day['o_sit_ch'] == 1 ? 'Fechado' : ($Day['o_sit_ch'] == 8 ? 'Cancelado' : 'Aberto'));
+                                        
                                             echo "
                                             <tr>
-                                                <td>{$Day['o_sit_ch']}</td>
-                                                <td>{$Day['o_cod']}</td>
+                                                <td>{$Status}</td>
+                                                <td><a href=". base_url("verchamado/?Ch={$Day['o_cod']}").">{$Day['o_cod']}</a></td>
                                                 <td>{$Day['o_loja']}</td>
                                                 <td>{$Day['o_link']}</td>
                                                 <td>{$Day['o_desig']}</td>
@@ -84,7 +88,7 @@
                                             echo "
                                             <tr>
                                                 <td>{$util->DataBR($fcDay['o_hr_fc'])}</td>
-                                                <td>{$fcDay['o_cod']}</td>
+                                                <td><a href=".base_url("verchamado/?Ch={$fcDay['o_cod']}").">{$fcDay['o_cod']}</a></td>
                                                 <td>{$fcDay['o_loja']}</td>
                                                 <td>{$fcDay['o_link']}</td>
                                                 <td>{$fcDay['o_desig']}</td>

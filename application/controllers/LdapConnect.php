@@ -35,8 +35,11 @@ class LdapConnect extends CI_Controller {
                     endif;
                 endforeach;
 
-                if ($Permissao == true):
-                    session_start();
+                if ($Permissao == true):                    
+                    if(empty($_SESSION)):
+                        session_start();
+                    endif;
+
                     $_SESSION['user'] = [
                         'Nome' => $info[0]['cn'][0],
                         'Nv' => ($Permissao = true ? 1 : 2),
