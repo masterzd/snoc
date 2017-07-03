@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.css') ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/menu.css') ?>"> 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/custom-css/filial.css') ?>"> 
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap-switch.min.css') ?>">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     </head>
@@ -148,11 +149,37 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-8 topo" style="margin-top: 0%;">
+                    <header>
+                        <h1>Area de Testes</h1>
+                    </header>
+                    <main>
+                        <div class="area-buttons">
+                            <input type="checkbox" name="sms" class="j-sms" checked>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="10" cols="100"></textarea>
+                        </div>
+
+                        <div class="btn-group commands-btn">
+                            <button type="button" class="btn btn-primary">Ping</button>
+                            <button type="button" class="btn btn-primary">ARP</button>
+                            <button type="button" class="btn btn-primary">BGP</button>
+                            <button type="button" class="btn btn-primary">Mostrar Interfaces</button>
+                            <button type="button" class="btn btn-primary">Neighbors</button>
+                            <button type="button" class="btn btn-primary">Detalhes Interface</button>
+                            <button type="button" class="btn btn-primary">Enviar Comando</button>
+                        </div>
+
+                    </main>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-8 topo" style="margin-top: 0%; margin-bottom: 1%">
                     <header>
                         <h1>Últimas Ocorrências</h1>
                     </header>
-                    <coontent>
+                    <content>
                         <div class="table-responsive" id="edit-table">
                             <table class="table table-striped">
                                 <thead class="table-custom">
@@ -217,13 +244,14 @@
                                                 <td class="hidden-table"><?= $Sit ?></td>    
                                                 <td><?= $SitCh ?></td> 
                                             </tr>
-                                        <?php endforeach;
+                                            <?php
+                                        endforeach;
                                     endif;
                                     ?>
                                 </tbody>
                             </table>
                         </div>
-                    </coontent>
+                    </content>
                 </div>
             </div>
             <div class="row">
@@ -238,5 +266,6 @@
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/menu-topo.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/info-filiais.js') ?>"></script>
+        <script src="<?php echo base_url('/assets/js/bootstrap-switch.min.js') ?>"></script>
     </body>
 </html>

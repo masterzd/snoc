@@ -11,10 +11,11 @@ class TesteCisco extends CI_Controller{
     
     
     public function Conecta(){        
-        $Router = new Cisco('10.64.9.23','#@#Saved', 'henrique.souza');
+        $Router = new Cisco('10.64.9.23','Isa32:18', 'henrique.souza');
         $Router->connect();
-        $ARP = $Router->sendSms();
+        $ARP = $Router->shVrrp();
         var_dump($ARP);
+        
     }
     
     

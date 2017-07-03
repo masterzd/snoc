@@ -45,5 +45,12 @@ $(function () {
     });
     
     
+    $("[name='sms']").bootstrapSwitch({
+        size: 'small',
+        onText: 'Principal',
+        offText: 'Backup'
+    });
+    
+    
 });
 

@@ -80,7 +80,7 @@ td, th {
 
 .form-group {
     margin-bottom: 15px;
-/*    margin-left: 45%;*/
+    /*    margin-left: 45%;*/
 }
 
 .lj-closed {
@@ -104,6 +104,16 @@ td, th {
     font-weight: bold;
     display: none;
 }
+
+.area-buttons {
+    margin-left: 41%;
+    margin-bottom: 2%;
+}
+
+.commands-btn {
+    margin-left: 12%;
+}
+
 
 @media (max-width: 500px){
 

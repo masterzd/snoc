@@ -791,22 +791,70 @@ class Cisco {
         $this->_data = $result;
         return $this->_data;
     }
-    
-    public function showIpIntBrief(){
-        
+
+    public function showIpIntBrief() {
         $this->_send('show ip int brief');
         $this->_readTo($this->_prompt);
-        
-        var_dump($this->_data);
+        $Result = explode("\r\n", $this->_data);
+        unset($Result[0]);
+        $Fields = array_values(array_filter(explode(" ", $Result[1])));
+        unset($Result[1]);
+        array_pop($Result);
+        $a = 1;
+        foreach ($Result as $Int):
+            $F = array_values(array_filter(explode(" ", $Int)));
+            $Interfaces['Int' . $a] = $F;
+            $a++;
+        endforeach;
+        return $Interfaces;
     }
-    
-    public function sendSms(){
-        $this->_send('sh dmvpn');
+
+    public function bgpSummary() {
+        $this->_send('sh ip bgp summary');
         $this->_readTo($this->_prompt);
+        $Result = explode("\r\n", $this->_data);
+        $expl = explode(' ', $Result[3]);
+        $expl2 = array_values(array_filter(explode(' ', $Result[13])));
+        $DadosBGP = array('redes' => $expl[0], 'tempoDisp' => $expl2[6]);
+        return $DadosBGP;
+    }
+
+    public function cdpNeighbors() {
+        $this->_send('show cdp neighbors');
+        $this->_readTo($this->_prompt);
+        $Result = explode("\r\n", $this->_data);
+        unset($Result[0]);
+        unset($Result[1]);
+        unset($Result[2]);
+        unset($Result[3]);
+        unset($Result[4]);
+        unset($Result[5]);
+        array_pop($Result);
         
-        var_dump($this->_data);
+        $a = 1;
+        
+        foreach ($Result as $Dados):
+           $explo = array_values(array_filter(explode(' ', $Dados)));
+           $explo[1] =  $explo[1]." ".$explo[2];
+           unset($explo[2]);
+           $explo[4] = $explo[4]." ".$explo[5];
+           unset($explo[5]);           
+           $Device['neighbor-'.$a] = $explo;
+           $a++;
+        endforeach;
+        
+        return $Device;
     }
     
+    
+    public function shVrrp(){
+        $this->_send('sh vrrp');
+        $this->_readTo($this->_prompt);
+        $Result = explode("\r\n", $this->_data);
+        $Vrrp = array('status' => $Result[2], 'prioridade' => $Result[7]);
+        return $Vrrp;
+    }
+
 // availableVlans
 }
 
