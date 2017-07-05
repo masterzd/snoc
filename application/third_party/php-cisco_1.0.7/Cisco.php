@@ -68,13 +68,15 @@ class Cisco {
      * Establish a connection to the device
      */
     public function connect() {
-        $this->_connection = fsockopen($this->_hostname, 23, $errno, $errstr, $this->_timeout);
+        $this->_connection = fsockopen($this->_hostname, 22, $errno, $errstr, $this->_timeout);
         if ($this->_connection === false) {
             die("Error: Connection Failed for $this->_hostname\n");
         } // if
+        
+        
         stream_set_timeout($this->_connection, $this->_timeout);
         $this->_readTo(':');
-
+        
         if (substr($this->_data, -9) == 'username:') {
             $this->_send($this->_username);
             $this->_readTo(':');
@@ -82,6 +84,11 @@ class Cisco {
         $this->_send($this->_password);
         $this->_prompt = '#';
         $this->_readTo($this->_prompt);
+        
+        var_dump( $this->_readTo($this->_prompt));
+        var_dump($this->_prompt);
+        
+        
         if (strpos($this->_data, $this->_prompt) === false) {
             fclose($this->_connection);
             die("Error: Authentication Failed for $this->_hostname\n");

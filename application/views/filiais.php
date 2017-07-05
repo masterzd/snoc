@@ -120,12 +120,14 @@
                                         <th class="hidden-table">Operadora</th>
                                         <th class="hidden-table">Banda</th>
                                         <th>Ip de monitoramento:</th>								                                     
+                                        <th>Ip de Lan Router:</th>								                                     
                                         <th>Status:</th>								                                     
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     foreach ($Links as $Link):
+                                       $Main = ($Link['cir_link'] == 'MPLS' ? 'P' : 'B'); 
                                         echo " 
                                                   <tr>
                                                    <td>{$Link['cir_link']}</td>
@@ -133,6 +135,7 @@
                                                    <td class=\"hidden-table\">{$Link['cir_oper']}</td>
                                                    <td class=\"hidden-table\">{$Link['cir_band']}</td>
                                                    <td class='Ip_link' rel='{$Link['cir_link']}'>{$Link['cir_ip_link']}</td>
+                                                   <td class='Ip_link-lan' id='{$Main}'>{$Link['cir_ip_lan_router']}</td>
                                                    <td><img src=" . base_url('assets/img/loading.gif') . " class='img-responsive custom-loading j-reset' id='{$Link['cir_link']}'></td>
                                                   </tr> 
                                                 ";
@@ -155,20 +158,21 @@
                     </header>
                     <main>
                         <div class="area-buttons">
+                            <p class="msg-conn">Conectando no router ...</p>
                             <input type="checkbox" name="sms" class="j-sms" checked>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" rows="10" cols="100"></textarea>
+                            <textarea class="form-control j-result" rows="10" cols="100"></textarea>
                         </div>
 
                         <div class="btn-group commands-btn">
-                            <button type="button" class="btn btn-primary">Ping</button>
-                            <button type="button" class="btn btn-primary">ARP</button>
-                            <button type="button" class="btn btn-primary">BGP</button>
-                            <button type="button" class="btn btn-primary">Mostrar Interfaces</button>
-                            <button type="button" class="btn btn-primary">Neighbors</button>
-                            <button type="button" class="btn btn-primary">Detalhes Interface</button>
-                            <button type="button" class="btn btn-primary">Enviar Comando</button>
+                            <button type="button" disabled id="Ping" class="btn btn-primary j-btn-cmd">Ping</button>
+                            <button type="button" disabled id="ARP" class="btn btn-primary j-btn-cmd">ARP</button>
+                            <button type="button" disabled id="BGP" class="btn btn-primary j-btn-cmd">BGP</button>
+                            <button type="button" disabled id="INT" class="btn btn-primary j-btn-cmd">Mostrar Interfaces</button>
+                            <button type="button" disabled id="NEI" class="btn btn-primary j-btn-cmd">Neighbors</button>
+                            <button type="button" disabled id="DINT" class="btn btn-primary j-btn-cmd">Detalhes Interface</button>
+                            <button type="button" disabled id="CMD" class="btn btn-primary j-btn-cmd">Enviar Comando</button>
                         </div>
 
                     </main>

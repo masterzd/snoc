@@ -1,0 +1,34 @@
+cisco_ssh class r. 1
+2012-09-25 rps
+
+cisco_ssh functions implimented so far:
+constructor : cisco_ssh($hostname, $username, $password)
+
+connect()             : establish the connection
+exec($cmd)            : execute a command and return the raw output (mostly used internally)
+enable($password)     : enable (needed for some functions)
+close()               : close the connection
+show_int_status()     : return a listing of interfaces, their status, description, speed, duplex, and vlan.
+show_log()            : return a listing of log entries in the buffer
+show_int($int)        : return all extended interface statistics (over 40 variables)
+show_int_config($int) : return the running configuration for $int
+trunk_ports()         : return a listing of trunk ports (used by mac_address_table to exclude uplinks)
+vlans()               : return a listing of vlans that spanning-tree is actively running on (effectively the available vlan list)
+errdisabled()         : return a listing of error-disabled ports and their status
+dhcpsnoop_bindings()  : return a listing of dhcp-snooping bindings (port, vlan, mac, ip, lease)
+mac_address_table()   : return the mac address-table
+arp_table()           : return the arp table (L3 only)
+ipv6_neighbor_table() : return the ipv6 neighbor table (L3 only)
+ipv6_routers()        : return a list of ipv6 routers seen by the device and the prefixes they're advertising (L3 only)
+configure($config)    : issues 1 to n lines (seperated by "\n") of configuration to the device, process currently dies and dumps error if any syntax is rejected.
+write_config()        : issues a write on the device, returns true upon success
+
+example:
+
+require 'cisco_ssh.php';
+$cisco_ssh = new cisco_ssh($hostname, $username, $password);
+$cisco_ssh->connect();
+$data = $cisco_ssh->mac_address_table();
+$cisco_ssh->close();
+print_r($data);
+

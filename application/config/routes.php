@@ -65,7 +65,6 @@ $route['checklink'] = 'Start/checklink';
 $route['adm'] = 'Admin/admin';
 $route['admSmsEmail'] = 'Admin/adminSmsEmail';
 
-
 /* Rotas relacionadas ao painel de ajustes */
 $route['ajustesOcorrencias'] = 'Admin/buscaOcorrencia';
 $route['ajustesOcorrenciasAltera'] = 'Admin/UpdateOc';
@@ -112,6 +111,8 @@ $route['topLojas'] = 'DashBoard/periodoTopLojas';
 
 /* Consulta Lojas via URL */
 $route['buscaUrlLojas'] = 'Search/GetInfoLojasUrl';
+$route['conectRouter'] = 'TesteCisco/Conecta';
+$route['conectRouter/ping'] = 'TesteCisco/getPing';
 
 
 

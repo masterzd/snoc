@@ -46,6 +46,11 @@
                                 <label for="ip">IP de Monitoramento:</label>
                                 <input type="text" name="cir_ip_link" class="form-control j_ip-loja j_loja_clear" id="ip" required>
                             </div>
+                            
+                            <div class="form-group col-xs-6">
+                                <label for="ip">IP de Lan do Roteador:</label>
+                                <input type="text" name="cir_ip_lan_router" class="form-control j_ip-loja j_loja_clear" id="ip-lan" required>
+                            </div>
 
                             <div class="form-group col-xs-6">
                                 <label for="band">Banda:</label>

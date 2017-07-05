@@ -38,6 +38,10 @@
 							<label for="ip" class="col-md-2 control-label">IP Mon.</label>
 							<input type="text" disabled value="<?=$Link['cir_ip_link']?>" name="" id="ip" class="form-control input-sm j_edit-link-loja bkg">
 						</div>
+						<div class="form-group col-md-2 col-xs-3 custom-div-link">
+							<label for="ip" class="col-md-2 control-label">IP Lan Router</label>
+							<input type="text" disabled value="<?=$Link['cir_ip_lan_router']?>" name="" id="ip-lan" class="form-control input-sm j_edit-link-loja bkg">
+						</div>
 						<div class="form-group col-md-2 col-xs-2 custom-div-link">
 							<label for="vel" class="col-md-2 control-label">Banda</label>
 							<input type="text" disabled value="<?=$Link['cir_band']?>" name="" id="vel" class="form-control input-sm j_edit-link-loja bkg">

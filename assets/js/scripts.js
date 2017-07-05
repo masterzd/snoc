@@ -455,7 +455,7 @@ $(function () {
 
     /* Ação ao Clicar em Visualizar links */
     $('.action-space').on('click', '.j_btn-list-link', function () {
-        window.open('checklink?loja=' + $('.j_lj_num').val(), 'linkVer', 'width=650, height=450');
+        window.open('checklink?loja=' + $('.j_lj_num').val(), 'linkVer', 'width=800, height=450');
     });
 
 
@@ -513,8 +513,9 @@ $(function () {
             'cir_desig': $('input[name=cir_desig]').val(),
             'cir_oper': $('input[name=cir_oper]').val(),
             'cir_ip_link': $('input[name=cir_ip_link]').val(),
+            'cir_ip_lan_router': $('input[name=cir_ip_lan_router]').val(),
             'cir_link': $('.j_link-loja').val(),
-            'cir_band': $('input[name=cir_band]').val(),
+            'cir_band': $('input[name=cir_band]').val()
         };
 
         console.log(link);
@@ -559,6 +560,7 @@ $(function () {
             'cir_oper': $('#' + lnk).find('#opr').val(),
             'cir_desig': $('#' + lnk).find('#cir').val(),
             'cir_ip_link': $('#' + lnk).find('#ip').val(),
+            'cir_ip_lan_router': $('#' + lnk).find('#ip-lan').val(),
             'cir_band': $('#' + lnk).find('#vel').val(),
             'cir_cod': $('#' + lnk).find('#cod').val(),
             'id-div': lnk
@@ -636,6 +638,10 @@ $(function () {
                 "<label for='ip' class='col-md-2 control-label'>IP Mon.</label>" +
                 "<input type='text'  value='' name='' id='ip' class='form-control input-sm j_edit-link-loja bkg'>" +
                 "</div>" +
+                "<div class='form-group col-md-2 col-xs-3 custom-div-link'>" +
+                "<label for='ip' class='col-md-2 control-label'>IP Lan router</label>" +
+                "<input type='text'  value='' name='' id='ip-lan' class='form-control input-sm j_edit-link-loja bkg'>" +
+                "</div>" +
                 "<div class='form-group col-md-2 col-xs-2 custom-div-link'>" +
                 "<label for='vel' class='col-md-2 control-label'>Banda</label>" +
                 "<input type='text' value='' name='' id='vel' class='form-control input-sm j_edit-link-loja bkg'>" +
@@ -656,6 +662,7 @@ $(function () {
             'cir_oper': $('#' + $(this).val()).find('#opr').val(),
             'cir_desig': $('#' + $(this).val()).find('#cir').val(),
             'cir_ip_link': $('#' + $(this).val()).find('#ip').val(),
+            'cir_ip_lan_router': $('#' + $(this).val()).find('#ip-lan').val(),
             'cir_band': $('#' + $(this).val()).find('#vel').val(),
             'cir_loja': $('#loja').val()
         };

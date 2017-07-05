@@ -78,7 +78,7 @@ class Ocorrencia extends CI_Controller {
             'Notas' => $this->Notas,
             'TPAC' => $this->TpAc
         ];
-
+        
         $this->load->view('ocorrencia', $_SESSION['Ocorrência_' . $this->Chamado['o_cod']]);
     }
 }

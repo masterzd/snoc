@@ -37,7 +37,7 @@ class Infolojas extends CI_Controller {
             $this->DadosLoja = array('mensagem' => 'A loja informada não existe', 'result' => false);
             return false;
         endif;
-
+        
         if ($Alllinks == true):
             /* Consultando os  Links da loja informada */
             $L = array('cir_loja' => $Loja, 'cir_link' => $Link);
