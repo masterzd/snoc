@@ -5,6 +5,7 @@
 //set_include_path(get_include_path() . PATH_SEPARATOR . 'phpseclib-0.3.1_hotfix');
 set_include_path(get_include_path() . '/phpseclib-0.3.1_hotfix');
 require 'Net/SSH2.php';
+
 // define('NET_SSH2_LOGGING', NET_SSH2_LOG_COMPLEX);
 
 
@@ -13,16 +14,18 @@ class cisco_ssh {
     private $_hostname;
     private $_username;
     private $_password;
-
     private $_ssh;
     private $_prompt;
-
     private $_data;
 
     public function __construct($hostname, $username, $password) {
         $this->_hostname = $hostname;
         $this->_username = $username;
         $this->_password = $password;
+    }
+
+    function get_prompt() {
+        return $this->_prompt;
     }
 
     public function connect() {
@@ -42,7 +45,8 @@ class cisco_ssh {
         $this->_data = false;
         $this->_ssh->write($cmd . "\n");
         $this->_data = $this->_ssh->read($this->_prompt);
-        if (strpos($this->_data, '% Invalid input detected') !== false) $this->_data = false;
+        if (strpos($this->_data, '% Invalid input detected') !== false)
+            $this->_data = false;
 
         return $this->_data;
     }
@@ -54,18 +58,16 @@ class cisco_ssh {
         $this->_prompt = $this->_ssh->read('/.*[>|#]/', NET_SSH2_READ_REGEX);
         $this->_prompt = str_replace("\r\n", '', trim($this->_prompt));  // fix for inconsistent behavior in IOS
 
-        if (strpos($this->_prompt, '#') === false) return false;
-        else return true;
-
+        if (strpos($this->_prompt, '#') === false)
+            return false;
+        else
+            return true;
     }
 
     public function close() {
         $this->_ssh->write("quit\n");
         unset($this->_ssh);
     }
-
-
-
 
     public function show_int_status() {
 
@@ -74,7 +76,8 @@ class cisco_ssh {
         $this->exec('show int status');
 
         $this->_data = explode("\r\n", $this->_data);
-        for ($i = 0; $i < 2; $i++) array_shift($this->_data);
+        for ($i = 0; $i < 2; $i++)
+            array_shift($this->_data);
         array_pop($this->_data);
 
         $pos = strpos($this->_data[0], "Status");
@@ -82,9 +85,8 @@ class cisco_ssh {
             $temp = trim($entry);
             if (strlen($temp) > 1 && $temp[2] != 'r' && $temp[0] != '-') {
                 $entry = array();
-                $entry['interface'] =  substr($temp, 0, strpos($temp, ' '));
-                $entry['description'] = trim(substr($temp, strpos($temp, ' ') + 1, 
-                    $pos - strlen($entry['interface']) - 1));
+                $entry['interface'] = substr($temp, 0, strpos($temp, ' '));
+                $entry['description'] = trim(substr($temp, strpos($temp, ' ') + 1, $pos - strlen($entry['interface']) - 1));
                 $temp = substr($temp, $pos);
                 $temp = sscanf($temp, "%s %s %s %s %s %s");
                 $entry['status'] = $temp[0];
@@ -98,16 +100,13 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function show_log() {
 
         // Enabled Only
-        if (strpos($this->_prompt, '#') === false) die('Error: User must be enabled to use show_log()' . "\n");
+        if (strpos($this->_prompt, '#') === false)
+            die('Error: User must be enabled to use show_log()' . "\n");
 
         $result = array();
 
@@ -124,7 +123,7 @@ class cisco_ssh {
             if ($entry['timestamp'][0] == '.' || $entry['timestamp'][0] == '*')
                 $entry['timestamp'] = substr($entry['timestamp'], 1);
             $temp = substr($temp, strpos($temp, '%') + 1);
-            $entry['type'] = substr($temp, 0,  strpos($temp, ':'));
+            $entry['type'] = substr($temp, 0, strpos($temp, ':'));
             $temp = substr($temp, strpos($temp, ':') + 2);
             $entry['message'] = $temp;
             array_push($result, $entry);
@@ -132,11 +131,7 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function show_int($int) {
         $result = array();
@@ -186,15 +181,13 @@ class cisco_ssh {
                 $result['type'] = substr($entry[2], strrpos($entry[2], ' ') + 1);
             } elseif (strpos($entry, 'input rate') !== false) {
                 $entry = explode(',', $entry);
-                $result['in_rate'] = substr($entry[0], strpos($entry[0], 'rate') + 5,
-                    strrpos($entry[0], ' ') - (strpos($entry[0], 'rate') + 5));
+                $result['in_rate'] = substr($entry[0], strpos($entry[0], 'rate') + 5, strrpos($entry[0], ' ') - (strpos($entry[0], 'rate') + 5));
                 $entry = trim($entry[1]);
                 $entry = explode(' ', $entry);
                 $result['in_packet_rate'] = $entry[0];
             } elseif (strpos($entry, 'output rate') !== false) {
                 $entry = explode(',', $entry);
-                $result['out_rate'] = substr($entry[0], strpos($entry[0], 'rate') + 5,
-                    strrpos($entry[0], ' ') - (strpos($entry[0], 'rate') + 5));
+                $result['out_rate'] = substr($entry[0], strpos($entry[0], 'rate') + 5, strrpos($entry[0], ' ') - (strpos($entry[0], 'rate') + 5));
                 $entry = trim($entry[1]);
                 $entry = explode(' ', $entry);
                 $result['out_packet_rate'] = $entry[0];
@@ -326,32 +319,27 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function show_int_config($int) {
 
         // Enabled Only
-        if (strpos($this->_prompt, '#') === false) die('Error: User must be enabled to use show_int_config()' . "\n");
+        if (strpos($this->_prompt, '#') === false)
+            die('Error: User must be enabled to use show_int_config()' . "\n");
 
         $this->exec('show run int ' . $int);
 
         $this->_data = explode("\r\n", $this->_data);
 
-        for ($i = 0; $i < 5; $i++) array_shift($this->_data);
-        for ($i = 0; $i < 2; $i++) array_pop($this->_data);
+        for ($i = 0; $i < 5; $i++)
+            array_shift($this->_data);
+        for ($i = 0; $i < 2; $i++)
+            array_pop($this->_data);
 
         $this->_data = implode("\n", $this->_data);
 
         return $this->_data;
-
     }
-
-
-
 
     public function trunk_ports() {
 
@@ -372,11 +360,7 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function vlans() {
 
@@ -398,11 +382,7 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function errdisabled() {
 
@@ -411,7 +391,8 @@ class cisco_ssh {
         $this->exec('show int status err');
 
         $this->_data = explode("\r\n", $this->_data);
-        for ($i = 0; $i < 2; $i++) array_shift($this->_data);
+        for ($i = 0; $i < 2; $i++)
+            array_shift($this->_data);
         array_pop($this->_data);
 
         $pos = strpos($this->_data[0], "Status");
@@ -419,9 +400,8 @@ class cisco_ssh {
             $temp = trim($entry);
             if (strlen($temp) > 1 && $temp[2] != 'r') {
                 $entry = array();
-                $entry['interface'] =  substr($temp, 0, strpos($temp, ' '));
-                $entry['description'] = trim(substr($temp, strpos($temp, ' ') + 1,
-                    $pos - strlen($entry['interface']) - 1));
+                $entry['interface'] = substr($temp, 0, strpos($temp, ' '));
+                $entry['description'] = trim(substr($temp, strpos($temp, ' ') + 1, $pos - strlen($entry['interface']) - 1));
                 $temp = substr($temp, $pos);
                 $temp = sscanf($temp, "%s %s");
                 $entry['status'] = $temp[0];
@@ -432,11 +412,7 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function dhcpsnoop_bindings() {
 
@@ -457,16 +433,13 @@ class cisco_ssh {
             $entry['lease'] = $temp[2];
             $entry['vlan'] = $temp[4];
             $entry['interface'] = $temp[5];
-            if ($temp[3] == 'dhcp-snooping') array_push($result, $entry);
+            if ($temp[3] == 'dhcp-snooping')
+                array_push($result, $entry);
         }
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function mac_address_table() {
 
@@ -478,8 +451,10 @@ class cisco_ssh {
         $this->_data = str_replace("          ", "", $this->_data);
 
         $this->_data = explode("\r\n", $this->_data);
-        for ($i = 0; $i < 6; $i++) array_shift($this->_data);
-        for ($i = 0; $i < 2; $i++) array_pop($this->_data);
+        for ($i = 0; $i < 6; $i++)
+            array_shift($this->_data);
+        for ($i = 0; $i < 2; $i++)
+            array_pop($this->_data);
 
         foreach ($this->_data as $entry) {
             $temp = sscanf($entry, "%s %s %s %s");
@@ -494,11 +469,7 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function arp_table() {
 
@@ -507,7 +478,8 @@ class cisco_ssh {
         $this->exec('show arp | exc Incomplete');
 
         $this->_data = explode("\r\n", $this->_data);
-        for ($i = 0; $i < 2; $i++) array_shift($this->_data);
+        for ($i = 0; $i < 2; $i++)
+            array_shift($this->_data);
         array_pop($this->_data);
 
         foreach ($this->_data as $entry) {
@@ -515,7 +487,8 @@ class cisco_ssh {
             $entry = array();
             $entry['ip'] = $temp[1];
             $entry['mac_address'] = $temp[3];
-            if ($temp[2] == '-') $temp[2] = '0';
+            if ($temp[2] == '-')
+                $temp[2] = '0';
             $entry['age'] = $temp[2];
             $entry['interface'] = $temp[5];
             if ($entry['ip'] != 'Address' && $entry['mac_address'] != 'Incomplete') {
@@ -525,11 +498,7 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function ipv6_neighbor_table() {
 
@@ -538,8 +507,10 @@ class cisco_ssh {
         $this->exec('show ipv6 neighbors | exc INCMP');
 
         $this->_data = explode("\r\n", $this->_data);
-        for ($i = 0; $i < 2; $i++) array_shift($this->_data);
-        for ($i = 0; $i < 2; $i++) array_pop($this->_data);
+        for ($i = 0; $i < 2; $i++)
+            array_shift($this->_data);
+        for ($i = 0; $i < 2; $i++)
+            array_pop($this->_data);
 
         foreach ($this->_data as $entry) {
             $temp = sscanf($entry, "%s %s %s %s %s");
@@ -553,11 +524,7 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function ipv6_routers() {
 
@@ -585,17 +552,14 @@ class cisco_ssh {
         $this->_data = $result;
 
         return $this->_data;
-
     }
-
-
-
 
     public function configure($config) {
 
         // USE AT OWN RISK: This function will apply configuration statements to a device.
         // Enabled Only
-        if (strpos($this->_prompt, '#') === false) die('Error: User must be enabled to use configure()' . "\n");
+        if (strpos($this->_prompt, '#') === false)
+            die('Error: User must be enabled to use configure()' . "\n");
 
         $this->_data = explode("\n", $config);
 
@@ -603,30 +567,31 @@ class cisco_ssh {
         $config_prompt = $this->_ssh->read('/.*[>|#]/', NET_SSH2_READ_REGEX);
         $config_prompt = str_replace("\r\n", '', trim($config_prompt));
         if (strpos($config_prompt, 'config)#') !== false) {
-            foreach ($this->_data as $c) $this->_ssh->write($c . "\n");
+            foreach ($this->_data as $c)
+                $this->_ssh->write($c . "\n");
             $this->_ssh->write("end\n");
         }
 
         $result = $this->_ssh->read($this->_prompt);
         $result = explode("\r\n", $result);
-        if (count($this->_data) == (count($result) - 2)) return true;
-        else die('Error: Switch rejected configuration: ' . "\n" . $config . "\n");
-
+        if (count($this->_data) == (count($result) - 2))
+            return true;
+        else
+            die('Error: Switch rejected configuration: ' . "\n" . $config . "\n");
     }
-
 
     public function write_config() {
 
         $this->exec('write');
-        if (strpos($this->_data, '[OK]') !== false) return true;
-        else return false;
-
+        if (strpos($this->_data, '[OK]') !== false)
+            return true;
+        else
+            return false;
     }
-    
-    
+
     /* Funções Personalizadas  */
-    
-     public function showIpIntBrief() {
+
+    public function showIpIntBrief() {
         $this->exec('sh ip int brief');
         $Result = explode("\r\n", $this->_data);
         unset($Result[0]);
@@ -641,19 +606,23 @@ class cisco_ssh {
         endforeach;
         return $Interfaces;
     }
-    
-    
+
     public function bgpSummary() {
         $this->exec('sh ip bgp summary');
         $Result = explode("\r\n", $this->_data);
-        $expl = explode(' ', $Result[3]);
-        $expl2 = array_values(array_filter(explode(' ', $Result[13])));
-        $DadosBGP = array('redes' => $expl[0], 'tempoDisp' => $expl2[6]);
-        return $DadosBGP;
+        $StringResults = null;
+        $a = 0;
+        array_shift($Result);
+        array_pop($Result);
+        foreach ($Result as $BGP):
+            $Result[$a] = "<p>" . $Result[$a] . "</p>";
+            $StringResults .= $Result[$a];
+            $a++;
+        endforeach;
+        return $StringResults;
     }
-    
-    
-     public function cdpNeighbors() {
+
+    public function cdpNeighbors() {
         $this->exec('show cdp neighbors');
         $Result = explode("\r\n", $this->_data);
         unset($Result[0]);
@@ -665,29 +634,33 @@ class cisco_ssh {
         array_pop($Result);
         
         $a = 1;
-        
-        foreach ($Result as $Dados):
-           $explo = array_values(array_filter(explode(' ', $Dados)));
-           $explo[1] =  $explo[1]." ".$explo[2];
-           unset($explo[2]);
-           $explo[4] = $explo[4]." ".$explo[5];
-           unset($explo[5]);           
-           $Device['neighbor-'.$a] = $explo;
-           $a++;
-        endforeach;
-        
+
+        if (!empty($Result)):
+            foreach ($Result as $Dados):
+                $explo = array_values(array_filter(explode(' ', $Dados)));
+                $explo[1] = $explo[1] . " " . $explo[2];
+                unset($explo[2]);
+                $explo[4] = $explo[4] . " " . $explo[5];
+                unset($explo[5]);
+                $Device['neighbor-' . $a] = $explo;
+                $a++;
+            endforeach;
+        else:
+            $Device = false;
+        endif;
+
+
+
         return $Device;
     }
-    
-    
-    public function shVrrp(){
+
+    public function shVrrp() {
         $this->exec('sh vrrp');
         $Result = explode("\r\n", $this->_data);
         $Vrrp = array('status' => $Result[2], 'prioridade' => $Result[7]);
         return $Vrrp;
     }
-    
-    
+
     public function traceroute($host) {
         $this->exec("traceroute $host");
         $this->_data = explode("\r\n", $this->_data);
@@ -697,9 +670,8 @@ class cisco_ssh {
         $this->_data = implode("\n", $this->_data);
         return $this->_data;
     }
-    
-    
-     public function ping($host) {
+
+    public function ping($host) {
         $this->exec("ping $host");
         $this->_data = explode("\r\n", $this->_data);
         for ($i = 0; $i < 3; $i++)
@@ -707,6 +679,22 @@ class cisco_ssh {
         array_pop($this->_data);
         $this->_data = implode("\n", $this->_data);
         return $this->_data;
+    }
+
+    public function topTalkers() {
+        $this->exec("sh ip flow top-talkers");
+        $this->_data = explode("\r\n", $this->_data);
+        unset($this->_data[0]);
+        unset($this->_data[1]);
+        array_pop($this->_data);
+
+        $Dados = array();
+        foreach ($this->_data as $Talk):
+            $Dados [] = array_values(array_filter(explode(' ', $Talk)));
+        endforeach;
+        array_shift($Dados);
+        array_pop($Dados);
+        return $Dados;
     }
 
 }

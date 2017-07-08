@@ -113,6 +113,13 @@ $route['topLojas'] = 'DashBoard/periodoTopLojas';
 $route['buscaUrlLojas'] = 'Search/GetInfoLojasUrl';
 $route['conectRouter'] = 'TesteCisco/Conecta';
 $route['conectRouter/ping'] = 'TesteCisco/getPing';
+$route['conectRouter/arp'] = 'TesteCisco/getArp';
+$route['conectRouter/bgp'] = 'TesteCisco/getBgp';
+$route['conectRouter/int'] = 'TesteCisco/getInterfaces';
+$route['conectRouter/nei'] = 'TesteCisco/getNeighbors';
+$route['conectRouter/intDetail'] = 'TesteCisco/getintDetail';
+$route['conectRouter/topTalkers'] = 'TesteCisco/getTopTalkers';
+$route['conectRouter/cmd'] = 'TesteCisco/getCommand';
 
 
 

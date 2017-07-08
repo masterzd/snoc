@@ -114,6 +114,24 @@ td, th {
     margin-left: 12%;
 }
 
+.j-result{
+    height: 41vh;
+    background-color: black;
+    color: white;
+    overflow: auto;
+}
+
+tr{
+    color: black;
+}
+
+.j-interface{
+    cursor: pointer;
+}
+
+.rs {
+    word-spacing: 27px;
+}
 
 @media (max-width: 500px){
 

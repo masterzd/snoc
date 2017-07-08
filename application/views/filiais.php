@@ -162,7 +162,8 @@
                             <input type="checkbox" name="sms" class="j-sms" checked>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control j-result" rows="10" cols="100"></textarea>
+                            <!--<textarea class="form-control j-result" rows="10" cols="100"></textarea>-->
+                            <div class="form-control j-result"></div>
                         </div>
 
                         <div class="btn-group commands-btn">
@@ -171,7 +172,7 @@
                             <button type="button" disabled id="BGP" class="btn btn-primary j-btn-cmd">BGP</button>
                             <button type="button" disabled id="INT" class="btn btn-primary j-btn-cmd">Mostrar Interfaces</button>
                             <button type="button" disabled id="NEI" class="btn btn-primary j-btn-cmd">Neighbors</button>
-                            <button type="button" disabled id="DINT" class="btn btn-primary j-btn-cmd">Detalhes Interface</button>
+                            <button type="button" disabled id="TOPTK" class="btn btn-primary j-btn-cmd">Top Talkers</button>
                             <button type="button" disabled id="CMD" class="btn btn-primary j-btn-cmd">Enviar Comando</button>
                         </div>
 
