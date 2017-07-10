@@ -60,7 +60,7 @@ endif;
             </ul>
 
 
-            <form action="busca" method="POST" class="custom-nav hide-mobo">
+            <form action="http://sisnoc.maquinadevendas.corp/CI_SISNOC/busca" method="POST" class="custom-nav hide-mobo">
                 <div class="form-group">
                     <input type="text" name="termo" required="" title="Informe algo para eu pesquisar" class="form-control j-termo-mP" placeholder="Busca rápida.">
                 </div>

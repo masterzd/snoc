@@ -13,7 +13,7 @@ class TesteCisco extends CI_Controller {
     public function Conecta() {
         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($IN) and ! empty($IN['ip'])):
-            @$this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ip']);
+            $this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ip']);
             if ($this->ssh->Status == "Desconectado"):
                 echo "1";
             elseif ($this->ssh->Auth == FALSE):
@@ -21,6 +21,8 @@ class TesteCisco extends CI_Controller {
             else:
                 echo "3";
             endif;
+        else:
+            echo "IP de Lan não encontrado";
         endif;
     }
 
@@ -57,6 +59,7 @@ class TesteCisco extends CI_Controller {
             array_shift($ARP);
             $a = 0;
             $STR = NULL;
+
             foreach ($ARP as $P):
                 $ARP[$a] = "<p class='rs'>{$P}</p>";
                 $STR .= $ARP[$a];
@@ -70,11 +73,12 @@ class TesteCisco extends CI_Controller {
         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($IN) and ! empty($IN['ipRouter'])):
             @$this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ipRouter']);
-            $BGP = $this->ssh->exeCommand("sh bgp summary");
+            $BGP = $this->ssh->exeCommand("sh ip bgp sum");
+
             $a = 0;
             $STR = NULL;
             foreach ($BGP as $P):
-                $BGP[$a] = "<p class='rs'>{$P}</p>";
+                $BGP[$a] = "<p>{$P}</p>";
                 $STR .= $BGP[$a];
             endforeach;
 
@@ -90,13 +94,12 @@ class TesteCisco extends CI_Controller {
             $a = 0;
             $STR = NULL;
             foreach ($INT as $P):
-                $INT[$a] = "<p class='rs'>{$P}</p>";
-                $STR .= $INT[$a];
+                $INT[$a] = array_values(array_filter(explode(" ", $P)));
+                $a++;
             endforeach;
 
-            echo $STR;
-            
-            die();
+            array_shift($INT);
+            unset($INT[0]);
             $Interfaces = "
                 <div class=\"table-responsive\">
                     <table class=\"table table-striped\">
@@ -109,7 +112,7 @@ class TesteCisco extends CI_Controller {
                             </tr>
                         </thead>
                         <tbody>";
-            foreach ($IntBrief as $info):
+            foreach ($INT as $info):
                 $Interfaces .= "<tr>";
                 $Interfaces .= "<td><a class='j-interface' id='{$info[0]}'>{$info[0]}</a></td>";
                 $Interfaces .= "<td>{$info[1]}</td>";
@@ -128,138 +131,76 @@ class TesteCisco extends CI_Controller {
     public function getNeighbors() {
         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($IN) and ! empty($IN['ipRouter'])):
-           @$this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ipRouter']);
+            @$this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ipRouter']);
             $NEI = $this->ssh->exeCommand("sh cdp nei");
             $a = 0;
             $STR = NULL;
             foreach ($NEI as $P):
-                $NEI[$a] = "<p class='rs'>{$P}</p>";
+                $NEI[$a] = "<p>{$P}</p>";
                 $STR .= $NEI[$a];
             endforeach;
 
             echo $STR;
-            
-            die();
-
-            if ($Nei != false):
-                $Neighbors = "
-                <div class=\"table-responsive\">
-                    <table class=\"table table-striped\">
-                        <thead class=\"table-custom\">
-                            <tr class=\"tb-color\">
-                                <th>ID do Dispositivo</th>
-                                <th>Interface Local</th>
-                                <th>Modelo</th>
-                                <th>ID da Porta</th>
-                            </tr>
-                        </thead>
-                        <tbody>";
-                foreach ($Nei as $info):
-                    $Neighbors .= "<tr>";
-                    $Neighbors .= "<td>{$info[0]}</td>";
-                    $Neighbors .= "<td>{$info[1]}</td>";
-                    $Neighbors .= "<td>{$info[6]}</td>";
-                    $Neighbors .= "<td>{$info[7]}</td>";
-                    $Neighbors .= "</tr>";
-                endforeach;
-                $Neighbors .= "</tbody>
-                    </table>
-                </div>";
-            else:
-                $Neighbors = "Não foram encontrados outros equipamentos cisco na rede.";
-            endif;
-            echo $Neighbors;
+        else:
+            echo "Os dados enviados são inválidos.";
         endif;
     }
 
     public function getintDetail() {
-
         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($IN) and ! empty($IN['ipRouter'])):
-            $Router = new cisco_ssh("{$IN['ipRouter']}", 'henrique.souza', 'Isa32:18');
-            $Router->connect();
-            $Detalhes = $Router->show_int($IN['interface']);
+            @$this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ipRouter']);
+            $INT = $this->ssh->exeCommand("sh int {$IN['interface']}");
+            $INT = array_map('trim', $INT);
+            $a = 0;
+            $STR = NULL;
+            foreach ($INT as $DT):
+                $INT[$a] = "<p>{$DT}</p>";
+                $STR .= $INT[$a];
+                $a++;
+            endforeach;
 
-            $IntDetails = "
-                <div class=\"table-responsive\">
-                    <table class=\"table table-striped\">
-                        <thead class=\"table-custom\">
-                            <tr class=\"tb-color\">
-                                <th>Interface</th>
-                                <th>Status</th>
-                                <th>Descrição</th>
-                                <th>MTU</th>
-                                <th>Banda</th>
-                                <th>CRC</th>
-                                <th>Erro Input</th>
-                                <th>Erro Out</th>
-                                <th>Colisões</th>
-                                <th>Reset</th>
-                            </tr>
-                        </thead>
-                        <tbody>";
-            $IntDetails .= "<tr>";
-            @$IntDetails .= "<td>{$Detalhes['interface']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['status']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['description']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['mtu']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['bandwidth']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['crc']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['in_error']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['out_error']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['collision']}</td>";
-            @$IntDetails .= "<td>{$Detalhes['reset']}</td>";
-            $IntDetails .= "</tr>";
-            $IntDetails .= "</tbody>
-                    </table>
-                </div>";
-            echo $IntDetails;
+            echo $STR;
+        else:
+            echo "Os dados enviados são inválidos.";    
         endif;
     }
 
     public function getTopTalkers() {
         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($IN) and ! empty($IN['ipRouter'])):
-            $Router = new cisco_ssh("{$IN['ipRouter']}", 'henrique.souza', 'Isa32:18');
-            $Router->connect();
-            $TopTalkers = $Router->topTalkers();
-
-            $Top = "
-                <div class=\"table-responsive\">
-                    <table class=\"table table-striped\">
-                        <thead class=\"table-custom\">
-                            <tr class=\"tb-color\">
-                                <th>Interface de Origem</th>
-                                <th>IP de Origem</th>
-                                <th>Interface de destino</th>
-                                <th>IP de destino</th>
-                                <th>Bytes</th>
-                            </tr>
-                        </thead>
-                        <tbody>";
-            foreach ($TopTalkers as $info):
-                $Top .= "<tr>";
-                $Top .= "<td>{$info[0]}</td>";
-                $Top .= "<td>{$info[1]}</td>";
-                $Top .= "<td>{$info[2]}</td>";
-                $Top .= "<td>{$info[3]}</td>";
-                $Top .= "<td>{$info[7]}</td>";
-                $Top .= "</tr>";
+            @$this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ipRouter']);
+            $Talk = $this->ssh->exeCommand("sh ip flow top-talkers");
+            array_shift($Talk);
+            $a = 0;
+            $STR = NULL;
+            foreach ($Talk as $Top):
+                $Talk[$a] = "<p class='rs'>{$Top}</p>";
+                $STR .= $Talk[$a];
+                $a++;
             endforeach;
-            $Top .= "</tbody>
-                    </table>
-                </div>";
-
-            echo $Top;
+            echo $STR;
+        else:
+            echo "Os dados enviados são inválidos.";    
         endif;
     }
 
     public function getCommand() {
         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-        if (!empty($IN) and ! empty($IN['ipRouter'])):
-            $Router = new cisco_ssh("{$IN['ipRouter']}", 'henrique.souza', 'Isa32:18');
-            $Router->connect();
-            echo $Router->exec($IN['command']);
+        if (!empty($IN) and !empty($IN['ipRouter']) and !empty($IN['command'])):
+            @$this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ipRouter']);
+            $CMD = $this->ssh->exeCommand($IN['command']);           
+            $a = 0;
+            $STR = NULL;
+            foreach ($CMD as $T):
+                $CMD[$a] = "<p class='rs'>{$T}</p>";
+                $STR .= $CMD[$a];
+                $a++;
+            endforeach;
+
+            echo $STR;
+        else:
+            echo "Os dados enviados são inválidos.";
         endif;
     }
 

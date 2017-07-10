@@ -119,6 +119,7 @@ td, th {
     background-color: black;
     color: white;
     overflow: auto;
+    font-family: monospace;
 }
 
 tr{
@@ -129,8 +130,10 @@ tr{
     cursor: pointer;
 }
 
+
+
 .rs {
-    word-spacing: 27px;
+    word-spacing: 12px;
 }
 
 @media (max-width: 500px){

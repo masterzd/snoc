@@ -39,11 +39,22 @@ class SSH extends CI_Controller {
         $this->setPort($Port);
         $this->setIP($IP);
 
+        $methods = array(
+            'kex' => 'diffie-hellman-group1-sha1',
+            'client_to_server' => array(
+                'crypt' => '3des-cbc',
+                'comp' => 'none'),
+            'server_to_client' => array(
+                'crypt' => 'aes256-cbc,aes192-cbc,aes128-cbc',
+                'comp' => 'none'));
+
+
+
 
         if (!function_exists("ssh2_connect")):
             return "O SSH não está Habilitado no Servidor.";
         else:
-            $this->Conn = ssh2_connect($this->IP, $this->Port);
+            $this->Conn = ssh2_connect($this->IP, $this->Port, $methods);
             $Login = ssh2_auth_password($this->Conn, $this->User, $this->Pass);
         endif;
 

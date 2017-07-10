@@ -148,7 +148,7 @@ class Start extends CI_Controller {
         endif;
         $this->load->library('infolojas');
         $this->load->Model('Crud');
-        $this->infolojas->CheckDadosLoja($LJ);
+        $this->infolojas->CheckDadosLoja($LJ, 0, false);
         $QR = "SELECT o_cod, o_link, o_prazo, o_opr_ab, o_nece, o_sit_ch FROM tb_ocorrencias WHERE o_loja = {$LJ} ORDER BY o_cod DESC LIMIT 5";
         $this->Crud->calldb(0, 'SELECT', 0, 0, $QR);
         $LojasInfo = $this->infolojas->DadosLoja;

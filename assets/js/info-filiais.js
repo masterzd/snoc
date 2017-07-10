@@ -70,6 +70,9 @@ $(function () {
             }else if(retorno == '3'){
                  $('.msg-conn').html("Conectado em <b>" +ip+"</b>");
                  $('.j-btn-cmd').removeAttr('disabled');
+            }else{
+                $('.msg-conn').html("Falha na conexão");
+                $('.j-btn-cmd').attr('disabled', true);
             }
         });
 
@@ -107,11 +110,12 @@ $(function () {
         $('.j-result').html("Realizando teste ...");
         var ipRouter = checkActiveRoute();
         $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/conectRouter/ping', {ipDest: ipDest, ipRoute: ipRouter}, function (r) {
-
-            if (r != '') {
+            var Reg =  /<div/;
+            var Teste = Reg.test(r);
+            if (Teste == false) {
                 $('.j-result').html(r);
             } else {
-                $('.j-result').html("Não Houve resposta para o IP informado");
+                $('.j-result').html("Falha ao processar o comando.");
             }
         });
 
@@ -122,7 +126,14 @@ $(function () {
         $('.j-result').html("Enviando comando ...");
         var ipRouter = checkActiveRoute();
         $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/conectRouter/arp', {ipRouter: ipRouter}, function(r){
-            $('.j-result').html(r);
+            var Reg =  /<div/;
+            var Teste = Reg.test(r);
+            if(Teste == false){
+                $('.j-result').html(r);
+            }else{
+                $('.j-result').html("Falha ao processar o comando."); 
+            }
+            
         });
         
     });
@@ -132,7 +143,15 @@ $(function () {
        $('.j-result').html("Enviando comando ...");
        var ipRouter = checkActiveRoute();
        $.post('http://sisnoc.maquinadevendas.corp/CI_SISNOC/conectRouter/bgp', {ipRouter: ipRouter}, function(r){
-          $('.j-result').html(r); 
+           var Reg =  /<div/;
+//           console.log(r);
+           var Teste = Reg.test(r);
+           if(Teste == false){
+               $('.j-result').html(r); 
+           }else{
+              $('.j-result').html("Houve uma falha ao processar o comando."); 
+           }
+           
        });
     });
     
