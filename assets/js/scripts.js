@@ -505,9 +505,6 @@ $(function () {
     $('.j_cad_link').submit(function () {
 
         var nlj_rec = window.sessionStorage.getItem('loja');
-
-        console.log(nlj_rec);
-
         var link = {
             'cir_loja': nlj_rec,
             'cir_desig': $('input[name=cir_desig]').val(),

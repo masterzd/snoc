@@ -8,6 +8,7 @@ $(function () {
     var urlBaseCh = currentUrl + 'index.php/ShortHand_Gerenciamento';
     $(document).ready(function () {
         searchIp();
+        connectRouter('P');
     });
 
     $('.j-btn-refresh').click(function () {
@@ -51,9 +52,9 @@ $(function () {
         offText: 'Backup'
     });
 
-
     var connectRouter = function (idLanRouter) {
         $('.j-result').html("");
+        
         if (idLanRouter == 'P') {
             var ip = $('#' + idLanRouter).html();
         } else {
@@ -97,11 +98,6 @@ $(function () {
 
         return ip;
     }
-
-    $(document).ready(function () {
-        connectRouter('P');
-    });
-
 
     /* Ações dos botões de comando */
 

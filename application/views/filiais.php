@@ -127,7 +127,7 @@
                                 <tbody>
                                     <?php
                                     foreach ($Links as $Link):
-                                       $Main = ($Link['cir_link'] == 'MPLS' ? 'P' : 'B'); 
+                                        $Main = ($Link['cir_link'] == 'MPLS' ? 'P' : 'B');
                                         echo " 
                                                   <tr>
                                                    <td>{$Link['cir_link']}</td>
@@ -164,6 +164,7 @@
                         <div class="form-group">
                             <!--<textarea class="form-control j-result" rows="10" cols="100"></textarea>-->
                             <div class="form-control j-result"></div>
+
                         </div>
 
                         <div class="btn-group commands-btn">
@@ -264,8 +265,27 @@
                     <p>Loja <?= $Loja['lj_num'] ?></p>
                 </div>
             </div>
+            <input type="hidden" value="<?= $_SESSION['user']['userName'] ?>" class="j-userName">
         </div>
-
+        <div id="mdlinfo12" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header custom-modal">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Confirmação</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>Informe a senha do usuário <?= $_SESSION['user']['userName'] ?> para autenticar no Roteador.</p>
+                    </div>
+                    <div class="form-group custom-pass">
+                        <input class="form-control" type="password" class="j-senha-router" id="pass">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default j_btn-lj-lj-no" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="<?php echo base_url('/assets/js/jquery-2.2.4.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/jquery.mobile.custom.min.js') ?>"></script>
         <script src="<?php echo base_url('/assets/js/bootstrap.min.js') ?>"></script>

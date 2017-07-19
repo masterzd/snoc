@@ -136,6 +136,12 @@ tr{
     word-spacing: 12px;
 }
 
+.custom-pass {
+    width: 81%;
+    margin-left: 9%;
+}
+
+
 @media (max-width: 500px){
 
     .topo {

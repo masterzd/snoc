@@ -56,7 +56,7 @@ endif;
                 <li role="presentation" class="custom-ancor"><a target="_blank" href="<?= base_url('dashboard') ?>">Painel</a></li>
                 <li role="presentation" class="custom-ancor <?=$desativo?>"><a <?=$ADM?>>ADM</a></li>
                 <li role="presentation" class="custom-ancor"><a href="#">Sobre</a></li>
-                <li class="custom-ancor"><a href="logoff">Sair</a></li>
+                <li class="custom-ancor"><a href="http://sisnoc.maquinadevendas.corp/CI_SISNOC/logoff">Sair</a></li>
             </ul>
 
 

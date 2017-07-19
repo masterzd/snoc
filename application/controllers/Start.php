@@ -70,6 +70,11 @@ class Start extends CI_Controller {
             $this->load->Model('Crud');
             $this->Crud->calldb('tb_circuitos', 'SELECT', $Loja);
             $Result = $this->Crud->Results;
+            if(!empty($Result['Dados'])):
+            else:
+               $Result['Dados'][0]['cir_loja'] =  $this->input->get('loja');
+            endif;
+            
             $this->load->view('checkLink', $Result);
         else:
             die("Erro Localizar os dados!!");
@@ -154,7 +159,18 @@ class Start extends CI_Controller {
         $LojasInfo = $this->infolojas->DadosLoja;
         $LojasInfo['Resp'] = $this->infolojas->ContatosSms;
         $LojasInfo['Ocorrencias'] = $this->Crud->Results['Dados'];
-        $this->load->view('filiais', $LojasInfo);
+
+        if (!empty($LojasInfo['mensagem'])):
+            if (empty($_SESSION)):
+                session_start();
+            endif;
+            $Erro['Title'] = "OPS!! Alguma coisa ocorreu fora do esperado";
+            $Erro['Msg'] = "O Cadastro dessa loja não está completo. Verifique os dados e tente novamente";
+            $this->load->view('errors/Erro', $Erro);
+        else:    
+            $this->load->view('filiais', $LojasInfo);
+        endif;
+
     }
 
     public function chToday() {

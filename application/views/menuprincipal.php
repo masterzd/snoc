@@ -18,8 +18,8 @@
     </script>
     <body>
         <?php
+      
         $this->load->view('commom/menu.php');
-        
         $AbOC = 'btn-menu-custom';
         $D = '';
         if ($_SESSION['user']['Nv'] > 1):
