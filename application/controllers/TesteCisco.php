@@ -13,7 +13,7 @@ class TesteCisco extends CI_Controller {
     public function Conecta() {
         $IN = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (!empty($IN) and ! empty($IN['ip'])):
-            $this->ssh->Connection('henrique.souza', 'Isa32:18', 22, $IN['ip']);
+            $this->ssh->Connection('', '', 22, $IN['ip']);
             if ($this->ssh->Status == "Desconectado"):
                 echo "1";
             elseif ($this->ssh->Auth == FALSE):
